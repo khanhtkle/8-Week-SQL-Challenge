@@ -3,7 +3,7 @@
 --------------------------------
 -- Author: Khanh Le
 -- Date: 30/04/2023
--- Tool used: SQL Server
+-- Tool used: MySQL
 
 DROP SCHEMA IF EXISTS dannys_diner;
 CREATE SCHEMA dannys_diner;
