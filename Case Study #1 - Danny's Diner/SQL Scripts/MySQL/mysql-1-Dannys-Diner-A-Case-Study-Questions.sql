@@ -178,6 +178,7 @@ GROUP BY
 
 
 -- 	9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+--	Note: Non-member customers also earn points when making purchases.
 
 SELECT	
 	sa.customer_id, 
