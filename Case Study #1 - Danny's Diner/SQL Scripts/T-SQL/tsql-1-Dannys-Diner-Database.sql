@@ -3,7 +3,7 @@
 -------------------------------------
 -- Contributor: Khanh Le
 -- Date: 30/04/2023
--- Tool used: SQL Server
+-- Tool used: Microsoft SQL Server
 
 DROP DATABASE IF EXISTS dannys_diner;
 CREATE DATABASE dannys_diner;
