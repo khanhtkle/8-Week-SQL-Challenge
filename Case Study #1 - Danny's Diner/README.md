@@ -106,9 +106,9 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 
 View my solution in:
 
-[![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/MySQL/A.%20Case%20Study%20Questions.md)
-[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/PostgreSQL/A.%20Case%20Study%20Questions.md)
-[![SMSS Badge](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/T-SQL/A.%20Case%20Study%20Questions.md)
+[![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/A.%20Case%20Study%20Questions.md)
+[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/A.%20Case%20Study%20Questions.md)
+[![SMSS Badge](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](Solutions/T-SQL/A.%20Case%20Study%20Questions.md)
 
 ---
 
@@ -119,6 +119,6 @@ View my solution in:
 
 View my solutions in:
  
-[![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/MySQL/B.%20Bonus%20Questions.md)
-[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/PostgreSQL/B.%20Bonus%20Questions.md)
-[![SMSS Badge](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](Case%20Study%20%231%20-%20Danny's%20Diner/Solutions/T-SQL/B.%20Bonus%20Questions.md)
+[![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/B.%20Bonus%20Questions.md)
+[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/B.%20Bonus%20Questions.md)
+[![SMSS Badge](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](Solutions/T-SQL/B.%20Bonus%20Questions.md)
