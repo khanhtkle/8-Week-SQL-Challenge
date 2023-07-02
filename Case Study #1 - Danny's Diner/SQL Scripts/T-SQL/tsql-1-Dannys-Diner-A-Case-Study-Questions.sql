@@ -18,7 +18,7 @@ GROUP BY customer_id;
 
 --	3. What was the first item from the menu purchased by each customer?
 
- WITH #order_sequence AS
+ WITH order_sequence_cte AS
   (SELECT DISTINCT customer_id,
                    order_date,
                    sa.product_id,
@@ -30,7 +30,7 @@ GROUP BY customer_id;
 SELECT customer_id,
        order_date,
        product_name
-FROM #order_sequence
+FROM order_sequence_cte
 WHERE order_sequence = 1;
 
 --	4. What is the most purchased item on the menu and how many times was it purchased by all customers?
@@ -46,7 +46,7 @@ ORDER BY purchase_count DESC;
 
 --	5. Which item was the most popular for each customer?
 
- WITH #purchase_count AS
+ WITH purchase_count_cte AS
   (SELECT customer_id,
           sa.product_id,
           product_name,
@@ -62,12 +62,12 @@ SELECT customer_id,
        product_id,
        product_name,
        purchase_count
-FROM #purchase_count
+FROM purchase_count_cte
 WHERE purchase_count_rank = 1;
 
 --	6. Which item was purchased first by the customer after they became a member?
 
- WITH #order_sequence_after_join_date AS
+ WITH order_sequence_after_join_date_cte AS
   (SELECT sa.customer_id,
           join_date,
           order_date,
@@ -83,12 +83,12 @@ SELECT customer_id,
        join_date,
        order_date,
        product_name
-FROM #order_sequence_after_join_date
+FROM order_sequence_after_join_date_cte
 WHERE order_sequence = 1;
 
 --	7. Which item was purchased just before the customer became a member?
 
- WITH #order_sequence_before_join_date AS
+ WITH order_sequence_before_join_date_cte AS
   (SELECT sa.customer_id,
           join_date,
           order_date,
@@ -104,7 +104,7 @@ SELECT customer_id,
        join_date,
        order_date,
        product_name
-FROM #order_sequence_before_join_date
+FROM order_sequence_before_join_date_cte
 WHERE reverse_order_sequence = 1;
 
 --	8. What is the total items and amount spent for each member before they became a member?
