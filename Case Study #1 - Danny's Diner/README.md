@@ -27,7 +27,7 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 
 <div align="center">
   <picture>
-    <img width="60%" src="./IMG/e1.png")>
+    <img width="60%" src="../IMG/e1.png")>
   </picture>	
 </div>
 
