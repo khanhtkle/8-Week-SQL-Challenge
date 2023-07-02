@@ -40,6 +40,7 @@ ORDER BY 1, 2, 3;
 | C           | 2021-01-01 | ramen        | 12    | N      |
 | C           | 2021-01-07 | ramen        | 12    | N      |
 
+---
 ### Q2. Rank All The Things - Based on the table above, add one column: ranking.
 ```mysql
 SELECT sa.customer_id,
