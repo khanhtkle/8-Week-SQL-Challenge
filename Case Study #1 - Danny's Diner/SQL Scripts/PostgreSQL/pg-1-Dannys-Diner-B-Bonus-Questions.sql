@@ -35,7 +35,6 @@ SELECT sa.customer_id,
                                                      WHEN order_date < join_date
                                                           OR join_date IS NULL THEN NULL
                                                      ELSE sa.customer_id
-
                                                  END)
                                    ORDER BY order_date)
        END AS ranking
