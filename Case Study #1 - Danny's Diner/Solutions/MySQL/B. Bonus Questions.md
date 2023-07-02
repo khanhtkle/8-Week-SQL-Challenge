@@ -20,9 +20,7 @@ SELECT sa.customer_id,
 FROM dannys_diner.sales AS sa
 JOIN dannys_diner.menu AS mn ON mn.product_id = sa.product_id
 LEFT JOIN dannys_diner.members AS mb ON mb.customer_id = sa.customer_id
-ORDER BY sa.customer_id,
-         order_date,
-         product_name;
+ORDER BY 1, 2, 3;
 ```
 | customer_id | order_date | product_name | price | member |
 |-------------|------------|--------------|-------|--------|
@@ -63,12 +61,10 @@ SELECT sa.customer_id,
                                                  END)
                                    ORDER BY order_date)
        END AS ranking
-FROM dannys_diner.dbo.sales AS sa
-JOIN dannys_diner.dbo.menu AS mn ON mn.product_id = sa.product_id
-LEFT JOIN dannys_diner.dbo.members AS mb ON mb.customer_id = sa.customer_id
-ORDER BY sa.customer_id,
-         order_date,
-         product_name;
+FROM dannys_diner.sales AS sa
+JOIN dannys_diner.menu AS mn ON mn.product_id = sa.product_id
+LEFT JOIN dannys_diner.members AS mb ON mb.customer_id = sa.customer_id
+ORDER BY 1, 2, 3;
 ```
 | customer_id | order_date | product_name | price | member | ranking |
 |-------------|------------|--------------|-------|--------|---------|
