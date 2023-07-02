@@ -3,11 +3,11 @@
 ## B. Bonus Questions 
 
 <picture>
-  <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white">
+  <img src="https://img.shields.io/badge/mysql-005C84?style=for-the-badge&logo=mysql&logoColor=white">
 </picture>
 
 ### Q1. Join All The Things - Create a table that has these columns: customer_id, order_date, product_name, price, member (Y/N).
-```MySQL
+```mysql
 SELECT sa.customer_id,
        order_date,
        product_name,
@@ -41,7 +41,7 @@ ORDER BY 1, 2, 3;
 | C           | 2021-01-07 | ramen        | 12    | N      |
 
 ### Q2. Rank All The Things - Based on the table above, add one column: ranking.
-```MySQL
+```mysql
 SELECT sa.customer_id,
        order_date,
        product_name,
