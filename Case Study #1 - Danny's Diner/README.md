@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://8weeksqlchallenge.com/case-study-1">
-   <img width="50%" src="../IMG/1.png">
+   <img width="35%" src="../IMG/1.png">
   </a>
 </p>
 
