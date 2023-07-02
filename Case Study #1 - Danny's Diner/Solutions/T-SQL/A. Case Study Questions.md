@@ -217,4 +217,4 @@ GROUP BY sa.customer_id;
 | C           | 360          |
 
 ---
-My solution for **[B. Bonus Questions](T-SQL/B.%20Bonus%20Questions.md)**.
+My solution for **[B. Bonus Questions](B.%20Bonus%20Questions.md)**.
