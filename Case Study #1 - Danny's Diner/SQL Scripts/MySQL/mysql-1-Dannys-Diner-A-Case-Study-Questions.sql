@@ -33,7 +33,7 @@ SELECT customer_id,
 FROM order_sequence_cte
 WHERE order_sequence = 1;
 
--- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+-- 	4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
 SELECT sa.product_id,
        product_name,
@@ -44,7 +44,7 @@ GROUP BY 1, 2
 ORDER BY 3 DESC
 LIMIT 1;
 
--- 5. Which item was the most popular for each customer?
+-- 	5. Which item was the most popular for each customer?
 
  WITH purchase_count_cte AS
   (SELECT customer_id,
@@ -128,7 +128,7 @@ FROM dannys_diner.sales AS sa
 JOIN dannys_diner.menu AS mn ON mn.product_id = sa.product_id
 GROUP BY 1;
 
--- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+-- 	10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
 SELECT sa.customer_id,
        SUM(CASE
