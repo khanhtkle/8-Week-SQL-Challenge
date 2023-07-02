@@ -199,7 +199,7 @@ GROUP BY sa.customer_id;
 ```pgsql
 SELECT sa.customer_id,
        SUM(CASE
-               WHEN order_date BETWEEN join_date AND date join_date + INTERVAL '1 week'
+               WHEN order_date BETWEEN join_date AND join_date + INTERVAL '1 week'
                     OR sa.product_id = 1 THEN price * 10 * 2
                ELSE price * 10
            END) AS total_points
