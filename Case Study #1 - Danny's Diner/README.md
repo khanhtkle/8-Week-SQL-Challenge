@@ -10,8 +10,8 @@
 
 - [:briefcase: Business Case](#briefcase-business-case)
 - [:mag: Entity Relationship Diagram](#mag-entity-relationship-diagram)
-- [:bookmark_tabs: Example Datasets](#bookmark-tabs-example-datasets)
-- [:triangular_flag_on_post: Questions and Solutions](#triangular-flag-on-post-case-study-questions)
+- [:bookmark_tabs: Example Datasets](#bookmark_tabs-example-datasets)
+- [:triangular_flag_on_post: Questions and Solution](#triangular_flag_on_post-questions-and-solution)
   
 ---
 
@@ -88,7 +88,7 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 
 ---
 
-## :triangular_flag_on_post: Questions and Solutions
+## :triangular_flag_on_post: Questions and Solution
 
 ### A. Case Study Questions
 
