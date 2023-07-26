@@ -33,7 +33,7 @@ SELECT *
 FROM pizza_runner.dbo.cleaned_runner_orders;
 
 --	Create a new table `cleaned_customer_orders` from `customer_orders`:
---		Convert all blank '' and 'null' text values in exclusions and extras into NULL values.
+--		Convert all blank '' and 'null' text values in `exclusions` and `extras` into NULL values.
 --		Convert the data type of `order_time` from VARCHAR(19) to DATETIME.
 
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_customer_orders;
