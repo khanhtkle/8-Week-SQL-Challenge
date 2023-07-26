@@ -1,4 +1,4 @@
-# 🍜 Case Study #1 - Danny's Diner
+# :ramen: Case Study #1 - Danny's Diner
 
 <div align="center">
   <picture>
@@ -6,7 +6,7 @@
   </picture>
 </div>
 
-## 📚 Table of Contents <!-- omit in toc -->
+## :books: Table of Contents <!-- omit in toc -->
 
 - [:briefcase: Business Case](#briefcase-business-case)
 - [:mag: Entity Relationship Diagram](#mag-entity-relationship-diagram)
