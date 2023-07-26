@@ -182,7 +182,7 @@ View my solution in:
 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 7. What is the successful delivery percentage for each runner?
 
-View my solutions in:
+View my solution in:
  
 [![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/B.%20Runner%20and%20Customer%20Experience.md)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/B.%20Runner%20and%20Customer%20Experience.md)
@@ -204,7 +204,7 @@ View my solutions in:
     * For example: ```"Meat Lovers: 2xBacon, Beef, ... , Salami"```
 6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
 
-View my solutions in:
+View my solution in:
 
 [![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/C.%20Ingredient%20Optimisation.md)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/C.%20Ingredient%20Optimisation.md)
@@ -231,7 +231,7 @@ View my solutions in:
     * Total number of pizzas
 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
  
-View my solutions in:
+View my solution in:
 
 [![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/D.%20Pricing%20and%20Ratings.md)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/D.%20Pricing%20and%20Ratings.md)
@@ -243,7 +243,7 @@ View my solutions in:
 
 If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an ```INSERT``` statement to demonstrate what would happen if a new ```Supreme``` pizza with all the toppings was added to the Pizza Runner menu?
 
-View my solutions in:
+View my solution in:
 
 [![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/E.%20Bonus%20Questions.md)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/E.%20Bonus%20Questions.md)
