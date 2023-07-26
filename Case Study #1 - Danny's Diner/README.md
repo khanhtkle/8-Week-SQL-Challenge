@@ -119,7 +119,7 @@ View my solution in:
 1. Join All The Things - Create a table that has these columns: customer_id, order_date, product_name, price, member.
 2. Rank All The Things - Based on the table above, add one column: ranking.
 
-View my solutions in:
+View my solution in:
  
 [![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](Solutions/MySQL/B.%20Bonus%20Questions.md)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](Solutions/PostgreSQL/B.%20Bonus%20Questions.md)
