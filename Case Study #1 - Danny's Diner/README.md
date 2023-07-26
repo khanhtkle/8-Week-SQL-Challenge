@@ -11,7 +11,7 @@
 - [:briefcase: Business Case](#briefcase-business-case)
 - [:mag: Entity Relationship Diagram](#mag-entity-relationship-diagram)
 - [:bookmark_tabs: Example Datasets](#bookmark_tabs-example-datasets)
-- [:triangular_flag_on_post: Questions and Solution](#triangular_flag_on_post-questions-and-solution)
+- [:triangular_flag_on_post: Questions and Solutions](#triangular_flag_on_post-questions-and-solutions)
   
 ---
 
@@ -90,9 +90,9 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 ---
 
-## :triangular_flag_on_post: Questions and Solution
+## :triangular_flag_on_post: Questions and Solutions
 
-### A. Case Study Questions
+### A. Case Study Question
 
 1. What is the total amount each customer spent at the restaurant?
 2. How many days has each customer visited the restaurant?
