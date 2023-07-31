@@ -88,7 +88,7 @@ WITH ingredients_cte AS
    LEFT JOIN pizza_runner.dbo.pizza_names AS pn ON pn.pizza_id = co.pizza_id
    LEFT JOIN pizza_runner.dbo.cleaned_pizza_recipes AS pr ON pr.pizza_id = co.pizza_id
    LEFT JOIN pizza_runner.dbo.extras AS et ON et.record_id = co.record_id
-   AND et.topping_id = pr.topping_id)
+   										  AND et.topping_id = pr.topping_id)
 SELECT record_id,
        order_id,
        customer_id,
