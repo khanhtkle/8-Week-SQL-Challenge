@@ -29,7 +29,8 @@ ALTER TABLE pizza_runner.dbo.cleaned_customer_orders
 ADD record_id INTEGER IDENTITY(1, 1);
 GO
 
-SELECT * FROM pizza_runner.dbo.cleaned_customer_orders; 
+SELECT * 
+FROM pizza_runner.dbo.cleaned_customer_orders; 
 
 --	Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
 --		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
