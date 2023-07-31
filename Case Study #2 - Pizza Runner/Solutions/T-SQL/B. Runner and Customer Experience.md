@@ -7,7 +7,7 @@
 </picture>
 
 ### Q1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
-* Solution uses for the ISO 8601 standard where the first day of the week is Monday.
+- Solution uses for the ISO 8601 standard where the first day of the week is Monday.
 
 ```tsql
 SET DATEFIRST 1;
@@ -33,7 +33,7 @@ ORDER BY week_start_date;
 | 1           | 2021-01-04      | 2021-01-10    | 1                      |
 | 2           | 2021-01-11      | 2021-01-17    | 1                      |
 
-* Solution uses for the United States standard where the first day of the week is Sunday.
+- Solution uses for the United States standard where the first day of the week is Sunday.
 ```tsql
 SET DATEFIRST 7;
 SELECT CASE
@@ -98,9 +98,9 @@ GROUP BY ordered_pizza_count;
 | 2                   | 18                    |
 | 3                   | 29                    |
 
-* Drawing from the presented data:
-  * As the number of pizzas in order increases, the average preparation time also increases.
-  * The average preparation time appears to be non-linearly related to the number of pizzas.
+- Drawing from the presented data:
+  - As the number of pizzas in order increases, the average preparation time also increases.
+  - The average preparation time appears to be non-linearly related to the number of pizzas.
 
 ---
 ### Q4. What was the average distance travelled for each customer?
@@ -160,10 +160,10 @@ ORDER BY runner_id,
 | 2         | 8        | 23.4     | 15       | 1           | 93.6      |
 | 3         | 5        | 10       | 15       | 1           | 40        |
 
-* Drawing from the presented data:
-  * Runner 1 maintained an average speed ranging from 37.5 km/h to 60 km/h, indicating consistent performance across different orders.
-  * Runner 2 exhibited a wide range of average speeds, spanning from 35.1 km/h to an alarmingly high speed 93.6 km/h. The substantial disparity in operating speed warrants serious safety concerns.
-  * Runner 3 has a consistent average speed of 40 units for the single order listed.
+- Drawing from the presented data:
+  - Runner 1 maintained an average speed ranging from 37.5 km/h to 60 km/h, indicating consistent performance across different orders.
+  - Runner 2 exhibited a wide range of average speeds, spanning from 35.1 km/h to an alarmingly high speed 93.6 km/h. The substantial disparity in operating speed warrants serious safety concerns.
+  - Runner 3 has a consistent average speed of 40 units for the single order listed.
 
 ---
 ### Q7. What is the successful delivery percentage for each runner?
