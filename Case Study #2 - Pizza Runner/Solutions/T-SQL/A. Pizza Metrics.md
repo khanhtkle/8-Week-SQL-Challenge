@@ -151,7 +151,7 @@ GROUP BY pizza_id;
 
 ---
 ### Q5. How many Vegetarian and Meatlovers were ordered by each customer?
-* Convert the data type of `pizza_name` from `TEXT` to `VARCHAR(10)` for broader compatibility with table-valued functions and to prevent potential errors.
+- Convert the data type of `pizza_name` from `TEXT` to `VARCHAR(10)` for broader compatibility with table-valued functions and to prevent potential errors.
 ```tsql
 ALTER TABLE pizza_runner.dbo.pizza_names
 ALTER COLUMN pizza_name VARCHAR(10);
