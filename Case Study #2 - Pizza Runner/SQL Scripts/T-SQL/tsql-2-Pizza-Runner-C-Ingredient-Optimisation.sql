@@ -25,7 +25,7 @@ SELECT topping_name,
 FROM ordered_extras_count_cte
 WHERE ranking = 1;
 
---3. What was the most common exclusion?
+-- 	3. What was the most common exclusion?
 
 WITH ordered_exclusions_count_cte AS
   (SELECT topping_name,
@@ -38,11 +38,11 @@ SELECT topping_name,
 FROM ordered_exclusions_count_cte
 WHERE ranking = 1;
 
---4. Generate an order item for each record in the customers_orders table in the format of one of the following:
---  + Meat Lovers
---  + Meat Lovers - Exclude Beef
---  + Meat Lovers - Extra Bacon
---  + Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
+-- 	4. Generate an order item for each record in the `customers_orders` table in the format of one of the following:
+-- 		- Meat Lovers
+--  	- Meat Lovers - Exclude Beef
+--  	- Meat Lovers - Extra Bacon
+--  	- Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
 
 WITH extra_format_cte AS
   (SELECT record_id,
@@ -67,7 +67,7 @@ LEFT JOIN pizza_runner.dbo.pizza_names AS pn ON pn.pizza_id = co.pizza_id
 LEFT JOIN extra_format_cte AS et ON et.record_id = co.record_id
 LEFT JOIN exclude_format_cte AS ec ON ec.record_id = co.record_id;
 
---	5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
+--	5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a '2x' in front of any relevant ingredients.
 --		- For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
 
 WITH ingredients_cte AS
@@ -110,7 +110,7 @@ GROUP BY record_id,
 		 pizza_name,
          order_time;
 
---6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+-- 	6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
 
 WITH ingredients_cte AS
   (SELECT record_id,
