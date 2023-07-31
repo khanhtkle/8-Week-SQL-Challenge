@@ -7,11 +7,10 @@
 </picture>
 
 * Create a table `cleaned_runner_orders` from `runner_orders` table:
-    * Convert all blank ```''``` and ```'null'``` text values in `pickup_time`, `duration` and `cancellation` into ```NULL``` values.
+  	* Convert all blank ```''``` and ```'null'``` text values in `pickup_time`, `duration` and `cancellation` into ```NULL``` values.
   	* Convert the data type of `pickup_time` from `VARCHAR(19)` to `DATETIME`.
   	* Remove the ```'km'``` suffix and convert the data type of `distance` from `VARCHAR(7)` to `FLOAT`.
   	* Remove the suffixes ```'mins'```, ```'minute'```, ```'minutes'``` and convert the data type of `distance` from `VARCHAR(10)` to `INTEGER`.
-
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_runner_orders;
 SELECT order_id,
@@ -54,8 +53,7 @@ FROM pizza_runner.dbo.cleaned_runner_orders;
 * Create a new table `cleaned_customer_orders` from `customer_orders` table:
   	* Convert all blank ```''``` and ```'null'``` text values in `exclusions` and `extras` into `NULL` values.
   	* Convert the data type of `order_time` from `VARCHAR(19)` to `DATETIME`.
-    * Append the column `cancellation` from `cleaned_runner_orders` table.
-
+  	* Append the column `cancellation` from `cleaned_runner_orders` table.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_customer_orders;
 SELECT co.order_id,
