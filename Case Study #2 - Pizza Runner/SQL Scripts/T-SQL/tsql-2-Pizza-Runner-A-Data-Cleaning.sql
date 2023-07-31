@@ -1,7 +1,7 @@
 -------------------------------------------
 -- A. Data Cleaning: Pizza Metrics --
 -------------------------------------------
---	Create a table `cleaned_runner_orders` from `runner_orders table`:
+--	Create a table `cleaned_runner_orders` from `runner_orders` table:
 --		Convert all blank '' and 'null' text values in `pickup_time`, `duration` and `cancellation` into NULL values.
 --		Convert the data type of `pickup_time` from VARCHAR(19) to DATETIME.
 --		Remove the 'km' suffix and convert the data type of `distance` from VARCHAR(7) to FLOAT.
@@ -20,7 +20,7 @@ SELECT order_id,
        END AS distance,
        CASE
            WHEN duration = 'null' THEN NULL
-           ELSE CAST(SUBSTRING(duration, 1, 2) AS INT)
+           ELSE CAST(SUBSTRING(duration, 1, 2) AS INTEGER)
        END AS duration,
        CASE
            WHEN cancellation in ('null', '') THEN NULL
