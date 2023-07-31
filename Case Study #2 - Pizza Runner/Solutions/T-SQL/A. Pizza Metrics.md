@@ -6,11 +6,13 @@
   <img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white">
 </picture>
 
-* Create a table `cleaned_runner_orders` from `runner_orders` table:
-  * Convert all blank ```''``` and ```'null'``` text values in `pickup_time`, `duration` and `cancellation` into ```NULL``` values.
-  * Convert the data type of `pickup_time` from `VARCHAR(19)` to `DATETIME`.
-  * Remove the ```'km'``` suffix and convert the data type of `distance` from `VARCHAR(7)` to `FLOAT`.
-  * Remove the suffixes ```'mins'```, ```'minute'```, ```'minutes'``` and convert the data type of `distance` from `VARCHAR(10)` to `INTEGER`.
+### Data Cleaning
+
+1. Create a table `cleaned_runner_orders` from `runner_orders` table:
+    - Convert all blank ```''``` and ```'null'``` text values in `pickup_time`, `duration` and `cancellation` into ```NULL``` values.
+    - Convert the data type of `pickup_time` from `VARCHAR(19)` to `DATETIME`.
+    - Remove the ```'km'``` suffix and convert the data type of `distance` from `VARCHAR(7)` to `FLOAT`.
+    - Remove the suffixes ```'mins'```, ```'minute'```, ```'minutes'``` and convert the data type of `distance` from `VARCHAR(10)` to `INTEGER`.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_runner_orders;
 SELECT order_id,
@@ -50,10 +52,10 @@ FROM pizza_runner.dbo.cleaned_runner_orders;
 | 9        | 2         | NULL                    | NULL     | NULL     | Customer Cancellation   |
 | 10       | 1         | 2021-01-11 18:50:20.000 | 10       | 10       | NULL                    |
 
-* Create a new table `cleaned_customer_orders` from `customer_orders` table:
-  * Convert all blank ```''``` and ```'null'``` text values in `exclusions` and `extras` into `NULL` values.
-  * Convert the data type of `order_time` from `VARCHAR(19)` to `DATETIME`.
-  * Append the column `cancellation` from `cleaned_runner_orders` table.
+2. Create a new table `cleaned_customer_orders` from `customer_orders` table:
+    - Convert all blank ```''``` and ```'null'``` text values in `exclusions` and `extras` into `NULL` values.
+    - Convert the data type of `order_time` from `VARCHAR(19)` to `DATETIME`.
+    - Append the column `cancellation` from `cleaned_runner_orders` table.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_customer_orders;
 SELECT co.order_id,
@@ -68,7 +70,7 @@ SELECT co.order_id,
            ELSE extras
        END AS extras,
        CAST(order_time AS DATETIME) AS order_time,
-	   cancellation
+       cancellation
 INTO pizza_runner.dbo.cleaned_customer_orders 
 FROM pizza_runner.dbo.customer_orders AS co
 JOIN pizza_runner.dbo.cleaned_runner_orders AS ro ON ro.order_id = co.order_id;
@@ -248,7 +250,7 @@ ORDER BY DATEPART(hh, order_time);
 ### Q10. What was the volume of orders for each day of the week?
 ```tsql
 SELECT DATENAME(dw, order_time) AS day_of_week,
-	     COUNT(order_id) AS ordered_pizza_count
+       COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.dbo.cleaned_customer_orders
 GROUP BY DATENAME(dw, order_time),
          DATEPART(dw, order_time)
