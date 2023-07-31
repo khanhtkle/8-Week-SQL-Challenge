@@ -66,7 +66,9 @@ SELECT ordered_pizza_count,
 FROM prep_time_minutes_cte
 GROUP BY ordered_pizza_count;
 
---	Apparently, as the number of pizzas in an order increases, the preparation time tends to be longer.
+--	Drawing from the presented data:
+--		- As the number of pizzas in order increases, the average preparation time also increases.
+--		- The average preparation time appears to be non-linearly related to the number of pizzas.
 
 --	4. What was the average distance travelled for each customer?
 
@@ -98,7 +100,7 @@ GROUP BY runner_id,
          distance,
          duration
 ORDER BY runner_id,
-		 avg_speed;
+	 avg_speed;
 		 
 --	Runner 1 maintained an average speed ranging from 37.5 km/h to 60 km/h, indicating consistent performance across different orders.
 --	Runner 2 exhibited a wide range of average speeds, spanning from 35.1 km/h to an alarmingly high speed 93.6 km/h. The substantial disparity in operating speed warrants serious safety concerns.
@@ -109,6 +111,6 @@ ORDER BY runner_id,
 SELECT runner_id,
 	   COUNT(pickup_time) AS delivered_order_count,
 	   COUNT(order_id) AS total_orders,
-       CAST(100.0 * COUNT(pickup_time) / COUNT(*) AS DECIMAL(5,2)) AS successful_delivery_pct
+	   CAST(100.0 * COUNT(pickup_time) / COUNT(*) AS DECIMAL(5,2)) AS successful_delivery_pct
 FROM pizza_runner.dbo.cleaned_runner_orders 
 GROUP BY runner_id;
