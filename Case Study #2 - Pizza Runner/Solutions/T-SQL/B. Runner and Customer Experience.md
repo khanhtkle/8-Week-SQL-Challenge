@@ -8,7 +8,6 @@
 
 ### Q1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 - Solution uses for the ISO 8601 standard where the first day of the week is Monday.
-
 ```tsql
 SET DATEFIRST 1;
 SELECT DATEPART(iso_week, registration_date) AS week_number,
