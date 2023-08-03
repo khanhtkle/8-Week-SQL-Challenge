@@ -55,7 +55,7 @@ FROM pizza_runner.dbo.cleaned_runner_orders;
 2. Create a new table `cleaned_customer_orders` from `customer_orders` table:
     - Convert all blank `''` and `'null'` text values in `exclusions` and `extras` into `NULL` values.
     - Convert the data type of `order_time` from `VARCHAR(19)` to `DATETIME`.
-    - Append the column `cancellation` from `cleaned_runner_orders` table.
+    - Append `cancellation` from `cleaned_runner_orders` table.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_customer_orders;
 SELECT co.order_id,
