@@ -3,7 +3,7 @@
 -------------------------------------
 -- Contributor: Khanh Le
 -- Date: 30/04/2023
--- Tool used: pgAdmin
+-- Tool used: pgAdmin 4
 
 DROP SCHEMA IF EXISTS dannys_diner;
 CREATE SCHEMA dannys_diner;
