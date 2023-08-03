@@ -3,7 +3,7 @@
 --------------------------------
 -- Author: Khanh Le
 -- Date: 30/04/2023
--- Tool used: MySQL
+-- Tool used: MySQL Workbench
 
 DROP SCHEMA IF EXISTS dannys_diner;
 CREATE SCHEMA dannys_diner;
