@@ -100,7 +100,7 @@ GROUP BY runner_id,
          distance,
          duration
 ORDER BY runner_id,
-	 avg_speed;
+		 avg_speed;
 		 
 --	Runner 1 maintained an average speed ranging from 37.5 km/h to 60 km/h, indicating consistent performance across different orders.
 --	Runner 2 exhibited a wide range of average speeds, spanning from 35.1 km/h to an alarmingly high speed 93.6 km/h. The substantial disparity in operating speed warrants serious safety concerns.
