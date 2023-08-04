@@ -252,16 +252,15 @@ ORDER BY DATEPART(hh, order_time);
 SELECT DATENAME(dw, order_time) AS day_of_week,
        COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.dbo.cleaned_customer_orders
-GROUP BY DATENAME(dw, order_time),
-         DATEPART(dw, order_time)
-ORDER BY DATEPART(dw, order_time);
+GROUP BY DATENAME(dw, order_time)
+ORDER BY COUNT(order_id);
 ```
-| week_day  | order_volume  |
-|-----------|---------------|
-| Friday    | 1             |
-| Saturday  | 5             |
-| Thursday  | 3             |
-| Wednesday | 5             |
+| day_of_week | ordered_pizza_count |
+|-------------|---------------------|
+| Sunday      | 1                   |
+| Saturday    | 3                   |
+| Friday      | 5                   |
+| Monday      | 5                   |
 
 ---
 My solution for **[B. Runner and Customer Experience](B.%20Runner%20and%20Customer%20Experience.md)**.
