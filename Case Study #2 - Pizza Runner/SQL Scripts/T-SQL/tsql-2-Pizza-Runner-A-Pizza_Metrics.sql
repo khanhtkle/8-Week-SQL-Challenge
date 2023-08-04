@@ -96,8 +96,7 @@ ORDER BY DATEPART(hh, order_time);
 --	10. What was the volume of orders for each day of the week?
 
 SELECT DATENAME(dw, order_time) AS day_of_week,
-	     COUNT(order_id) AS ordered_pizza_count
+	   COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.dbo.cleaned_customer_orders
-GROUP BY DATENAME(dw, order_time),
-         DATEPART(dw, order_time)
-ORDER BY DATEPART(dw, order_time);
+GROUP BY DATENAME(dw, order_time)
+ORDER BY COUNT(order_id);
