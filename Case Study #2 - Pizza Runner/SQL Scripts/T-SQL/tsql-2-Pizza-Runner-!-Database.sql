@@ -1,7 +1,7 @@
 ---------------------------------------
 -- CASE STUDY #2: PIZZA RUNNER --
 ---------------------------------------
--- Contributor: Khanh Le
+-- Author: Khanh Le
 -- Date: 07/05/2023
 -- Tool used: Microsoft SQL Server
 
