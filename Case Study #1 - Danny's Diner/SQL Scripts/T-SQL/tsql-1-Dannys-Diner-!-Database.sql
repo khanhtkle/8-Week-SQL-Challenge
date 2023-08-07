@@ -1,7 +1,7 @@
 -------------------------------------
 -- CASE STUDY #1: DANNY'S DINER --
 -------------------------------------
--- Contributor: Khanh Le
+-- Author: Khanh Le
 -- Date: 30/04/2023
 -- Tool used: Microsoft SQL Server
 
