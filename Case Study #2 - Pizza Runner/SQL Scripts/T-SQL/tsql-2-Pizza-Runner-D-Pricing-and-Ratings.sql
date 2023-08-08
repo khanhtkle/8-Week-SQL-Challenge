@@ -31,7 +31,13 @@ CREATE TABLE pizza_runner.dbo.ratings (
 INSERT INTO pizza_runner.dbo.ratings 
   ("order_id", "rating")
 SELECT order_id,
-       CAST(RAND(CHECKSUM(NEWID())) * 5 AS TINYINT) + 1 AS rating
+       CASE
+           WHEN order_id IN ('1', '2', '10') THEN 5
+           WHEN order_id IN ('5', '7') THEN 4
+           WHEN order_id IN ('3') THEN 3
+           WHEN order_id IN ('4') THEN 2
+           WHEN order_id IN ('8') THEN 1
+       END AS rating
 FROM
   (SELECT DISTINCT co.order_id
    FROM pizza_runner.dbo.cleaned_customer_orders AS co
