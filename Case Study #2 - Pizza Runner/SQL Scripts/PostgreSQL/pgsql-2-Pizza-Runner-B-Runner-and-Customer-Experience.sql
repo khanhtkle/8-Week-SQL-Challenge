@@ -48,12 +48,12 @@ GROUP BY 1;
  
 	WITH prep_time_minutes_cte AS
 	  (SELECT COUNT(co.ORDER_ID)::INTEGER AS ordered_pizza_count,
-			  DATE_PART('minute', pickup_time - order_time)::INTEGER AS prep_time_minutes
+		  DATE_PART('minute', pickup_time - order_time)::INTEGER AS prep_time_minutes
 	   FROM pizza_runner.cleaned_customer_orders AS co
 	   JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 	   GROUP BY co.order_id, 2)
 	SELECT ordered_pizza_count,
-		   ROUND(AVG(prep_time_minutes)::NUMERIC)::REAL AS avg_prep_time_minutes
+	       ROUND(AVG(prep_time_minutes)::NUMERIC)::REAL AS avg_prep_time_minutes
 	FROM prep_time_minutes_cte
 	GROUP BY 1
 	ORDER BY 1;
