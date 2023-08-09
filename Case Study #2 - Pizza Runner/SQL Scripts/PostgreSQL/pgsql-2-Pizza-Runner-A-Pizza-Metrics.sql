@@ -44,7 +44,7 @@ SELECT customer_id,
                ELSE 0
            END) AS ordered_vegetarian_count
 FROM pizza_runner.cleaned_customer_orders AS ro
-JOIN pizza_runner.pizza_names AS pn ON pn.pizza_id= ro.pizza_id
+JOIN pizza_runner.pizza_names AS pn ON pn.pizza_id = ro.pizza_id
 GROUP BY 1;
 
 -- 	6. What was the maximum number of pizzas delivered in a single order?
@@ -92,8 +92,8 @@ ORDER BY 1;
 
 -- 	10. What was the volume of orders for each day of the week?
 
-SELECT	TO_CHAR(order_time, 'Day') AS day_of_week,
-		COUNT(order_id) AS ordered_pizza_count
+SELECT TO_CHAR(order_time, 'Day') AS day_of_week,
+       COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.cleaned_customer_orders
 GROUP BY 1
 ORDER BY 2, 1
