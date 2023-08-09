@@ -49,7 +49,7 @@ SELECT customer_id,
                ELSE 0
            END) AS ordered_vegetarian_count
 FROM pizza_runner.dbo.cleaned_customer_orders AS ro
-JOIN pizza_runner.dbo.pizza_names AS pn ON pn.pizza_id= ro.pizza_id
+JOIN pizza_runner.dbo.pizza_names AS pn ON pn.pizza_id = ro.pizza_id
 GROUP BY customer_id;
 
 --	6. What was the maximum number of pizzas delivered in a single order?
@@ -96,7 +96,7 @@ ORDER BY DATEPART(hh, order_time);
 --	10. What was the volume of orders for each day of the week?
 
 SELECT DATENAME(dw, order_time) AS day_of_week,
-	   COUNT(order_id) AS ordered_pizza_count
+       COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.dbo.cleaned_customer_orders
 GROUP BY DATENAME(dw, order_time)
 ORDER BY COUNT(order_id);
