@@ -50,7 +50,7 @@ SELECT co.order_id,
            ELSE extras
        END AS extras,
        CAST(order_time AS DATETIME) AS order_time,
-	   cancellation
+       cancellation
 INTO pizza_runner.dbo.cleaned_customer_orders 
 FROM pizza_runner.dbo.customer_orders AS co
 JOIN pizza_runner.dbo.cleaned_runner_orders AS ro ON ro.order_id = co.order_id;
