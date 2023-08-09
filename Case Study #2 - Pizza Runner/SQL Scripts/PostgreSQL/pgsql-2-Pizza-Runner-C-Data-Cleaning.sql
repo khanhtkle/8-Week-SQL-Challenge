@@ -34,7 +34,7 @@ FROM pizza_runner.cleaned_customer_orders;
 
 --	Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
 --		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
---		- Converts the data type of the value extracted from the UNNEST and STRING_TO_ARRAY function for 'extras' from VARCHAR(4) to INTEGER.
+--		- Converts the data type of the value extracted from the UNNEST and STRING_TO_ARRAY function for `extras` from VARCHAR(4) to INTEGER.
 
 DROP TABLE IF EXISTS pizza_runner.extras;
 CREATE TABLE pizza_runner.extras AS
@@ -56,7 +56,7 @@ FROM pizza_runner.extras;
 
 --	Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
 --		- Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
---		- Converts the data type of the value extracted from the UNNEST and STRING_TO_ARRAY function for 'exclusions' from VARCHAR(4) to INTEGER.
+--		- Converts the data type of the value extracted from the UNNEST and STRING_TO_ARRAY function for `exclusions` from VARCHAR(4) to INTEGER.
 
 DROP TABLE IF EXISTS pizza_runner.exclusions;
 CREATE TABLE pizza_runner.exclusions AS
