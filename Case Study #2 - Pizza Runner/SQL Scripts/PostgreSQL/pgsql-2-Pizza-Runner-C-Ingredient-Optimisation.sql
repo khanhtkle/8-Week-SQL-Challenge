@@ -3,11 +3,11 @@
 -------------------------------------------
 -- 	1. What are the standard ingredients for each pizza?
 
-SELECT	pn.pizza_id, 
-		pizza_name, 
-		STRING_AGG(topping_name, ', ' ORDER BY topping_id) AS standard_ingredients
+SELECT pn.pizza_id, 
+       pizza_name, 
+       STRING_AGG(topping_name, ', ' ORDER BY topping_id) AS standard_ingredients
 FROM pizza_runner.pizza_names AS pn 
-JOIN pizza_runner.cleaned_pizza_recipes AS pr ON pr.pizza_id =  pn.pizza_id
+JOIN pizza_runner.cleaned_pizza_recipes AS pr ON pr.pizza_id = pn.pizza_id
 GROUP BY 1, 2;
 
 -- 	2. What was the most commonly added extra?
@@ -37,10 +37,10 @@ FROM ordered_exclusions_count_cte
 WHERE ranking = 1;
 
 -- 	4. Generate an order item for each record in the `customers_orders` table in the format of one of the following:
---  	- Meat Lovers
---  	- Meat Lovers - Exclude Beef
---  	- Meat Lovers - Extra Bacon
---  	- Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
+--  		- Meat Lovers
+--  		- Meat Lovers - Exclude Beef
+--  		- Meat Lovers - Extra Bacon
+--  		- Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
 
 WITH extra_format_cte AS
   (SELECT record_id,
@@ -77,7 +77,7 @@ WITH ingredients_cte AS
           pn.pizza_name,
           extras,
           exclusions,
-   		  pr.topping_id,
+   	  pr.topping_id,
           CASE
               WHEN pr.topping_id = et.topping_id THEN CONCAT('x2', pr.topping_name)
               ELSE pr.topping_name
@@ -87,8 +87,7 @@ WITH ingredients_cte AS
    LEFT JOIN pizza_runner.pizza_names AS pn ON pn.pizza_id = co.pizza_id
    LEFT JOIN pizza_runner.cleaned_pizza_recipes AS pr ON pr.pizza_id = co.pizza_id
    LEFT JOIN pizza_runner.extras AS et ON et.record_id = co.record_id
-   AND et.topping_id = pr.topping_id
-  ORDER BY record_id, topping_id)
+  				      AND et.topping_id = pr.topping_id)
 SELECT record_id,
        order_id,
        customer_id,
@@ -99,8 +98,8 @@ SELECT record_id,
        order_time
 FROM ingredients_cte AS ig
 WHERE ingredients NOT IN (SELECT topping_name
-						  FROM pizza_runner.exclusions AS ec
-						  WHERE ec.record_id = ig.record_id)
+			  FROM pizza_runner.exclusions AS ec
+			  WHERE ec.record_id = ig.record_id)
 GROUP BY 1, 2, 3, 4, 5, 6, pizza_name, 8;
 
 -- 	6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
@@ -113,13 +112,13 @@ WITH ingredients_cte AS
    WHERE cancellation IS NULL
    UNION ALL 
    SELECT record_id,
-		  topping_id,
-		  topping_name
+	  topping_id,
+	  topping_name
    FROM pizza_runner.cleaned_customer_orders AS co
    LEFT JOIN pizza_runner.cleaned_pizza_recipes AS pr ON pr.pizza_id = co.pizza_id
    WHERE topping_id NOT IN (SELECT topping_id
-							FROM pizza_runner.exclusions AS ec
-							WHERE ec.record_id = co.record_id)
+			    FROM pizza_runner.exclusions AS ec
+			    WHERE ec.record_id = co.record_id)
      AND cancellation IS NULL),
      total_quantity_cte AS
   (SELECT topping_name,
