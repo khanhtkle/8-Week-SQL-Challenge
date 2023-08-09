@@ -25,11 +25,11 @@ CREATE TABLE pizza_runner.cleaned_pizza_recipes AS
 	  ti.topping_id,
 	  topping_name
    FROM topping_id_cte AS ti
-   LEFT JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id);
+   LEFT JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id
+   ORDER BY 1, 2);
 
 SELECT *
-FROM pizza_runner.cleaned_pizza_recipes
-ORDER BY 1, 2;
+FROM pizza_runner.cleaned_pizza_recipes;
 
 -- 	Add a `record_id` column with an AUTO_INCREMENT constraint to generate unique identifiers.
 -- 	Note: The ALTER TABLE DROP COLUMN operation might result in Error Code 1091 if the specified column doesn't exist in the table. If this error occurs, proceed without executing the DROP COLUMN operation.
