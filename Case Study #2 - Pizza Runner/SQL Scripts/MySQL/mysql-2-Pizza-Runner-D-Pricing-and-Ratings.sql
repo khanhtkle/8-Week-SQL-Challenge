@@ -24,8 +24,8 @@ WHERE cancellation IS NULL;
 
 DROP TABLE IF EXISTS pizza_runner.ratings;
 CREATE TABLE pizza_runner.ratings (
-   order_id TINYINT, 
-   rating TINYINT
+  order_id TINYINT, 
+  rating TINYINT
 );
 
 INSERT INTO pizza_runner.ratings 
