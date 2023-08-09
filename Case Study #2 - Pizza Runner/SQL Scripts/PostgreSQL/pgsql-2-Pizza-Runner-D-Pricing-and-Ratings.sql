@@ -14,7 +14,7 @@ WHERE cancellation IS NULL;
 -- 		- Add cheese is $1 extra.
 
 SELECT SUM(CASE
-			   WHEN pizza_id = 1 THEN 12 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
+	       WHEN pizza_id = 1 THEN 12 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
                ELSE 10 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
            END) AS total_revenue_with_extras
 FROM pizza_runner.cleaned_customer_orders AS co
@@ -22,27 +22,29 @@ WHERE cancellation IS NULL;
 
 -- 	3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
 
-	DROP TABLE IF EXISTS pizza_runner.ratings;
-	CREATE TABLE pizza_runner.ratings (
-	   order_id SMALLINT, 
-	   rating SMALLINT
-	);
+DROP TABLE IF EXISTS pizza_runner.ratings;
+CREATE TABLE pizza_runner.ratings (
+  order_id SMALLINT, 
+  rating SMALLINT
+);
 
-	INSERT INTO pizza_runner.ratings 
-	  (order_id, rating)
-	SELECT order_id,
-		   CASE WHEN order_id IN ('1', '2', '10') THEN 5
-				WHEN order_id IN ('5', '7') THEN 4
-				WHEN order_id IN ('3') THEN 3
-				WHEN order_id IN ('4') THEN 2
-				WHEN order_id IN ('8') THEN 1 END AS rating
-	FROM
-	  (SELECT DISTINCT co.order_id
-	   FROM pizza_runner.cleaned_customer_orders AS co
-	   WHERE cancellation IS NULL) AS co;
+INSERT INTO pizza_runner.ratings 
+  (order_id, rating)
+SELECT order_id,
+       CASE
+           WHEN order_id IN ('1', '2', '10') THEN 5
+           WHEN order_id IN ('5', '7') THEN 4
+           WHEN order_id IN ('3') THEN 3
+           WHEN order_id IN ('4') THEN 2
+           WHEN order_id IN ('8') THEN 1
+       END AS rating
+FROM
+  (SELECT DISTINCT co.order_id
+   FROM pizza_runner.cleaned_customer_orders AS co
+   WHERE cancellation IS NULL) AS co;
 
-	SELECT *
-	FROM pizza_runner.ratings;
+SELECT *
+FROM pizza_runner.ratings;
 
 -- 	4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
 -- 		- customer_id
@@ -81,9 +83,9 @@ SELECT SUM(CASE
            END) AS total_revenue,
        ROUND(SUM(0.3 * distance)::NUMERIC, 2)::REAL AS runner_payment,
        ROUND(SUM(CASE
-               WHEN pizza_id = 1 THEN 12
-               ELSE 10
-           END) - SUM(0.3 * distance)::NUMERIC, 2)::REAL AS net_profit
+                     WHEN pizza_id = 1 THEN 12
+                     ELSE 10
+                 END) - SUM(0.3 * distance)::NUMERIC, 2)::REAL AS net_profit
 FROM pizza_runner.cleaned_customer_orders AS co
 JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 WHERE co.cancellation IS NULL;
