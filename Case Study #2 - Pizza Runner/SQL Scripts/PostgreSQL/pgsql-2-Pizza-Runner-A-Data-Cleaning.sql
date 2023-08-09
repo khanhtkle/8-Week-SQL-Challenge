@@ -51,7 +51,7 @@ CREATE TABLE pizza_runner.cleaned_customer_orders AS
               ELSE extras
           END AS extras,
           order_time::TIMESTAMP AS order_time,
-		  cancellation
+	  cancellation
    FROM pizza_runner.customer_orders AS co
    JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
    ORDER BY 1, 3);
