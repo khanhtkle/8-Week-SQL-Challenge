@@ -168,9 +168,9 @@ ORDER BY runner_id,
 ### Q7. What is the successful delivery percentage for each runner?
 ```tsql
 SELECT runner_id,
-	   COUNT(pickup_time) AS delivered_order_count,
-	   COUNT(order_id) AS total_orders,
-     CAST(100.0 * COUNT(pickup_time) / COUNT(*) AS DECIMAL(5,2)) AS successful_delivery_pct
+       COUNT(pickup_time) AS delivered_order_count,
+       COUNT(order_id) AS total_orders,
+       CAST(100.0 * COUNT(pickup_time) / COUNT(*) AS DECIMAL(5,2)) AS successful_delivery_pct
 FROM pizza_runner.dbo.cleaned_runner_orders 
 GROUP BY runner_id;
 ```
