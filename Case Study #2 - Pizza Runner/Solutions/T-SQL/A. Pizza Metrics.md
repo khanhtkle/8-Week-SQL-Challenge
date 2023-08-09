@@ -187,7 +187,6 @@ FROM pizza_runner.dbo.cleaned_customer_orders
 WHERE cancellation IS NULL
 GROUP BY order_id
 ORDER BY max_delivered_pizza_in_a_single_order DESC;
-
 ```
 | max_delivered_pizza_in_a_single_order |
 |---------------------------------------|
