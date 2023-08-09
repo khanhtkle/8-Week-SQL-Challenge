@@ -59,27 +59,27 @@ FROM pizza_runner.dbo.ratings;
 --		- Total number of pizzas
 
 SELECT customer_id, 
-	   co.order_id, 
-	   runner_id,
-	   rating,
-	   order_time,
-	   pickup_time,
-	   DATEPART(mi, pickup_time - order_time) AS time_between_order_and_pickup,
-	   duration AS delivery_duration,
-	   ROUND(AVG(distance / duration * 60), 1) AS average_speed,
-	   COUNT(pizza_id) AS total_number_of_pizza  
+       co.order_id, 
+       runner_id,
+       rating,
+       order_time,
+       pickup_time,
+       DATEPART(mi, pickup_time - order_time) AS time_between_order_and_pickup,
+       duration AS delivery_duration,
+       ROUND(AVG(distance / duration * 60), 1) AS average_speed,
+       COUNT(pizza_id) AS total_number_of_pizza  
 FROM pizza_runner.dbo.cleaned_customer_orders AS co
 JOIN pizza_runner.dbo.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 JOIN pizza_runner.dbo.ratings AS ra ON ra.order_id = co.order_id
 WHERE co.cancellation IS NULL
 GROUP BY customer_id, 
-		 co.order_id, 
-		 runner_id,
-		 rating,
-		 order_time,
-		 pickup_time,
-		 duration,
-		 distance
+	 co.order_id, 
+	 runner_id,
+	 rating,
+	 order_time,
+	 pickup_time,
+	 duration,
+	 distance
 ORDER BY order_id;
 
 -- 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
