@@ -15,11 +15,11 @@ CREATE TABLE pizza_runner.cleaned_pizza_recipes AS
 	  ti.topping_id,
 	  topping_name
    FROM topping_id_cte AS ti
-   LEFT JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id);
+   LEFT JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id
+   ORDER BY 1, 2);
 
 SELECT *
-FROM pizza_runner.cleaned_pizza_recipes
-ORDER BY 1, 2;
+FROM pizza_runner.cleaned_pizza_recipes;
 
 -- 	Add a `record_id` column with a SERIAL data type to generate unique identifiers.
 
@@ -48,11 +48,11 @@ CREATE TABLE pizza_runner.extras AS
 	  topping_name, 
 	  cancellation
    FROM topping_id_cte AS ti
-   JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id);
+   JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id
+   ORDER BY 1, 2);
    
 SELECT *
-FROM pizza_runner.extras
-ORDER BY 1, 2;
+FROM pizza_runner.extras;
 
 --	Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
 --		- Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
@@ -70,8 +70,8 @@ CREATE TABLE pizza_runner.exclusions AS
 	  topping_name,
 	  cancellation
    FROM topping_id_cte AS ti
-   JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id);
+   JOIN pizza_runner.pizza_toppings AS pt ON pt.topping_id = ti.topping_id
+   ORDER BY 1, 2);
    
 SELECT *
-FROM pizza_runner.exclusions
-ORDER BY 1, 2;
+FROM pizza_runner.exclusions;
