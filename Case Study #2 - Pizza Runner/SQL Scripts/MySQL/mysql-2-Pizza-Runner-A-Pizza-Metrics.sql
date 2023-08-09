@@ -92,8 +92,8 @@ ORDER BY 1;
 
 -- 	10. What was the volume of orders for each day of the week?
 
-SELECT	DAYNAME(order_time) AS day_of_week,
-        COUNT(order_id) AS ordered_pizza_count
+SELECT DAYNAME(order_time) AS day_of_week,
+       COUNT(order_id) AS ordered_pizza_count
 FROM pizza_runner.cleaned_customer_orders
 GROUP BY 1
 ORDER BY 2;
