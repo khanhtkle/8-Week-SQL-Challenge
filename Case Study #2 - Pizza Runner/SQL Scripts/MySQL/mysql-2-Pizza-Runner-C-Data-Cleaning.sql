@@ -30,7 +30,7 @@ CREATE TABLE pizza_runner.cleaned_pizza_recipes AS
 SELECT *
 FROM pizza_runner.cleaned_pizza_recipes;
 
--- 	Add a `record_id` column with an AUTO_INCREMENT constraint to generate unique identifiers.
+-- 	Add a `record_id` column with an AUTO_INCREMENT PRIMARY KEY constraint to generate unique identifiers.
 -- 	Note: The ALTER TABLE DROP COLUMN operation might result in Error Code 1091 if the specified column doesn't exist in the table. If this error occurs, proceed without executing the DROP COLUMN operation.
 
 ALTER TABLE pizza_runner.cleaned_customer_orders
@@ -44,7 +44,7 @@ FROM pizza_runner.cleaned_customer_orders;
 
 -- 	Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
 -- 		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
--- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for 'extras' from VARCHAR(4) to UNSIGNED.
+-- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `extras` from VARCHAR(4) to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.extras;
 CREATE TABLE pizza_runner.extras AS
@@ -75,7 +75,7 @@ FROM pizza_runner.extras;
 
 -- 	Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
 -- 		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
--- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for 'exclusions' from VARCHAR(4) to UNSIGNED.
+-- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `exclusions` from VARCHAR(4) to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.exclusions;
 CREATE TABLE pizza_runner.exclusions AS
