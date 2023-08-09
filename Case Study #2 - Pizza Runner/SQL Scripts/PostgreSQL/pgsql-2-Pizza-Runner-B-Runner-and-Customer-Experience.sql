@@ -25,11 +25,11 @@ SELECT CASE
             WHEN DATE_PART('isodow', registration_date) = 7 THEN (DATE_TRUNC('week', registration_date + INTERVAL '1 day') + INTERVAL '-1 day')
             WHEN (DATE_TRUNC('week', registration_date) + INTERVAL '-1 day') < '2021-01-01' THEN '2021-01-01'
             ELSE (DATE_TRUNC('week', registration_date) + INTERVAL '-1 day')
-        END::DATE AS week_start_date,
+       END::DATE AS week_start_date,
        CASE
             WHEN DATE_PART('isodow', registration_date) = 7 THEN (DATE_TRUNC('week', registration_date + INTERVAL '1 day') + INTERVAL '1 week - 2 day')
             ELSE (DATE_TRUNC('week', registration_date) + INTERVAL '1 week - 2 day')
-        END::DATE AS week_end_date,
+       END::DATE AS week_end_date,
        COUNT(runner_id)::INTEGER AS signed_up_runner_count
 FROM pizza_runner.runners
 GROUP BY 1, 2, 3
@@ -46,17 +46,17 @@ GROUP BY 1;
 
 -- 	3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
  
-	WITH prep_time_minutes_cte AS
-	  (SELECT COUNT(co.ORDER_ID)::INTEGER AS ordered_pizza_count,
-		  DATE_PART('minute', pickup_time - order_time)::INTEGER AS prep_time_minutes
-	   FROM pizza_runner.cleaned_customer_orders AS co
-	   JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
-	   GROUP BY co.order_id, 2)
-	SELECT ordered_pizza_count,
-	       ROUND(AVG(prep_time_minutes)::NUMERIC)::REAL AS avg_prep_time_minutes
-	FROM prep_time_minutes_cte
-	GROUP BY 1
-	ORDER BY 1;
+WITH prep_time_minutes_cte AS
+  (SELECT COUNT(co.order_id)::INTEGER AS ordered_pizza_count,
+          DATE_PART('minute', pickup_time - order_time)::INTEGER AS prep_time_minutes
+   FROM pizza_runner.cleaned_customer_orders AS co
+   JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
+   GROUP BY co.order_id, 2)
+SELECT ordered_pizza_count,
+       ROUND(AVG(prep_time_minutes)::NUMERIC)::REAL AS avg_prep_time_minutes
+FROM prep_time_minutes_cte
+GROUP BY 1
+ORDER BY 1;
 
 -- 	Drawing from the presented data:
 -- 		- As the number of pizzas in order increases, the average preparation time also increases.
