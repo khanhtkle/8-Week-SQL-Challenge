@@ -14,7 +14,7 @@ WHERE cancellation IS NULL;
 -- 		- Add cheese is $1 extra.
 
 SELECT SUM(CASE
-			   WHEN pizza_id = 1 THEN 12 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
+	       WHEN pizza_id = 1 THEN 12 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
                ELSE 10 + LENGTH(extras) - LENGTH(REPLACE(extras, ', ', ''))
            END) AS total_revenue_with_extras
 FROM pizza_runner.cleaned_customer_orders AS co
@@ -31,11 +31,13 @@ CREATE TABLE pizza_runner.ratings (
 INSERT INTO pizza_runner.ratings 
   (order_id, rating)
 SELECT order_id,
-	   CASE WHEN order_id IN ('1', '2', '10') THEN 5
-			WHEN order_id IN ('5', '7') THEN 4
-			WHEN order_id IN ('3') THEN 3
-			WHEN order_id IN ('4') THEN 2
-			WHEN order_id IN ('8') THEN 1 END AS rating
+       CASE 
+	   WHEN order_id IN ('1', '2', '10') THEN 5
+	   WHEN order_id IN ('5', '7') THEN 4
+	   WHEN order_id IN ('3') THEN 3
+	   WHEN order_id IN ('4') THEN 2
+	   WHEN order_id IN ('8') THEN 1 
+       END AS rating
 FROM
   (SELECT DISTINCT co.order_id
    FROM pizza_runner.cleaned_customer_orders AS co
@@ -57,15 +59,15 @@ FROM pizza_runner.ratings;
 -- 		- Total number of pizzas
 
 SELECT customer_id, 
-	   co.order_id, 
-	   runner_id,
-	   rating,
-	   order_time,
-	   pickup_time,
-	   TIMESTAMPDIFF(MINUTE, order_time, pickup_time) AS time_between_order_and_pickup,
-	   duration AS delivery_duration,
-	   ROUND(AVG(distance / duration * 60), 1) AS average_speed,
-	   COUNT(pizza_id) AS total_number_of_pizza  
+       co.order_id, 
+       runner_id,
+       rating,
+       order_time,
+       pickup_time,
+       TIMESTAMPDIFF(MINUTE, order_time, pickup_time) AS time_between_order_and_pickup,
+       duration AS delivery_duration,
+       ROUND(AVG(distance / duration * 60), 1) AS average_speed,
+       COUNT(pizza_id) AS total_number_of_pizza  
 FROM pizza_runner.cleaned_customer_orders AS co
 JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 JOIN pizza_runner.ratings AS ra ON ra.order_id = co.order_id
@@ -76,17 +78,6 @@ ORDER BY 2;
 -- 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
 
 SELECT SUM(CASE
-               WHEN pizza_id = 1 THEN 12
-               ELSE 10
-           END) AS total_revenue,
-       ROUND(SUM(0.3 * distance), 2) AS runner_payment,
-       ROUND(SUM(CASE
-               WHEN pizza_id = 1 THEN 12
-               ELSE 10
-           END) - SUM(0.3 * distance), 2) AS net_profit
-FROM pizza_runner.cleaned_customer_orders AS co
-JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
-WHERE co.cancellation IS NULL;SELECT SUM(CASE
                WHEN pizza_id = 1 THEN 12
                ELSE 10
            END) AS total_revenue,
