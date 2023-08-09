@@ -8,7 +8,7 @@ SELECT pn.pizza_id,
        pizza_name, 
        STRING_AGG(topping_name, ', ') AS standard_ingredients
 FROM pizza_runner.dbo.pizza_names AS pn 
-JOIN pizza_runner.dbo.cleaned_pizza_recipes AS pr ON pr.pizza_id =  pn.pizza_id
+JOIN pizza_runner.dbo.cleaned_pizza_recipes AS pr ON pr.pizza_id = pn.pizza_id
 GROUP BY pn.pizza_id, 
 	 pizza_name;
 
