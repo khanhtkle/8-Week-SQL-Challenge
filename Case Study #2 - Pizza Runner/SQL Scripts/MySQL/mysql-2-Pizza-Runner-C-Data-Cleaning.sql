@@ -1,7 +1,6 @@
 --------------------------------------------------
 -- C. Data Cleaning: Ingredient Optimisation --
 --------------------------------------------------
--- 	Create a table `cleaned_toppings` that includes the `pizza_id`, `topping_id`, and `topping_name` with each distinct topping stored as separate rows.
 -- 	Create a table `cleaned_toppings` from `pizza_recipes` and `pizza_toppings` tables:
 -- 		- Include the `pizza_id`, `topping_id`, and `topping_name` with each distinct `topping_id` and `topping_name` stored as separate rows.
 -- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `toppings` from TEXT to UNSIGNED.
