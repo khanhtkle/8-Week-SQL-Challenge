@@ -11,7 +11,8 @@ WHERE NOT EXISTS (SELECT 1
                   FROM pizza_runner.dbo.pizza_names
                   WHERE pizza_id = 3);
 
-SELECT * FROM pizza_runner.dbo.pizza_names;
+SELECT * 
+FROM pizza_runner.dbo.pizza_names;
 
 --     This is how `pizza_recipes` table changes when adding Supreme pizza to the menu.
     
@@ -23,4 +24,5 @@ WHERE NOT EXISTS (SELECT 1
                   FROM pizza_runner.dbo.pizza_recipes
                   WHERE pizza_id = 3);
 
-SELECT * FROM pizza_runner.dbo.pizza_recipes;
+SELECT * 
+FROM pizza_runner.dbo.pizza_recipes;
