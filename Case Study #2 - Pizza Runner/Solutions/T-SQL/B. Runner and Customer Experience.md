@@ -62,9 +62,10 @@ ORDER BY week_start_date;
 
 ---
 ### Q2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+- Convert the data type of `pickup_time` and `order_time` from `DATETIME2(0)` to `DATETIME` to enable the use of subtract operator.
 ```tsql
 SELECT runner_id,
-       AVG(DATEPART(mi, pickup_time - order_time)) AS avg_pickup_time_minutes
+       AVG(DATEPART(mi, CAST(pickup_time AS DATETIME) - CAST(order_time AS DATETIME))) AS avg_pickup_time_minutes
 FROM pizza_runner.dbo.cleaned_customer_orders AS co
 JOIN pizza_runner.dbo.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 WHERE co.cancellation IS NULL
@@ -81,11 +82,11 @@ GROUP BY runner_id;
 ```tsql
 WITH prep_time_minutes_cte AS
   (SELECT COUNT(co.order_id) AS ordered_pizza_count,
-          DATEPART(mi, pickup_time - order_time) AS prep_time_minutes
+          DATEPART(mi, CAST(pickup_time AS DATETIME) - CAST(order_time AS DATETIME)) AS prep_time_minutes
    FROM pizza_runner.dbo.cleaned_customer_orders AS co
    JOIN pizza_runner.dbo.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
    GROUP BY co.order_id,
-            DATEPART(mi, pickup_time - order_time))
+            DATEPART(mi, CAST(pickup_time AS DATETIME) - CAST(order_time AS DATETIME)))
 SELECT ordered_pizza_count,
        AVG(prep_time_minutes) AS avg_prep_time_minutes
 FROM prep_time_minutes_cte
