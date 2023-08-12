@@ -3,7 +3,7 @@
 -------------------------------------------
 -- 	Create a table `cleaned_runner_orders` from `runner_orders` table:
 --		Convert all blank '' and 'null' text values in `pickup_time`, `duration` and `cancellation` into NULL values.
---		Convert the data type of `pickup_time` from VARCHAR(19) to DATETIME.
+--		Convert the data type of `pickup_time` from VARCHAR(19) to DATETIME2(0).
 --		Remove the 'km' suffix and convert the data type of `distance` from VARCHAR(7) to FLOAT.
 --		Remove the suffixes 'min', 'minute', 'minutes' and convert the data type of `distance` from VARCHAR(10) to INTEGER.
 
@@ -12,7 +12,7 @@ SELECT order_id,
        runner_id,
        CASE
            WHEN pickup_time = 'null' THEN NULL
-           ELSE CAST(pickup_time AS DATETIME)
+           ELSE CAST(pickup_time AS DATETIME2(0))
        END AS pickup_time,
        CASE
            WHEN distance = 'null' THEN NULL
@@ -34,7 +34,7 @@ FROM pizza_runner.dbo.cleaned_runner_orders;
 
 --	Create a new table `cleaned_customer_orders` from `customer_orders` table:
 --		Convert all blank '' and 'null' text values in `exclusions` and `extras` into NULL values.
---		Convert the data type of `order_time` from VARCHAR(19) to DATETIME.
+--		Convert the data type of `order_time` from VARCHAR(19) to DATETIME2(0).
 -- 		Append `cancellation` from `cleaned_runner_orders` table.
 
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_customer_orders;
@@ -49,7 +49,7 @@ SELECT co.order_id,
            WHEN extras IN ('null', 'NULL', '') THEN NULL
            ELSE extras
        END AS extras,
-       CAST(order_time AS DATETIME) AS order_time,
+       CAST(order_time AS DATETIME2(0)) AS order_time,
        cancellation
 INTO pizza_runner.dbo.cleaned_customer_orders 
 FROM pizza_runner.dbo.customer_orders AS co
