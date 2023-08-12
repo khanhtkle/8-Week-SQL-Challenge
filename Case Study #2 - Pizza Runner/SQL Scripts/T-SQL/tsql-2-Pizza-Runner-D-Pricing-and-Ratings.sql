@@ -64,7 +64,7 @@ SELECT customer_id,
        rating,
        order_time,
        pickup_time,
-       DATEPART(mi, pickup_time - order_time) AS time_between_order_and_pickup,
+       DATEPART(mi, CAST(pickup_time AS DATETIME) - CAST(order_time AS DATETIME)) AS time_between_order_and_pickup,
        duration AS delivery_duration,
        ROUND(AVG(distance / duration * 60), 1) AS average_speed,
        COUNT(pizza_id) AS total_number_of_pizza  
