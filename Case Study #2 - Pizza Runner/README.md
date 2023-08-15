@@ -39,6 +39,8 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 ## :bookmark_tabs: Example Datasets
 
+Note: Originally, all `order_id` entries had their `order_time` dated in `2021`, yet some of their corresponding `pickup_time` was inexplicably harking back to `2020`. To rectify this incoherency, all entries in the `pickup_time` have been adjusted to the year `2021`.
+
 <div align="center">
 
 **Table 1: runners**
