@@ -260,7 +260,7 @@ LEFT JOIN exclude_format_cte AS ec ON ec.record_id = co.record_id;
 | 14        | 10       | 104         | 1        | 2, 6       | 1, 4   | Meatlovers - Exclude BBQ Sauce, Mushrooms - Extra Bacon, Cheese | 2021-01-11 18:34:49 |
 
 ---
-### Q5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a `'2x'` in front of any relevant ingredients. For example: `"Meat Lovers: 2xBacon, Beef, ... , Salami"`
+### Q5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a `2x` in front of any relevant ingredients. For example: `"Meat Lovers: 2xBacon, Beef, ... , Salami"`
 ```mysql
 WITH ingredients_cte AS
   (SELECT co.record_id,
