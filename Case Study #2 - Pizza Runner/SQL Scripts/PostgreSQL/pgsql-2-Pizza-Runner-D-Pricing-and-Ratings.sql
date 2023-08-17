@@ -59,15 +59,15 @@ FROM pizza_runner.ratings;
 -- 		- Total number of pizzas
 
 SELECT customer_id, 
-	   co.order_id, 
-	   runner_id,
-	   rating,
-	   order_time,
-	   pickup_time,
-	   DATE_PART('minute', pickup_time - order_time)::INTEGER AS time_between_order_and_pickup,
-	   duration AS delivery_duration,
-	   ROUND(AVG(distance / duration * 60)::NUMERIC, 1)::REAL AS average_speed,
-	   COUNT(pizza_id) AS total_number_of_pizza  
+       co.order_id, 
+       runner_id,
+       rating,
+       order_time,
+       pickup_time,
+       DATE_PART('minute', pickup_time - order_time)::INTEGER AS time_between_order_and_pickup,
+       duration AS delivery_duration,
+       ROUND(AVG(distance / duration * 60)::NUMERIC, 1)::REAL AS average_speed,
+       COUNT(pizza_id) AS total_number_of_pizza  
 FROM pizza_runner.cleaned_customer_orders AS co
 JOIN pizza_runner.cleaned_runner_orders AS ro ON ro.order_id = co.order_id
 JOIN pizza_runner.ratings AS ra ON ra.order_id = co.order_id
