@@ -14,9 +14,10 @@ INSERT INTO pizza_runner.dbo.pizza_names
 SELECT 3, 'Supreme'
 WHERE NOT EXISTS (SELECT 1
                   FROM pizza_runner.dbo.pizza_names
-                  WHERE "pizza_id" = 3);
+                  WHERE pizza_id = 3);
 
-SELECT * FROM pizza_runner.dbo.pizza_names;
+SELECT *
+FROM pizza_runner.dbo.pizza_names;
 ```
 | pizza_id | pizza_name |
 |----------|------------|
@@ -34,7 +35,8 @@ WHERE NOT EXISTS (SELECT 1
                   FROM pizza_runner.dbo.pizza_recipes
                   WHERE pizza_id = 3);
 
-SELECT * FROM pizza_runner.dbo.pizza_recipes;
+SELECT *
+FROM pizza_runner.dbo.pizza_recipes;
 ```
 | pizza_id | toppings                              |
 |----------|---------------------------------------|
