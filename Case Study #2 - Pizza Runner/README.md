@@ -149,6 +149,12 @@ Note: Originally, all `order_id` entries had their `order_time` dated in `2021`,
 
 </div>
 
+View my database setup in:
+
+[![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](SQL%20Scripts/MySQL/mysql-2-Pizza-Runner-!-Database.sql)
+[![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](SQL%20Scripts/PostgreSQL/pgsql-2-Pizza-Runner-!-Database.sql)
+[![SMSS Badge](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](tsql-2-Pizza-Runner-!-Database.sql)
+
 ---
 
 ## :triangular_flag_on_post: Questions and Solutions
