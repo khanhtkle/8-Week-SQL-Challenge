@@ -68,22 +68,22 @@ ADD record_id INTEGER AUTO_INCREMENT PRIMARY KEY;
 SELECT *
 FROM pizza_runner.cleaned_customer_orders;
 ```
-| order_id | customer_id | pizza_id | exclusions | extras | order_time              | cancellation            | record_id |
-|----------|-------------|----------|------------|--------|-------------------------|-------------------------|-----------|
-| 1        | 101         | 1        | NULL       | NULL   | 2021-01-01 18:05:02.000 | NULL                    | 1         |
-| 2        | 101         | 1        | NULL       | NULL   | 2021-01-01 19:00:52.000 | NULL                    | 2         |
-| 3        | 102         | 1        | NULL       | NULL   | 2021-01-02 23:51:23.000 | NULL                    | 3         |
-| 3        | 102         | 2        | NULL       | NULL   | 2021-01-02 23:51:23.000 | NULL                    | 4         |
-| 4        | 103         | 1        | 4          | NULL   | 2021-01-04 13:23:46.000 | NULL                    | 5         |
-| 4        | 103         | 1        | 4          | NULL   | 2021-01-04 13:23:46.000 | NULL                    | 6         |
-| 4        | 103         | 2        | 4          | NULL   | 2021-01-04 13:23:46.000 | NULL                    | 7         |
-| 5        | 104         | 1        | NULL       | 1      | 2021-01-08 21:00:29.000 | NULL                    | 8         |
-| 6        | 101         | 2        | NULL       | NULL   | 2021-01-08 21:03:13.000 | Restaurant Cancellation | 9         |
-| 7        | 105         | 2        | NULL       | 1      | 2021-01-08 21:20:29.000 | NULL                    | 10        |
-| 8        | 102         | 1        | NULL       | NULL   | 2021-01-09 23:54:33.000 | NULL                    | 11        |
-| 9        | 103         | 1        | 4          | 1, 5   | 2021-01-10 11:22:59.000 | Customer Cancellation   | 12        |
-| 10       | 104         | 1        | NULL       | NULL   | 2021-01-11 18:34:49.000 | NULL                    | 13        |
-| 10       | 104         | 1        | 2, 6       | 1, 4   | 2021-01-11 18:34:49.000 | NULL                    | 14        |
+| order_id | customer_id | pizza_id | exclusions | extras | order_time          | cancellation            | record_id |
+|----------|-------------|----------|------------|--------|---------------------|-------------------------|-----------|
+| 1        | 101         | 1        | NULL       | NULL   | 2021-01-01 18:05:02 | NULL                    | 1         |
+| 2        | 101         | 1        | NULL       | NULL   | 2021-01-01 19:00:52 | NULL                    | 2         |
+| 3        | 102         | 1        | NULL       | NULL   | 2021-01-02 23:51:23 | NULL                    | 3         |
+| 3        | 102         | 2        | NULL       | NULL   | 2021-01-02 23:51:23 | NULL                    | 4         |
+| 4        | 103         | 1        | 4          | NULL   | 2021-01-04 13:23:46 | NULL                    | 5         |
+| 4        | 103         | 1        | 4          | NULL   | 2021-01-04 13:23:46 | NULL                    | 6         |
+| 4        | 103         | 2        | 4          | NULL   | 2021-01-04 13:23:46 | NULL                    | 7         |
+| 5        | 104         | 1        | NULL       | 1      | 2021-01-08 21:00:29 | NULL                    | 8         |
+| 6        | 101         | 2        | NULL       | NULL   | 2021-01-08 21:03:13 | Restaurant Cancellation | 9         |
+| 7        | 105         | 2        | NULL       | 1      | 2021-01-08 21:20:29 | NULL                    | 10        |
+| 8        | 102         | 1        | NULL       | NULL   | 2021-01-09 23:54:33 | NULL                    | 11        |
+| 9        | 103         | 1        | 4          | 1, 5   | 2021-01-10 11:22:59 | Customer Cancellation   | 12        |
+| 10       | 104         | 1        | NULL       | NULL   | 2021-01-11 18:34:49 | NULL                    | 13        |
+| 10       | 104         | 1        | 2, 6       | 1, 4   | 2021-01-11 18:34:49 | NULL                    | 14        |
 
 3. Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
     -  Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
@@ -242,22 +242,22 @@ LEFT JOIN pizza_runner.pizza_names AS pn ON pn.pizza_id = co.pizza_id
 LEFT JOIN extra_format_cte AS et ON et.record_id = co.record_id
 LEFT JOIN exclude_format_cte AS ec ON ec.record_id = co.record_id;
 ```
-| record_id | order_id | customer_id | pizza_id | exclusions | extras | order_item_description                                          | order_time              |
-|-----------|----------|-------------|----------|------------|--------|-----------------------------------------------------------------|-------------------------|
-| 1         | 1        | 101         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-01 18:05:02.000 |
-| 2         | 2        | 101         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-01 19:00:52.000 |
-| 3         | 3        | 102         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-02 23:51:23.000 |
-| 4         | 3        | 102         | 2        | NULL       | NULL   | Vegetarian                                                      | 2021-01-02 23:51:23.000 |
-| 5         | 4        | 103         | 1        | 4          | NULL   | Meatlovers - Exclude Cheese                                     | 2021-01-04 13:23:46.000 |
-| 6         | 4        | 103         | 1        | 4          | NULL   | Meatlovers - Exclude Cheese                                     | 2021-01-04 13:23:46.000 |
-| 7         | 4        | 103         | 2        | 4          | NULL   | Vegetarian - Exclude Cheese                                     | 2021-01-04 13:23:46.000 |
-| 8         | 5        | 104         | 1        | NULL       | 1      | Meatlovers - Extra Bacon                                        | 2021-01-08 21:00:29.000 |
-| 9         | 6        | 101         | 2        | NULL       | NULL   | Vegetarian                                                      | 2021-01-08 21:03:13.000 |
-| 10        | 7        | 105         | 2        | NULL       | 1      | Vegetarian - Extra Bacon                                        | 2021-01-08 21:20:29.000 |
-| 11        | 8        | 102         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-09 23:54:33.000 |
-| 12        | 9        | 103         | 1        | 4          | 1, 5   | Meatlovers - Exclude Cheese - Extra Bacon, Chicken              | 2021-01-10 11:22:59.000 |
-| 13        | 10       | 104         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-11 18:34:49.000 |
-| 14        | 10       | 104         | 1        | 2, 6       | 1, 4   | Meatlovers - Exclude BBQ Sauce, Mushrooms - Extra Bacon, Cheese | 2021-01-11 18:34:49.000 |
+| record_id | order_id | customer_id | pizza_id | exclusions | extras | order_item_description                                          | order_time          |
+|-----------|----------|-------------|----------|------------|--------|-----------------------------------------------------------------|---------------------|
+| 1         | 1        | 101         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-01 18:05:02 |
+| 2         | 2        | 101         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-01 19:00:52 |
+| 3         | 3        | 102         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-02 23:51:23 |
+| 4         | 3        | 102         | 2        | NULL       | NULL   | Vegetarian                                                      | 2021-01-02 23:51:23 |
+| 5         | 4        | 103         | 1        | 4          | NULL   | Meatlovers - Exclude Cheese                                     | 2021-01-04 13:23:46 |
+| 6         | 4        | 103         | 1        | 4          | NULL   | Meatlovers - Exclude Cheese                                     | 2021-01-04 13:23:46 |
+| 7         | 4        | 103         | 2        | 4          | NULL   | Vegetarian - Exclude Cheese                                     | 2021-01-04 13:23:46 |
+| 8         | 5        | 104         | 1        | NULL       | 1      | Meatlovers - Extra Bacon                                        | 2021-01-08 21:00:29 |
+| 9         | 6        | 101         | 2        | NULL       | NULL   | Vegetarian                                                      | 2021-01-08 21:03:13 |
+| 10        | 7        | 105         | 2        | NULL       | 1      | Vegetarian - Extra Bacon                                        | 2021-01-08 21:20:29 |
+| 11        | 8        | 102         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-09 23:54:33 |
+| 12        | 9        | 103         | 1        | 4          | 1, 5   | Meatlovers - Exclude Cheese - Extra Bacon, Chicken              | 2021-01-10 11:22:59 |
+| 13        | 10       | 104         | 1        | NULL       | NULL   | Meatlovers                                                      | 2021-01-11 18:34:49 |
+| 14        | 10       | 104         | 1        | 2, 6       | 1, 4   | Meatlovers - Exclude BBQ Sauce, Mushrooms - Extra Bacon, Cheese | 2021-01-11 18:34:49 |
 
 ---
 ### Q5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a `'2x'` in front of any relevant ingredients. {For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"}
@@ -295,22 +295,22 @@ WHERE ingredients NOT IN (SELECT topping_name
 			  WHERE ec.record_id = ig.record_id)
 GROUP BY 1, 2, 3, 4, 5, 6, pizza_name, 8;
 ```
-| record_id | order_id | customer_id | pizza_id | extras | exclusions | ingredient_list                                                                     | order_time              |
-|-----------|----------|-------------|----------|--------|------------|-------------------------------------------------------------------------------------|-------------------------|
-| 1         | 1        | 101         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-01 18:05:02.000 |
-| 2         | 2        | 101         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-01 19:00:52.000 |
-| 3         | 3        | 102         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-02 23:51:23.000 |
-| 4         | 3        | 102         | 2        | NULL   | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-02 23:51:23.000 |
-| 5         | 4        | 103         | 1        | NULL   | 4          | Meatlovers: Bacon, BBQ Sauce, Beef, Chicken, Mushrooms, Pepperoni, Salami           | 2021-01-04 13:23:46.000 |
-| 6         | 4        | 103         | 1        | NULL   | 4          | Meatlovers: Bacon, BBQ Sauce, Beef, Chicken, Mushrooms, Pepperoni, Salami           | 2021-01-04 13:23:46.000 |
-| 7         | 4        | 103         | 2        | NULL   | 4          | Vegetarian: Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce                      | 2021-01-04 13:23:46.000 |
-| 8         | 5        | 104         | 1        | 1      | NULL       | Meatlovers: x2Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami | 2021-01-08 21:00:29.000 |
-| 9         | 6        | 101         | 2        | NULL   | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-08 21:03:13.000 |
-| 10        | 7        | 105         | 2        | 1      | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-08 21:20:29.000 |
-| 11        | 8        | 102         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-09 23:54:33.000 |
-| 12        | 9        | 103         | 1        | 1, 5   | 4          | Meatlovers: x2Bacon, BBQ Sauce, Beef, x2Chicken, Mushrooms, Pepperoni, Salami       | 2021-01-10 11:22:59.000 |
-| 13        | 10       | 104         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-11 18:34:49.000 |
-| 14        | 10       | 104         | 1        | 1, 4   | 2, 6       | Meatlovers: x2Bacon, Beef, x2Cheese, Chicken, Pepperoni, Salami                     | 2021-01-11 18:34:49.000 |
+| record_id | order_id | customer_id | pizza_id | extras | exclusions | ingredient_list                                                                     | order_time          |
+|-----------|----------|-------------|----------|--------|------------|-------------------------------------------------------------------------------------|---------------------|
+| 1         | 1        | 101         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-01 18:05:02 |
+| 2         | 2        | 101         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-01 19:00:52 |
+| 3         | 3        | 102         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-02 23:51:23 |
+| 4         | 3        | 102         | 2        | NULL   | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-02 23:51:23 |
+| 5         | 4        | 103         | 1        | NULL   | 4          | Meatlovers: Bacon, BBQ Sauce, Beef, Chicken, Mushrooms, Pepperoni, Salami           | 2021-01-04 13:23:46 |
+| 6         | 4        | 103         | 1        | NULL   | 4          | Meatlovers: Bacon, BBQ Sauce, Beef, Chicken, Mushrooms, Pepperoni, Salami           | 2021-01-04 13:23:46 |
+| 7         | 4        | 103         | 2        | NULL   | 4          | Vegetarian: Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce                      | 2021-01-04 13:23:46 |
+| 8         | 5        | 104         | 1        | 1      | NULL       | Meatlovers: x2Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami | 2021-01-08 21:00:29 |
+| 9         | 6        | 101         | 2        | NULL   | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-08 21:03:13 |
+| 10        | 7        | 105         | 2        | 1      | NULL       | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce              | 2021-01-08 21:20:29 |
+| 11        | 8        | 102         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-09 23:54:33 |
+| 12        | 9        | 103         | 1        | 1, 5   | 4          | Meatlovers: x2Bacon, BBQ Sauce, Beef, x2Chicken, Mushrooms, Pepperoni, Salami       | 2021-01-10 11:22:59 |
+| 13        | 10       | 104         | 1        | NULL   | NULL       | Meatlovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami   | 2021-01-11 18:34:49 |
+| 14        | 10       | 104         | 1        | 1, 4   | 2, 6       | Meatlovers: x2Bacon, Beef, x2Cheese, Chicken, Pepperoni, Salami                     | 2021-01-11 18:34:49 |
 
 ---
 ### Q6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
