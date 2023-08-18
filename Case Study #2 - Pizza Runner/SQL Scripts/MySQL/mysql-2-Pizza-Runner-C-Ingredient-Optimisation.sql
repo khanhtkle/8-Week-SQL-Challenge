@@ -65,7 +65,7 @@ LEFT JOIN pizza_runner.pizza_names AS pn ON pn.pizza_id = co.pizza_id
 LEFT JOIN extra_format_cte AS et ON et.record_id = co.record_id
 LEFT JOIN exclude_format_cte AS ec ON ec.record_id = co.record_id;
 
--- 	5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
+-- 	5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a '2x' in front of any relevant ingredients
 -- 		- For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
 
 WITH ingredients_cte AS
