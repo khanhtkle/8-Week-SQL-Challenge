@@ -73,7 +73,7 @@ FROM pizza_runner.dbo.ratings;
 | 10       | 5      |
 
 ---
-### Q4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries? {customer_id} {order_id} {runner_id} {rating} {order_time} {pickup_time} {Time between order and pickup} {Delivery duration} {Average speed} {Total number of pizzas}
+### Q4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries? `customer_id` `order_id` `runner_id` `rating` `order_time` `pickup_time` [Time between order and pickup] [Delivery duration] [Average speed] [Total number of pizzas]
 ```tsql
 SELECT customer_id, 
        co.order_id, 
