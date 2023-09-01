@@ -2,10 +2,10 @@
 -- A. Data Cleaning: Pizza Metrics --
 -------------------------------------------
 -- 	Create a table `cleaned_runner_orders` from `runner_orders` table:
--- 		Convert all blank '' and 'null' text values in `pickup_time`, `duration` and `cancellation` into NULL values.
--- 		Convert the data type of `pickup_time` from VARCHAR(19) to DATETIME.
--- 		Remove the "km" suffix and convert the data type of `distance` from VARCHAR(7) to FLOAT.
--- 		Remove the suffixes 'mins', 'minute', 'minutes' and convert the data type of `distance` from VARCHAR(10) to UNSIGNED.
+--		- Convert all blank '' and 'null' text values in `pickup_time`, `duration` and `cancellation` into NULL values.
+--		- Convert the data type of `pickup_time` from VARCHAR(19) to DATETIME.
+--		- Remove the "km" suffix and convert the data type of `distance` from VARCHAR(7) to FLOAT.
+--		- Remove the suffixes 'mins', 'minute', 'minutes' and convert the data type of `distance` from VARCHAR(10) to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.cleaned_runner_orders;
 CREATE TABLE pizza_runner.cleaned_runner_orders AS
