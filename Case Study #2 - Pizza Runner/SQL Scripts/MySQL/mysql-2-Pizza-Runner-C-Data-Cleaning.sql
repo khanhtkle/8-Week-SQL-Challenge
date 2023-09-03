@@ -3,7 +3,7 @@
 --------------------------------------------------
 -- 	Create a table `cleaned_toppings` from `pizza_recipes` and `pizza_toppings` tables:
 -- 		- Include the `pizza_id`, `topping_id`, and `topping_name` with each distinct `topping_id` and `topping_name` stored as separate rows.
--- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `toppings` from TEXT to UNSIGNED.
+-- 		- Convert the data type of the value extracted from the nested SUBSTRING_INDEX function for `toppings` from TEXT to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.cleaned_pizza_recipes;
 CREATE TABLE pizza_runner.cleaned_pizza_recipes AS
@@ -44,7 +44,7 @@ FROM pizza_runner.cleaned_customer_orders;
 
 -- 	Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
 -- 		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
--- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `extras` from VARCHAR(4) to UNSIGNED.
+-- 		- Convert the data type of the value extracted from the nested SUBSTRING_INDEX function for `extras` from VARCHAR(4) to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.extras;
 CREATE TABLE pizza_runner.extras AS
@@ -75,7 +75,7 @@ FROM pizza_runner.extras;
 
 -- 	Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
 -- 		- Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
--- 		- Converts the data type of the value extracted from the nested SUBSTRING_INDEX function for `exclusions` from VARCHAR(4) to UNSIGNED.
+-- 		- Convert the data type of the value extracted from the nested SUBSTRING_INDEX function for `exclusions` from VARCHAR(4) to UNSIGNED.
 
 DROP TABLE IF EXISTS pizza_runner.exclusions;
 CREATE TABLE pizza_runner.exclusions AS
