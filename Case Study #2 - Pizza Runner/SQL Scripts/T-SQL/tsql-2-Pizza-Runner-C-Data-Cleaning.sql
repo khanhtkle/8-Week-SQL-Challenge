@@ -52,7 +52,7 @@ FROM pizza_runner.dbo.extras;
 
 --	Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
 --		- Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
---		- Converts the data type of the value extracted from the STRING_SPLIT function for 'exclusions' from VARCHAR(4) to INTEGER.
+--		- Convert the data type of the value extracted from the STRING_SPLIT function for 'exclusions' from VARCHAR(4) to INTEGER.
 --		- Convert the data type of `topping_name` from TEXT to VARCHAR(12).
 
 DROP TABLE IF EXISTS pizza_runner.dbo.exclusions;
