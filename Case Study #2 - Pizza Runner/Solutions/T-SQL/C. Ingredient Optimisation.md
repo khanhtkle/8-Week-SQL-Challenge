@@ -11,7 +11,7 @@
 1. Create a table `cleaned_toppings` from `pizza_recipes` and `pizza_toppings` tables:
     - Include the `pizza_id`, `topping_id`, and `topping_name` with each distinct `topping_id` and `topping_name` stored as separate rows.
     - Convert the data type of `toppings` from `TEXT` to `VARCHAR(23)`.
-    - Converts the data type of the value extracted from the `STRING_SPLIT` function for `toppings` from `VARCHAR(23)` to `INTEGER`.
+    - Convert the data type of the value extracted from the `STRING_SPLIT` function for `toppings` from `VARCHAR(23)` to `INTEGER`.
     - Convert the data type of `topping_name` from `TEXT` to `VARCHAR(12)`.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.cleaned_pizza_recipes;
@@ -75,7 +75,7 @@ FROM pizza_runner.dbo.cleaned_customer_orders;
 
 3. Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
     -  Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
-    -  Converts the data type of the value extracted from the `STRING_SPLIT` function for 'extras' from `VARCHAR(4)` to `INTEGER`.
+    -  Convert the data type of the value extracted from the `STRING_SPLIT` function for 'extras' from `VARCHAR(4)` to `INTEGER`.
     -  Convert the data type of `topping_name` from `TEXT` to `VARCHAR(12)`.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.extras;
@@ -102,7 +102,7 @@ FROM pizza_runner.dbo.extras;
 
 4. Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
     - Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
-    - Converts the data type of the value extracted from the `STRING_SPLIT` function for 'exclusions' from `VARCHAR(4)` to `INTEGER`.
+    - Convert the data type of the value extracted from the `STRING_SPLIT` function for 'exclusions' from `VARCHAR(4)` to `INTEGER`.
     - Convert the data type of `topping_name` from `TEXT` to `VARCHAR(12)`.
 ```tsql
 DROP TABLE IF EXISTS pizza_runner.dbo.exclusions;
