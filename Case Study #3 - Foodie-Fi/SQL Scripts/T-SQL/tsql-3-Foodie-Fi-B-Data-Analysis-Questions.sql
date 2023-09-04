@@ -31,7 +31,7 @@ JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = su.plan_id
 WHERE YEAR(start_date) > 2020
 GROUP BY YEAR(start_date),
 	 su.plan_id,
-         plan_name
+         plan_name;
 
 -- 	4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
 
@@ -41,7 +41,7 @@ SELECT SUM(CASE
        CAST(100.0 * SUM(CASE
                             WHEN plan_id = 0 THEN 1
                         END) / COUNT(DISTINCT customer_id) AS DECIMAL(5, 1)) AS total_churn_pct
-FROM foodie_fi.dbo.subscriptions
+FROM foodie_fi.dbo.subscriptions;
 
 -- 	5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
 
@@ -161,4 +161,4 @@ JOIN foodie_fi.dbo.subscriptions AS s2 ON s1.customer_id = s2.customer_id
 WHERE s1.plan_id = 3
   AND s2.plan_id = 2
   AND s1.start_date < s2.start_date
-  AND YEAR(s2.start_date) = 2020
+  AND YEAR(s2.start_date) = 2020;
