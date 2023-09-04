@@ -92,49 +92,49 @@
 --	To improve customer retention in a subscription-based business like Foodie-Fi, it's essential to analyze key customer journeys and experiences. Here are some important customer journeys and experiences to examine:
 
 --		1. Onboarding Experience: 
---		Analyze the process customers go through when they first sign up. Ensure it's smooth, intuitive, and provides value quickly. Consider offering an interactive tutorial or guided tour to help customers get started.
+--	Analyze the process customers go through when they first sign up. Ensure it's smooth, intuitive, and provides value quickly. Consider offering an interactive tutorial or guided tour to help customers get started.
 
 --		2. Free Trial Conversion: 
---		Track how many customers convert from a free trial to a paid subscription. Analyze what prompts these conversions and identify any common obstacles that prevent conversion.
+--	Track how many customers convert from a free trial to a paid subscription. Analyze what prompts these conversions and identify any common obstacles that prevent conversion.
 
 --		3. Plan Upgrades and Downgrades: 
---		Study customer behavior when they upgrade or downgrade their plans. Identify the reasons behind these decisions. For example, are customers upgrading for additional features or downgrading due to cost concerns?
+--	Study customer behavior when they upgrade or downgrade their plans. Identify the reasons behind these decisions. For example, are customers upgrading for additional features or downgrading due to cost concerns?
 
 --		4. Churn Analysis: 
---		Analyze the customer journey leading up to churn. What common factors are associated with customers canceling their subscriptions? Are there specific points in the customer lifecycle where churn tends to occur?
+--	Analyze the customer journey leading up to churn. What common factors are associated with customers canceling their subscriptions? Are there specific points in the customer lifecycle where churn tends to occur?
 
 --		5. Engagement Metrics: 
---		Monitor customer engagement with your content. Analyze how often customers log in, how much time they spend on your platform, and which content they engage with the most. Identify patterns of high and low engagement.
+--	Monitor customer engagement with your content. Analyze how often customers log in, how much time they spend on your platform, and which content they engage with the most. Identify patterns of high and low engagement.
 
 --		6. Feedback and Support Interactions: 
---		Review customer feedback and support interactions. Look for recurring issues or complaints and take action to address them. Ensure that customer support is responsive and helpful.
+--	Review customer feedback and support interactions. Look for recurring issues or complaints and take action to address them. Ensure that customer support is responsive and helpful.
 
 --		7. Content Recommendations: 
---		Analyze the effectiveness of your content recommendation algorithms. Are customers finding content that interests them? Personalized recommendations can enhance the customer experience.
+--	Analyze the effectiveness of your content recommendation algorithms. Are customers finding content that interests them? Personalized recommendations can enhance the customer experience.
 
 --		8. Communication and Notifications: 
---		Evaluate the frequency and content of communication with customers. Are notifications relevant and non-intrusive? Ensure that email, push notifications, and in-app messages provide value.
+--	Evaluate the frequency and content of communication with customers. Are notifications relevant and non-intrusive? Ensure that email, push notifications, and in-app messages provide value.
 
 --		9. Renewal Process: 
---		Examine the process of subscription renewals. Is it easy for customers to renew their subscriptions, or do they encounter obstacles? Consider offering incentives for annual plan renewals.
+--	Examine the process of subscription renewals. Is it easy for customers to renew their subscriptions, or do they encounter obstacles? Consider offering incentives for annual plan renewals.
 
 --		10. Billing and Payment Experience: 
---		Assess the billing and payment process. Ensure that it's transparent, and customers can easily update payment methods. Minimize billing-related issues.
+--	Assess the billing and payment process. Ensure that it's transparent, and customers can easily update payment methods. Minimize billing-related issues.
 
 --		11. Customer Segmentation: 
---		Segment your customer base based on behavior and preferences. Tailor marketing and communication strategies for different segments to improve relevance.
+--	Segment your customer base based on behavior and preferences. Tailor marketing and communication strategies for different segments to improve relevance.
 
 --		12. Loyalty Programs: 
---		Implement loyalty programs or rewards for long-term subscribers. Analyze the impact of these programs on customer retention.
+--	Implement loyalty programs or rewards for long-term subscribers. Analyze the impact of these programs on customer retention.
 
 --		13. Exit Surveys: 
---		Conduct exit surveys when customers cancel their subscriptions. Gather feedback on why they're leaving and use this information for improvements.
+--	Conduct exit surveys when customers cancel their subscriptions. Gather feedback on why they're leaving and use this information for improvements.
 
 --		14. Community Building: 
---		If applicable, foster a sense of community among your subscribers. Customer communities can enhance the overall experience and encourage retention.
+--	If applicable, foster a sense of community among your subscribers. Customer communities can enhance the overall experience and encourage retention.
 
 --		15. A/B Testing: 
---		Continuously conduct A/B testing to optimize various elements of the customer journey, such as pricing, user interface, and content recommendations.
+--	Continuously conduct A/B testing to optimize various elements of the customer journey, such as pricing, user interface, and content recommendations.
 
 --	4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
 
