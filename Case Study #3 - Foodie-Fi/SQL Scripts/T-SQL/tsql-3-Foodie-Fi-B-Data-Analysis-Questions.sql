@@ -8,16 +8,16 @@ FROM foodie_fi.dbo.subscriptions;
 
 -- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset - use the start of the month as the group by value
 
-SELECT YEAR(start_date) AS year,
-       DATENAME(mm, start_date) AS month,
-       CAST(DATEADD(mm, DATEDIFF(mm, 0, start_date), 0) AS DATE) AS start_of_month,
+SELECT YEAR(start_date) AS YEAR,
+       DATENAME(mm, start_date) AS MONTH,
+       DATEADD(DAY, 1, EOMONTH(start_date, -1)) AS start_of_month,
        COUNT(*) AS trial_plan_count
 FROM foodie_fi.dbo.subscriptions
 WHERE plan_id = 0
 GROUP BY YEAR(start_date),
-	 DATENAME(mm, start_date),
-	 DATEADD(mm, DATEDIFF(mm, 0, start_date), 0),
-	 MONTH(start_date)
+         DATENAME(mm, start_date),
+         DATEADD(DAY, 1, EOMONTH(start_date, -1)),
+         MONTH(start_date)
 ORDER BY MONTH(start_date);
 
 -- 	3. What plan `start_date` values occur after the year 2020 for our dataset? Show the breakdown by count of events for each `plan_name`.
