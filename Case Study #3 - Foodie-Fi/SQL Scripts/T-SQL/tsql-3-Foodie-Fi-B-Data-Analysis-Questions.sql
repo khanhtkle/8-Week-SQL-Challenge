@@ -97,7 +97,8 @@ FROM customer_status_cte AS cs
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = cs.plan_id
 WHERE plan_index = 1
 GROUP BY cs.plan_id,
-         plan_name;
+         plan_name
+ORDER BY plan_id;
 
 -- 	8. How many customers have upgraded to an annual plan in 2020?
 
