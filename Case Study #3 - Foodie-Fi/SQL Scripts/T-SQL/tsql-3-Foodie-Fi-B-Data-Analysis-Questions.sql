@@ -10,13 +10,13 @@ FROM foodie_fi.dbo.subscriptions;
 
 SELECT YEAR(start_date) AS year,
        DATENAME(mm, start_date) AS month,
-       CAST(DATEADD(MONTH, DATEDIFF(MONTH, 0, start_date), 0) AS DATE) AS start_of_month,
+       CAST(DATEADD(mm, DATEDIFF(mm, 0, start_date), 0) AS DATE) AS start_of_month,
        COUNT(*) AS trial_plan_count
 FROM foodie_fi.dbo.subscriptions
 WHERE plan_id = 0
 GROUP BY YEAR(start_date),
 	 DATENAME(mm, start_date),
-	 DATEADD(MONTH, DATEDIFF(MONTH, 0, start_date), 0),
+	 DATEADD(mm, DATEDIFF(mm, 0, start_date), 0),
 	 MONTH(start_date)
 ORDER BY MONTH(start_date);
 
