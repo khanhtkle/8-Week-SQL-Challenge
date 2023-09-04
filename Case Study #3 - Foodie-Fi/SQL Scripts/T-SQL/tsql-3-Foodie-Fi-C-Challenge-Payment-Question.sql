@@ -16,7 +16,7 @@ SELECT customer_id,
        CASE
            WHEN plan_id = 4 THEN start_date
            ELSE LEAD(start_date, 1, GETDATE()) OVER (PARTITION BY customer_id
-														 ORDER BY start_date)
+                                                     ORDER BY start_date)
        END AS d_date INTO foodie_fi.dbo.trackers
 FROM foodie_fi.dbo.subscriptions;
 
@@ -26,7 +26,6 @@ FROM foodie_fi.dbo.trackers;
 --	2. Create a table `monthly_plans` from `trackers` table:
 
 DROP TABLE IF EXISTS foodie_fi.dbo.monthly_plans;
-
 WITH recursive_cte AS
   (SELECT customer_id,
           plan_id,
@@ -37,10 +36,10 @@ WITH recursive_cte AS
    WHERE plan_id IN ('1', '2')
    UNION ALL 
    SELECT customer_id,
-		  plan_id,
-		  first_date,
-		  DATEADD(mm, 1, start_date),
-		  d_date
+	  plan_id,
+	  first_date,
+	  DATEADD(mm, 1, start_date),
+	  d_date
    FROM recursive_cte
    WHERE DATEADD(mm, 1, start_date) < d_date)
 SELECT customer_id,
@@ -54,7 +53,8 @@ SELECT customer_id,
        CASE
            WHEN DAY(first_date) IN ('29', '30', '31') THEN DATEADD(mm, DATEDIFF(mm, first_date, start_date) + 1, first_date)
            ELSE DATEADD(mm, 1, start_date)
-       END AS estimated_new_start_date INTO foodie_fi.dbo.monthly_plans
+       END AS estimated_new_start_date 
+INTO foodie_fi.dbo.monthly_plans
 FROM recursive_cte;
 
 SELECT *
@@ -75,10 +75,10 @@ WITH recursive_cte AS
    WHERE plan_id = 3
    UNION ALL 
    SELECT customer_id,
-		  plan_id,
-		  first_date,
-		  DATEADD(yy, 1, start_date),
-		  d_date
+	  plan_id,
+	  first_date,
+	  DATEADD(yy, 1, start_date),
+	  d_date
    FROM recursive_cte
    WHERE DATEADD(yy, 1, start_date) < d_date)
 SELECT customer_id,
@@ -108,23 +108,24 @@ DROP TABLE IF EXISTS foodie_fi.dbo.payment_calculations;
 WITH expanded_trackers_cte AS
   (SELECT *
    FROM foodie_fi.dbo.monthly_plans
-   UNION ALL SELECT *
+   UNION ALL 
+   SELECT *
    FROM foodie_fi.dbo.annual_plans)
 SELECT customer_id,
        et.plan_id,
        plan_name,
        start_date AS payment_date,
-       LAG(et.plan_id) OVER (PARTITION BY customer_id 
-								 ORDER BY start_date) AS previous_plan_id,
-       LAG(DATEDIFF(dd, start_date, estimated_new_start_date)) OVER (PARTITION BY customer_id 
-																		 ORDER BY start_date) AS estimated_day_between_previous_plan,
-       DATEDIFF(dd, LAG(et.start_date) OVER (PARTITION BY customer_id 
-												 ORDER BY start_date), start_date) AS actual_day_between_previous_plan, 
-       LAG(price) OVER (PARTITION BY customer_id 
-							ORDER BY start_date) previous_price,
+       LAG(et.plan_id) OVER (PARTITION BY customer_id
+                             ORDER BY start_date) AS previous_plan_id,
+       LAG(DATEDIFF(dd, start_date, estimated_new_start_date)) OVER (PARTITION BY customer_id
+                                                                     ORDER BY start_date) AS estimated_day_between_previous_plan,
+       DATEDIFF(dd, LAG(et.start_date) OVER (PARTITION BY customer_id
+					     ORDER BY start_date), start_date) AS actual_day_between_previous_plan,
+       LAG(price) OVER (PARTITION BY customer_id
+			ORDER BY start_date) previous_price,
        price,
-       ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY start_date) AS payment
-INTO foodie_fi.dbo.payment_calculations
+       ROW_NUMBER() OVER (PARTITION BY customer_id
+			  ORDER BY start_date) AS payment INTO foodie_fi.dbo.payment_calculations
 FROM expanded_trackers_cte AS et
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = et.plan_id;
 
