@@ -17,7 +17,8 @@ SELECT customer_id,
            WHEN plan_id = 4 THEN start_date
            ELSE LEAD(start_date, 1, GETDATE()) OVER (PARTITION BY customer_id
                                                      ORDER BY start_date)
-       END AS d_date INTO foodie_fi.dbo.trackers
+       END AS d_date 
+INTO foodie_fi.dbo.trackers
 FROM foodie_fi.dbo.subscriptions;
 
 SELECT *
@@ -94,7 +95,8 @@ SELECT customer_id,
            WHEN DAY(first_date) = 29
                 AND MONTH(first_date) = 2 THEN DATEADD(yy, DATEDIFF(yy, first_date, start_date) + 1, first_date)
            ELSE DATEADD(yy, 1, start_date)
-       END AS estimated_renew_start_date INTO foodie_fi.dbo.annual_plans
+       END AS estimated_renew_start_date 
+INTO foodie_fi.dbo.annual_plans
 FROM recursive_cte;
 
 SELECT *
@@ -125,7 +127,8 @@ SELECT customer_id,
 			ORDER BY start_date) previous_price,
        price,
        ROW_NUMBER() OVER (PARTITION BY customer_id
-			  ORDER BY start_date) AS payment INTO foodie_fi.dbo.payment_calculations
+			  ORDER BY start_date) AS payment 
+INTO foodie_fi.dbo.payment_calculations
 FROM expanded_trackers_cte AS et
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = et.plan_id;
 
