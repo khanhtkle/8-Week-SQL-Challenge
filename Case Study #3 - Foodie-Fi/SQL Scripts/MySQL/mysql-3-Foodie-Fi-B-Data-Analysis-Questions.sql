@@ -37,7 +37,7 @@ SELECT SUM(CASE
            END) AS total_churned_customer_count,
        CAST(100.0 * SUM(CASE
                             WHEN plan_id = 4 THEN 1
-                        END) / COUNT(DISTINCT customer_id) AS DECIMAL(5, 1)) AS total_churn_pct
+                        END) / COUNT(DISTINCT customer_id) AS DECIMAL(5,1)) AS total_churn_pct
 FROM foodie_fi.subscriptions;
 
 -- 	5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
@@ -88,7 +88,7 @@ SELECT cs.plan_id,
        plan_name,
        COUNT(*) AS plan_usage_count,
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-				FROM foodie_fi.subscriptions) AS DECIMAL(5, 1)) AS plan_usage_pct
+				FROM foodie_fi.subscriptions) AS DECIMAL(5,1)) AS plan_usage_pct
 FROM customer_status_cte AS cs
 JOIN foodie_fi.plans AS pl ON pl.plan_id = cs.plan_id
 WHERE plan_index = 1
