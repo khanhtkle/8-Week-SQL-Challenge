@@ -109,7 +109,7 @@ WHERE plan_id = 3
 
 -- 	9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
 
-SELECT AVG(DATEDIFF(dd, s1.start_date, s2.start_date)) AS avg_days_to_upgrade_to_annual_plan
+SELECT CEILING(AVG(1.0 * DATEDIFF(dd, s1.start_date, s2.start_date))) AS avg_days_to_upgrade_to_annual_plan
 FROM foodie_fi.dbo.subscriptions AS s1
 JOIN foodie_fi.dbo.subscriptions AS s2 ON s1.customer_id = s2.customer_id
 WHERE s1.plan_id = 0
