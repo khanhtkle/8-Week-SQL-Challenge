@@ -40,7 +40,7 @@ SELECT SUM(CASE
            END) AS total_churned_customer_count,
        CAST(100.0 * SUM(CASE
                             WHEN plan_id = 4 THEN 1
-                        END) / COUNT(DISTINCT customer_id) AS DECIMAL(5, 1)) AS total_churn_pct
+                        END) / COUNT(DISTINCT customer_id) AS DECIMAL(5,1)) AS total_churn_pct
 FROM foodie_fi.dbo.subscriptions;
 
 -- 	5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
@@ -53,7 +53,7 @@ WITH next_plan_id_cte AS
    FROM foodie_fi.dbo.subscriptions)
 SELECT COUNT(*) AS post_trial_churned_customer_count,
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5, 1)) AS post_trial_churned_customer_pct
+				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5,1)) AS post_trial_churned_customer_pct
 FROM next_plan_id_cte
 WHERE plan_id = 0
   AND next_plan_id = 4;
@@ -70,7 +70,7 @@ SELECT next_plan_id AS plan_id,
        plan_name,
        COUNT(*) AS post_trial_selection_count,
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5, 1)) AS post_trial_selection_pct
+				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5,1)) AS post_trial_selection_pct
 FROM next_plan_id_cte AS np
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = np.next_plan_id
 WHERE np.plan_id = 0
@@ -92,7 +92,7 @@ SELECT cs.plan_id,
        plan_name,
        COUNT(*) AS plan_usage_count,
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5, 1)) AS plan_usage_pct
+				FROM foodie_fi.dbo.subscriptions) AS DECIMAL(5,1)) AS plan_usage_pct
 FROM customer_status_cte AS cs
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = cs.plan_id
 WHERE plan_index = 1
