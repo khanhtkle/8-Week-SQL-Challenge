@@ -132,7 +132,7 @@ SELECT CASE
            WHEN DATEDIFF(dd, s1.start_date, s2.start_date) / 30.0 BETWEEN 11 AND 12 THEN '331-360 days'
            WHEN DATEDIFF(dd, s1.start_date, s2.start_date) / 30.0 BETWEEN 12 AND 13 THEN '361-390 days'
        END AS period,
-       AVG(DATEDIFF(dd, s1.start_date, s2.start_date)) AS avg_days_to_upgrade_to_annual_plan
+       CEILING(AVG(1.0 * DATEDIFF(dd, s1.start_date, s2.start_date))) AS avg_days_to_upgrade_to_annual_plan
 FROM foodie_fi.dbo.subscriptions AS s1
 JOIN foodie_fi.dbo.subscriptions AS s2 ON s1.customer_id = s2.customer_id
 WHERE s1.plan_id = 0
@@ -152,7 +152,7 @@ GROUP BY CASE
              WHEN DATEDIFF(dd, s1.start_date, s2.start_date) / 30.0 BETWEEN 11 AND 12 THEN '331-360 days'
              WHEN DATEDIFF(dd, s1.start_date, s2.start_date) / 30.0 BETWEEN 12 AND 13 THEN '361-390 days'
          END
-ORDER BY AVG(DATEDIFF(dd, s1.start_date, s2.start_date));
+ORDER BY CEILING(AVG(1.0 * DATEDIFF(dd, s1.start_date, s2.start_date)));
 
 -- 	11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
 
