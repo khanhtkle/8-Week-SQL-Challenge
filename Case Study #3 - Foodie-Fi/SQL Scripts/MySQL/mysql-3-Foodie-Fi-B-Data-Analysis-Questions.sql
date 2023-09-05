@@ -9,8 +9,8 @@ FROM foodie_fi.subscriptions;
 -- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset - use the start of the month as the group by value
 
 SELECT YEAR(start_date) AS year,
-	   MONTHNAME(start_date) AS month,
-	   DATE_FORMAT(start_date, '%Y-%m-01') AS start_of_month,
+       MONTHNAME(start_date) AS month,
+       DATE_FORMAT(start_date, '%Y-%m-01') AS start_of_month,
        COUNT(*) AS trial_plan_count
 FROM foodie_fi.subscriptions
 WHERE plan_id = 0
@@ -21,8 +21,8 @@ ORDER BY MONTH(start_date);
 -- 	3. What plan `start_date` values occur after the year 2020 for our dataset? Show the breakdown by count of events for each `plan_name`.
 
 SELECT YEAR(start_date) AS year,
-	   su.plan_id,
-	   plan_name,
+       su.plan_id,
+       plan_name,
        COUNT(*) AS event_count
 FROM foodie_fi.subscriptions AS su
 JOIN foodie_fi.plans AS pl ON pl.plan_id = su.plan_id
@@ -33,10 +33,10 @@ ORDER BY 2;
 -- 	4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
 
 SELECT SUM(CASE
-               WHEN plan_id = 0 THEN 1
+               WHEN plan_id = 4 THEN 1
            END) AS total_churned_customer_count,
        CAST(100.0 * SUM(CASE
-                            WHEN plan_id = 0 THEN 1
+                            WHEN plan_id = 4 THEN 1
                         END) / COUNT(DISTINCT customer_id) AS DECIMAL(5, 1)) AS total_churn_pct
 FROM foodie_fi.subscriptions;
 
@@ -46,11 +46,11 @@ WITH next_plan_id_cte AS
   (SELECT customer_id,
           plan_id,
           LEAD(plan_id) OVER (PARTITION BY customer_id
-							  ORDER BY start_date) AS next_plan_id
+			      ORDER BY start_date) AS next_plan_id
    FROM foodie_fi.subscriptions)
 SELECT COUNT(*) AS post_trial_churned_customer_count, 
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-								FROM foodie_fi.subscriptions) AS DECIMAL(5,0)) AS post_trial_churned_customer_pct
+				FROM foodie_fi.subscriptions) AS DECIMAL(5,1)) AS post_trial_churned_customer_pct
 FROM next_plan_id_cte
 WHERE plan_id = 0
   AND next_plan_id = 4;
@@ -61,13 +61,13 @@ WITH next_plan_id_cte AS
   (SELECT customer_id,
           plan_id,
           LEAD(plan_id) OVER (PARTITION BY customer_id
-							  ORDER BY start_date) AS next_plan_id
+			      ORDER BY start_date) AS next_plan_id
    FROM foodie_fi.subscriptions)
 SELECT next_plan_id AS plan_id,
 	   plan_name,
 	   COUNT(*) AS post_trial_selection_count,
        CAST(100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-								FROM foodie_fi.subscriptions) AS DECIMAL(5,0)) AS post_trial_selection_pct
+				FROM foodie_fi.subscriptions) AS DECIMAL(5,1)) AS post_trial_selection_pct
 FROM next_plan_id_cte AS np
 JOIN foodie_fi.plans AS pl ON pl.plan_id = np.next_plan_id
 WHERE np.plan_id = 0
