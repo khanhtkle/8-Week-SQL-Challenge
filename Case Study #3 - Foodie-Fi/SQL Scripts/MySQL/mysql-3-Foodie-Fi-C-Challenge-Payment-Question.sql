@@ -17,7 +17,7 @@ CREATE TABLE foodie_fi.trackers AS
           CASE
               WHEN plan_id = 4 THEN start_date
               ELSE LEAD(start_date, 1, CAST(CURRENT_TIMESTAMP() AS DATE)) OVER (PARTITION BY customer_id
-																				ORDER BY start_date)
+										ORDER BY start_date)
           END AS d_date
    FROM foodie_fi.subscriptions);
 
@@ -38,24 +38,24 @@ CREATE TABLE foodie_fi.monthly_plans AS
       WHERE plan_id IN ('1', '2')
       UNION ALL 
       SELECT customer_id,
-			 plan_id,
+	     plan_id,
              first_date,
              DATE_ADD(start_date, INTERVAL 1 MONTH),
              d_date
       FROM recursive_cte
       WHERE DATE_ADD(start_date, INTERVAL 1 MONTH) < d_date)
    SELECT customer_id,
-		  plan_id,
+	  plan_id,
           first_date,
           CASE
               WHEN DAY(first_date) IN ('29', '30', '31') THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(MONTH, first_date, start_date)) MONTH)
               ELSE start_date
-		  END AS start_date,
+	  END AS start_date,
           d_date,
           CASE
-			  WHEN DAY(first_date) IN ('29', '30', '31') THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(MONTH, first_date, start_date) + 1) MONTH)
+	      WHEN DAY(first_date) IN ('29', '30', '31') THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(MONTH, first_date, start_date) + 1) MONTH)
               ELSE DATE_ADD(start_date, INTERVAL 1 MONTH)
-		  END AS estimated_new_start_date
+	  END AS estimated_new_start_date
    FROM recursive_cte
    ORDER BY 1, 4);
 
@@ -76,25 +76,25 @@ CREATE TABLE foodie_fi.annual_plans AS
       WHERE plan_id = 3
       UNION ALL 
       SELECT customer_id,
-			 plan_id,
+	     plan_id,
              first_date,
              DATE_ADD(start_date, INTERVAL 1 YEAR),
              d_date
       FROM recursive_cte
       WHERE DATE_ADD(start_date, INTERVAL 1 YEAR) < d_date) 
    SELECT customer_id,
-		  plan_id,
+	  plan_id,
           first_date,
           CASE
               WHEN DAY(first_date) = 29
-				   AND MONTH(first_date) = 2 THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(YEAR, first_date, start_date)) YEAR)
-			  ELSE start_date
-		  END AS start_date,
+		   AND MONTH(first_date) = 2 THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(YEAR, first_date, start_date)) YEAR)
+	      ELSE start_date
+	  END AS start_date,
           d_date,
           CASE
-			  WHEN DAY(first_date) = 29
-				   AND MONTH(first_date) = 2 THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(YEAR, first_date, start_date) + 1) YEAR)
-			  ELSE DATE_ADD(start_date, INTERVAL 1 YEAR)
+	      WHEN DAY(first_date) = 29
+		   AND MONTH(first_date) = 2 THEN DATE_ADD(first_date, INTERVAL (TIMESTAMPDIFF(YEAR, first_date, start_date) + 1) YEAR)
+	      ELSE DATE_ADD(start_date, INTERVAL 1 YEAR)
           END AS estimated_renew_start_date
    FROM recursive_cte
    ORDER BY 1, 4);
@@ -113,20 +113,20 @@ CREATE TABLE foodie_fi.payment_calculations AS
       SELECT *
       FROM foodie_fi.annual_plans) 
    SELECT customer_id,
-		  et.plan_id,
+	  et.plan_id,
           plan_name,
           start_date AS payment_date,
           LAG(et.plan_id) OVER (PARTITION BY customer_id
-								ORDER BY start_date) AS previous_plan_id,
-		  LAG(TIMESTAMPDIFF(DAY, start_date, estimated_new_start_date)) OVER (PARTITION BY customer_id
-																			  ORDER BY start_date) AS estimated_day_between_previous_plan,
-		  TIMESTAMPDIFF(DAY, LAG(et.start_date) OVER (PARTITION BY customer_id
-													  ORDER BY start_date), start_date) AS actual_day_between_previous_plan,
-		  LAG(price) OVER (PARTITION BY customer_id
-						   ORDER BY start_date) previous_price,
-		  price,
+				ORDER BY start_date) AS previous_plan_id,
+	  LAG(TIMESTAMPDIFF(DAY, start_date, estimated_new_start_date)) OVER (PARTITION BY customer_id
+									      ORDER BY start_date) AS estimated_day_between_previous_plan,
+	  TIMESTAMPDIFF(DAY, LAG(et.start_date) OVER (PARTITION BY customer_id
+						      ORDER BY start_date), start_date) AS actual_day_between_previous_plan,
+	  LAG(price) OVER (PARTITION BY customer_id
+			   ORDER BY start_date) previous_price,
+	  price,
           ROW_NUMBER() OVER (PARTITION BY customer_id
-							 ORDER BY start_date) AS payment
+			     ORDER BY start_date) AS payment
    FROM expanded_trackers_cte AS et
    JOIN foodie_fi.plans AS pl ON pl.plan_id = et.plan_id);
 
