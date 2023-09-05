@@ -8,15 +8,15 @@ FROM foodie_fi.dbo.subscriptions;
 
 -- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset - use the start of the month as the group by value
 
-SELECT YEAR(start_date) AS YEAR,
-       DATENAME(mm, start_date) AS MONTH,
-       DATEADD(DAY, 1, EOMONTH(start_date, -1)) AS start_of_month,
+SELECT YEAR(start_date) AS year,
+       DATENAME(mm, start_date) AS month,
+       FORMAT(start_date, 'yyyy-MM-01') AS start_of_month,
        COUNT(*) AS trial_plan_count
 FROM foodie_fi.dbo.subscriptions
 WHERE plan_id = 0
 GROUP BY YEAR(start_date),
          DATENAME(mm, start_date),
-         DATEADD(DAY, 1, EOMONTH(start_date, -1)),
+         FORMAT(start_date, 'yyyy-MM-01'),
          MONTH(start_date)
 ORDER BY MONTH(start_date);
 
