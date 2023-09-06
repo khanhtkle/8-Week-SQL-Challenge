@@ -6,7 +6,7 @@
 SELECT COUNT(DISTINCT customer_id) AS customer_count
 FROM foodie_fi.dbo.subscriptions;
 
--- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset - use the start of the month as the group by value
+-- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset? Use the start of the month as the group by value.
 
 SELECT YEAR(start_date) AS year,
        DATENAME(mm, start_date) AS month,
@@ -115,7 +115,7 @@ JOIN foodie_fi.dbo.subscriptions AS s2 ON s1.customer_id = s2.customer_id
 WHERE s1.plan_id = 0
   AND s2.plan_id = 3;
 
--- 	10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+-- 	10. Can you further breakdown this average value into 30 day periods? (i.e. 0-30 days, 31-60 days etc)
 
 SELECT CASE
            WHEN DATEDIFF(dd, s1.start_date, s2.start_date) / 30.0 BETWEEN 0 AND 1 THEN '0-30 days'
