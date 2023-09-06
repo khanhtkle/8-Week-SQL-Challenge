@@ -20,4 +20,3 @@ ORDER BY 1, 3;
 -- 		- Customer 16: Started trial on May 31, 2020. Upgraded to "Basic Monthly" plan on June 7, 2020. Further upgraded to "Pro Annual" plan on October 21, 2020.
 -- 		- Customer 18: Started trial on July 6, 2020. Upgraded to "Pro Monthly" plan on July 13, 2020.
 -- 		- Customer 19: Started trial on June 22, 2020. Upgraded to "Pro Monthly" plan on June 29, 2020. Further upgraded to "Pro Annual" plan on August 29, 2020.
-
