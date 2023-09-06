@@ -74,7 +74,6 @@ SELECT next_plan_id AS plan_id,
 FROM next_plan_id_cte AS np
 JOIN foodie_fi.dbo.plans AS pl ON pl.plan_id = np.next_plan_id
 WHERE np.plan_id = 0
-  AND next_plan_id != 4
 GROUP BY next_plan_id,
          plan_name
 ORDER BY plan_id;
@@ -100,14 +99,14 @@ GROUP BY cs.plan_id,
          plan_name
 ORDER BY plan_id;
 
--- 	8. How many customers have upgraded to an annual plan in 2020?
+-- 	8. How many customers have upgraded to an `annual` plan in 2020?
 
 SELECT COUNT(*) AS upgraded_customer_2020_count
 FROM foodie_fi.dbo.subscriptions
 WHERE plan_id = 3
   AND YEAR(start_date) = 2020;
 
--- 	9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
+-- 	9. How many days on average does it take for a customer to an `annual` plan from the day they join Foodie-Fi?
 
 SELECT CEILING(AVG(1.0 * DATEDIFF(dd, s1.start_date, s2.start_date))) AS avg_days_to_upgrade_to_annual_plan
 FROM foodie_fi.dbo.subscriptions AS s1
@@ -154,7 +153,7 @@ GROUP BY CASE
          END
 ORDER BY CEILING(AVG(1.0 * DATEDIFF(dd, s1.start_date, s2.start_date)));
 
--- 	11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+-- 	11. How many customers downgraded from a `pro monthly` to a `basic monthly` plan in 2020?
 
 SELECT COUNT(*) AS downgraded_customer_count_2020
 FROM foodie_fi.dbo.subscriptions AS s1
