@@ -243,7 +243,7 @@ SELECT customer_id,
        payment_date,
        CASE
            WHEN previous_plan_id < plan_id
-                AND estimated_day_between_previous_plan > actual_day_between_previous_plan THEN price - previous_price
+                AND actual_day_between_previous_plan < estimated_day_between_previous_plan THEN price - previous_price
            ELSE price
        END AS price,
        payment 
