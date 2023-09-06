@@ -6,7 +6,7 @@
 SELECT COUNT(DISTINCT customer_id) AS customer_count
 FROM foodie_fi.subscriptions;
 
--- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset - use the start of the month as the group by value
+-- 	2. What is the monthly distribution of `trial` plan `start_date` values for our dataset? Use the start of the month as the group by value.
 
 SELECT YEAR(start_date) AS year,
        MONTHNAME(start_date) AS month,
@@ -40,7 +40,7 @@ SELECT SUM(CASE
                         END) / COUNT(DISTINCT customer_id) AS DECIMAL(5,1)) AS total_churn_pct
 FROM foodie_fi.subscriptions;
 
--- 	5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+-- 	5. How many customers have churned straight after their initial free trial? What percentage is this rounded to the nearest whole number?
 
 WITH next_plan_id_cte AS
   (SELECT customer_id,
@@ -75,7 +75,7 @@ WHERE np.plan_id = 0
 GROUP BY 1, 2
 ORDER BY 1;
 
--- 	7. What is the customer count and percentage breakdown of all 5 `plan_name` values at `2020-12-31`?
+-- 	7. What is the customer count and percentage breakdown of all 5 `plan_name` values at 2020-12-31?
 
 WITH customer_status_cte AS
   (SELECT *,
@@ -109,7 +109,7 @@ JOIN foodie_fi.subscriptions AS s2 ON s1.customer_id = s2.customer_id
 WHERE s1.plan_id = 0
   AND s2.plan_id = 3;
 
--- 	10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+-- 	10. Can you further breakdown this average value into 30 day periods? (i.e. 0-30 days, 31-60 days etc)
 
 SELECT CASE
            WHEN TIMESTAMPDIFF(DAY, s1.start_date, s2.start_date) / 30.0 BETWEEN 0 AND 1 THEN '0-30 days'
