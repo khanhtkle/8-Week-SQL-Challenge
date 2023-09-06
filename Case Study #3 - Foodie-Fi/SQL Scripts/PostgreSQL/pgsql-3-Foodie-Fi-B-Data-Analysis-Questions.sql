@@ -19,15 +19,16 @@ ORDER BY DATE_PART('month', start_date);
 
 -- 	3. What plan `start_date` values occur after the year 2020 for our dataset? Show the breakdown by count of events for each `plan_name`.
 
-	SELECT DATE_PART('year', start_date) AS year,
-		   su.plan_id,
-		   plan_name,
-		   COUNT(*) AS event_count
-	FROM foodie_fi.subscriptions AS su
-	JOIN foodie_fi.plans AS pl ON pl.plan_id = su.plan_id
-	WHERE DATE_PART('year', start_date) > 2020
-	GROUP BY 1, 2, 3
-	ORDER BY 2;
+
+SELECT DATE_PART('year', start_date) AS year,
+       su.plan_id,
+       plan_name,
+       COUNT(*) AS event_count
+FROM foodie_fi.subscriptions AS su
+JOIN foodie_fi.plans AS pl ON pl.plan_id = su.plan_id
+WHERE DATE_PART('year', start_date) > 2020
+GROUP BY 1, 2, 3
+ORDER BY 2;
 
 -- 	4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
 
@@ -49,7 +50,7 @@ WITH next_plan_id_cte AS
    FROM foodie_fi.subscriptions)
 SELECT COUNT(*) AS post_trial_churned_customer_count,
        (100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-           					FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS post_trial_churned_customer_pct
+           		    FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS post_trial_churned_customer_pct
 FROM next_plan_id_cte
 WHERE plan_id = 0
   AND next_plan_id = 4;
@@ -66,7 +67,7 @@ SELECT next_plan_id AS plan_id,
        plan_name,
        COUNT(*) AS post_trial_selection_count,
        (100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-           					FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS post_trial_selection_pct
+           		    FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS post_trial_selection_pct
 FROM next_plan_id_cte AS np
 JOIN foodie_fi.plans AS pl ON pl.plan_id = np.next_plan_id
 WHERE np.plan_id = 0
@@ -87,7 +88,7 @@ SELECT cs.plan_id,
        plan_name,
        COUNT(*) AS plan_usage_count,
        (100.0 * COUNT(*) / (SELECT COUNT(DISTINCT customer_id)
-           					FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS plan_usage_pct
+           		    FROM foodie_fi.subscriptions))::DECIMAL(5, 1) AS plan_usage_pct
 FROM customer_status_cte AS cs
 JOIN foodie_fi.plans AS pl ON pl.plan_id = cs.plan_id
 WHERE plan_index = 1
