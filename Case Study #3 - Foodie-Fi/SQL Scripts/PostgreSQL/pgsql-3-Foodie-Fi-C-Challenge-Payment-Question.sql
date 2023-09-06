@@ -17,11 +17,11 @@ CREATE TABLE foodie_fi.trackers AS
           CASE
               WHEN plan_id = 4 THEN start_date
               ELSE LEAD(start_date, 1, CAST(CURRENT_TIMESTAMP AS DATE)) OVER (PARTITION BY customer_id
-									  ORDER BY start_date)
+									      ORDER BY start_date)
           END AS d_date
    FROM foodie_fi.subscriptions);
 
-	SELECT *
+SELECT *
 FROM foodie_fi.trackers;
 
 -- 	2. Create a table `monthly_plans` from `trackers` table:
@@ -48,14 +48,14 @@ CREATE TABLE foodie_fi.monthly_plans AS
 	  plan_id,
           first_date,
           CASE
-			  WHEN DATE_PART('day', first_date) IN ('29', '30', '31') THEN first_date + (DATE_PART('month', start_date) - DATE_PART('month', first_date)) * INTERVAL '1 month'              
-   			  ELSE start_date
-	  	  END::DATE AS start_date,
+	      WHEN DATE_PART('day', first_date) IN ('29', '30', '31') THEN first_date + (DATE_PART('month', start_date) - DATE_PART('month', first_date)) * INTERVAL '1 month'              
+   	      ELSE start_date
+	  END::DATE AS start_date,
           d_date,
           CASE
-			  WHEN DATE_PART('day', first_date) IN ('29', '30', '31') THEN first_date + (DATE_PART('month', start_date) - DATE_PART('month', first_date) + 1) * INTERVAL '1 month'
-			  ELSE start_date + INTERVAL '1 month'
-	  	 END::DATE AS estimated_new_start_date
+	      WHEN DATE_PART('day', first_date) IN ('29', '30', '31') THEN first_date + (DATE_PART('month', start_date) - DATE_PART('month', first_date) + 1) * INTERVAL '1 month'
+	      ELSE start_date + INTERVAL '1 month'
+	  END::DATE AS estimated_new_start_date
    FROM recursive_cte
    ORDER BY 1, 4);
 
@@ -92,9 +92,9 @@ CREATE TABLE foodie_fi.annual_plans AS
 	  END::DATE AS start_date,
           d_date,
           CASE
-	      	  WHEN DATE_PART('day', first_date) = 29
-		   		  AND DATE_PART('month', first_date) = 2 THEN first_date + (DATE_PART('year', start_date) - DATE_PART('year', first_date) + 1) * INTERVAL '1 year'
-	      	  ELSE start_date + INTERVAL '1 year'
+	      WHEN DATE_PART('day', first_date) = 29
+		   AND DATE_PART('month', first_date) = 2 THEN first_date + (DATE_PART('year', start_date) - DATE_PART('year', first_date) + 1) * INTERVAL '1 year'
+	      ELSE start_date + INTERVAL '1 year'
           END::DATE AS estimated_renew_start_date
    FROM recursive_cte
    ORDER BY 1, 4);
@@ -119,9 +119,9 @@ CREATE TABLE foodie_fi.payment_calculations AS
           LAG(et.plan_id) OVER (PARTITION BY customer_id
 				ORDER BY start_date) AS previous_plan_id,
 	  LAG(estimated_new_start_date - start_date) OVER (PARTITION BY customer_id
-									      ORDER BY start_date) AS estimated_day_between_previous_plan,
-	 start_date - LAG(et.start_date) OVER (PARTITION BY customer_id
-						      ORDER BY start_date) AS actual_day_between_previous_plan,
+							   ORDER BY start_date) AS estimated_day_between_previous_plan,
+	  start_date - LAG(et.start_date) OVER (PARTITION BY customer_id
+						ORDER BY start_date) AS actual_day_between_previous_plan,
 	  LAG(price) OVER (PARTITION BY customer_id
 			   ORDER BY start_date) previous_price,
 	  price,
