@@ -43,7 +43,7 @@ SELECT SUM(CASE
                         END) / COUNT(DISTINCT customer_id) AS DECIMAL(5,1)) AS total_churn_pct
 FROM foodie_fi.dbo.subscriptions;
 
--- 	5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+-- 	5. How many customers have churned straight after their initial free trial? What percentage is this rounded to the nearest whole number?
 
 WITH next_plan_id_cte AS
   (SELECT customer_id,
@@ -79,7 +79,7 @@ GROUP BY next_plan_id,
          plan_name
 ORDER BY plan_id;
 
--- 	7. What is the customer count and percentage breakdown of all 5 `plan_name` values at `2020-12-31`?
+-- 	7. What is the customer count and percentage breakdown of all 5 `plan_name` values at 2020-12-31?
 
 WITH customer_status_cte AS
   (SELECT *,
