@@ -15,7 +15,7 @@
 <br>
 
 1. Create a table `trackers` from `subscriptions` table :
-- In this initial table, our goal is to define and clarify the starting and ending points of each customer's subscription periods. This will allow us to easily apply some techniques to expand our data in the future.
+- In this initial table, our goal is to define and clarify the starting and ending points of each customer's subscription periods. This will allow us to easily apply some techniques to expand our data afterwards.
 
 	- Establish the core  by including the `customer_id`, `plan_id`, and `start_date`.
  	- Rename the `start_date` column as `first_date` for better alignment with the context.
@@ -207,7 +207,7 @@ ORDER BY customer_id,
 
 4. Create a table `payment_calculations` from `monthly_plans`, `annual_plans`, and `plans` tables:
 
-- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play a key metric for us to precisely calculate the customer's payments later.
+- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play as key metrics to calculate the customer's payments in the next step.
 
 	- Apply the `UNION ALL` operation and establish the core by including the `customer_id`, `plan_id`, and `start_date`.
 
