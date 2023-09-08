@@ -7,12 +7,23 @@
 </picture>
 
 ### The Foodie-Fi team wants you to create a new payments table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
-- Monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan.
-- Upgrades from `basic monthly` to `pro monthly` or `pro anual` are reduced by the current paid amount in that month and start immediately.
-- Upgrades from `pro monthly` to `pro annual` are paid at the end of the current billing period and also starts at the end of the month period.
-- Once a customer churns they will no longer make payments.
+### - Monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan.
+### - Upgrades from `basic monthly` to `pro monthly` or `pro anual` are reduced by the current paid amount in that month and start immediately.
+### - Upgrades from `pro monthly` to `pro annual` are paid at the end of the current billing period and also starts at the end of the month period.
+### - Once a customer churns they will no longer make payments.
+
+<br>
 
 1. Create a table `trackers` from `subscriptions` table :
+- In this initial table, our goal is to define and clarify the starting and ending points of each customer's subscription periods. This will allow us to easily apply some techniques to expand our data in the future.
+
+	- Establish the core  by including the `customer_id`, `plan_id`, and `start_date`.
+ 	- Rename the `start_date` column as `first_date` for better alignment with the context.
+  	- Add a column `d_date` to indicate:
+  	  
+  		- the timestamp when the customers discontinue their subscriptions.
+  	 	- the timestamp when the customers make a transitions from an old subscription plan to a new one.
+  	  	- the current timestamp when the data is queried from the database for those customers who are still actively using the service.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.trackers;
 SELECT customer_id,
@@ -52,9 +63,18 @@ FROM foodie_fi.dbo.trackers;
 | 19          | 2       | 2020-06-29 | 2020-08-29 |
 | 19          | 3       | 2020-08-29 | 2023-05-14 |
 
-- The presented data comprises 20 out of 2,650 rows of the `trackers` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+> The presented dataset comprises 20 out of 2,650 rows of the `trackers` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+
+<br>
 
 2. Create a table `monthly_plans` from `trackers` table:
+- In this second table, our goal is to specify and aggregate the timestamp when the customers initiate their monthly subscriptions and when their subscription renewals take place. This will establish the foundation for us to precisely calculate the customer's payments at a later stage.
+
+	- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
+   
+ 	- Include another `first_date` column, rename it as `start_date`, and apply recursive common table expression to generate the timestamps for monthly subscription renewals, with the constraint on `d_date`.
+
+	- Add a column `estimated_new_start_date`, which also signifies the estimated timestamps for monthly subscription renewals, without being confined by `d_date`. The purpose behind this will be explained in a subsequent step.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.monthly_plans;
 WITH recursive_cte AS
@@ -117,9 +137,18 @@ ORDER BY customer_id,
 | 19          | 2       | 2020-06-29 | 2020-06-29 | 2020-08-29 | 2020-07-29               |
 | 19          | 2       | 2020-06-29 | 2020-07-29 | 2020-08-29 | 2020-08-29               |
 
- - The presented data comprises 21 out of 17,010 rows of the `monthly_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `start_date` in the year 2020.
+> The presented dataset comprises 21 out of 17,010 rows of the `monthly_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `start_date` in the year 2020.
+
+<br>
 
 3. Create a table `annual_plans` from `trackers` table:
+- In this third table, our goal is to specify the timestamp when the customers initiate their annual subscriptions and when their subscription renewals take place. This operation closely mirrors the one with `monthly_plans` table and it will continue to establish the foundation for us to precisely calculate the customer's payments at a later stage.
+
+	- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
+   
+ 	- Include another `first_date` column, rename it as `start_date`, and apply recursive common table expression to generate the timestamps for annual subscription renewals, with the constraint on `d_date`.
+
+	- Add a column `estimated_new_start_date`, which signifies the estimated timestamps for annually subscription renewals, without being confined by `d_date`. The purpose behind this will be explained in a subsequent step.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.annual_plans;
 WITH recursive_cte AS
@@ -172,9 +201,31 @@ ORDER BY customer_id,
 | 19          | 3       | 2020-08-29 | 2021-08-29 | 2023-05-14 | 2022-08-29                 |
 | 19          | 3       | 2020-08-29 | 2022-08-29 | 2023-05-14 | 2023-08-29                 |
 
- - The presented data comprises 9 out of 786 rows of the `annual_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+> The presented dataset comprises 9 out of 786 rows of the `annual_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+
+<br>
 
 4. Create a table `payment_calculations` from `monthly_plans`, `annual_plans`, and `plans` tables:
+
+- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play a key metric for us to precisely calculate the customer's payments at a later stage.
+
+	- Apply the `UNION ALL` operation and establish the core by including the `customer_id`, `plan_id`, and `start_date`.
+
+ 	- Rename the `start_date` column as `payment_date` for better alignment with the context.
+ 
+ 	- Include the `plan_name` alongside their respective `customer_id`, `plan_id`, and `payment_date`.
+ 
+  	- Add a column 'previous_plan_id', which signifies the subscription 'plan_id' of the preceding period..
+  
+  	- Add a column 'estimated_day_between_previous_plan', which calculate the number of days between 'start_date' of the previous subscription periods and theirs `estimated_renew_start_date`.
+  	
+  	- Add a column `actual_day_between_previous_plan`, which calculate the number of days between `start_date' of the previous subscription periods and 'start_date' of the current periods.
+  
+  	- Add a column 'previous_price', which signifies the price of the subscription plan using in the preceding period.
+  
+  	- Include the 'plan_name` and `price` alongside their respective 'plan_id' using in the current period.
+  	
+  	- Add a column 'payment', which assigns the sequential numbers of each customer's subscription payment.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.payment_calculations;
 WITH expanded_trackers_cte AS
@@ -232,9 +283,16 @@ FROM foodie_fi.dbo.payment_calculations;
 | 19          | 2       | pro monthly   | 2020-07-29   | 2                | 30                                  | 30                               | 19.90          | 19.90  | 2       |
 | 19          | 3       | pro annual    | 2020-08-29   | 2                | 31                                  | 31                               | 19.90          | 199.00 | 3       |
 
- - The presented data comprises 24 out of 17,796 rows of the `payment_calculations` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+> The presented dataset comprises 24 out of 17,796 rows of the `payment_calculations` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+
+<br>
 
 5. Create a table `payments` from `payment_calculations` table:
+- In this concluding table, our goal is to take into account all the factors prepared in the previous stage to calculate the payment price for each customer, aggregate the data to generate the desired dataset that matches the example output.
+
+	- Eshtablish the desired data by including `customer_id`, `plan_id`, `plan_name`, `payment_date`, and `payment`.
+
+  	- Add a column `price`, which not only signifies the cost of the subsciption plan being used in the current period but also accounts for any plan upgrades that occur within the same period, with the price of the new plan being reduced by the current paid amount.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.payments;
 SELECT customer_id,
@@ -281,7 +339,9 @@ WHERE YEAR(payment_date) = 2020;
 | 19          | 2       | pro monthly   | 2020-07-29   | 19.90  | 2       |
 | 19          | 3       | pro annual    | 2020-08-29   | 199.00 | 3       |
 
- - The presented data comprises 24 out of 17,796 rows of the `payments` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+> The presented dataset comprises 24 out of 17,796 rows of the `payments` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+
+<br>
 
 ---
-My solution for **[C. Challenge Payment Question](C.%20Challenge%20Payment%20Question.md)**.
+My solution for **[D. Outside The Box Questions](D.%20Outside%20The%20Box%20Questions.md)**.
