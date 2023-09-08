@@ -215,17 +215,17 @@ ORDER BY customer_id,
  
  	- Include the `plan_name` alongside their respective `customer_id`, `plan_id`, and `payment_date`.
  
-  	- Add a column 'previous_plan_id', which signifies the subscription 'plan_id' of the preceding period..
+  	- Add a column `previous_plan_id`, which signifies the subscription `plan_id` of the preceding period..
   
-  	- Add a column 'estimated_day_between_previous_plan', which calculate the number of days between 'start_date' of the previous subscription periods and theirs `estimated_renew_start_date`.
+  	- Add a column `estimated_day_between_previous_plan`, which calculate the number of days between `start_date` of the previous subscription periods and theirs `estimated_renew_start_date`.
   	
-  	- Add a column `actual_day_between_previous_plan`, which calculate the number of days between `start_date' of the previous subscription periods and 'start_date' of the current periods.
+  	- Add a column `actual_day_between_previous_plan`, which calculate the number of days between `start_date` of the previous subscription periods and `start_date` of the current periods.
   
-  	- Add a column 'previous_price', which signifies the price of the subscription plan using in the preceding period.
+  	- Add a column `previous_price`, which signifies the price of the subscription plan using in the preceding period.
   
-  	- Include the 'plan_name` and `price` alongside their respective 'plan_id' using in the current period.
+  	- Include the `plan_name` and `price` alongside their respective `plan_id` using in the current period.
   	
-  	- Add a column 'payment', which assigns the sequential numbers of each customer's subscription payment.
+  	- Add a column `payment`, which assigns the sequential numbers of each customer's subscription payment.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.payment_calculations;
 WITH expanded_trackers_cte AS
