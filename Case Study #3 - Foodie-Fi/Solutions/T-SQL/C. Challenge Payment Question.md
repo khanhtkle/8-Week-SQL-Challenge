@@ -68,7 +68,7 @@ FROM foodie_fi.dbo.trackers;
 <br>
 
 2. Create a table `monthly_plans` from `trackers` table:
-- In this second table, our goal is to specify and aggregate the timestamp when the customers initiate their monthly subscriptions and when their subscription renewals take place. This will establish the foundation for us to precisely calculate the customer's payments at a later stage.
+- In this second table, our goal is to specify the timestamp when the customers initiate their monthly subscriptions and when their subscription renewals take place. This will establish the foundation for us to precisely calculate the customer's payments later.
 
 	- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
    
@@ -142,7 +142,7 @@ ORDER BY customer_id,
 <br>
 
 3. Create a table `annual_plans` from `trackers` table:
-- In this third table, our goal is to specify the timestamp when the customers initiate their annual subscriptions and when their subscription renewals take place. This operation closely mirrors the one with `monthly_plans` table and it will continue to establish the foundation for us to precisely calculate the customer's payments at a later stage.
+- In this third table, our goal is to specify the timestamp when the customers initiate their annual subscriptions and when their subscription renewals take place. This operation closely mirrors the one with `monthly_plans` table and it will continue to establish the foundation for us to precisely calculate the customer's payments later.
 
 	- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
    
@@ -207,7 +207,7 @@ ORDER BY customer_id,
 
 4. Create a table `payment_calculations` from `monthly_plans`, `annual_plans`, and `plans` tables:
 
-- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play a key metric for us to precisely calculate the customer's payments at a later stage.
+- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play a key metric for us to precisely calculate the customer's payments later.
 
 	- Apply the `UNION ALL` operation and establish the core by including the `customer_id`, `plan_id`, and `start_date`.
 
