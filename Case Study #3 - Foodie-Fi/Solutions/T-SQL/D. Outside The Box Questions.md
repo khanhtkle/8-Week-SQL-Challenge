@@ -18,9 +18,9 @@ In the context of a subscription-based streaming service like Foodie-Fi, rate of
 To assess the overall performance of a business, key metrics serve as valuable indicators, offering insights into different aspects of its health and aiding decision-making. Here are some key metrics to recommend for Foodie-Fi management to track:
 
 - **1. Subscriber Growth Rate:**
-    - Metric: Monthly or annual increase in the number of subscribers.
-    - Importance: Indicates the platform's ability to attract and retain customers.
-    - Calculation: (New Subscribers − Previous Subscribers) * 100 / Previous Subscribers 
+  - Metric: Monthly or annual increase in the number of subscribers.
+  - Importance: Indicates the platform's ability to attract and retain customers.
+  - Calculation: (New Subscribers − Previous Subscribers) * 100 / Previous Subscribers 
 
 - **2. Churn Rate:**
   - Metric: The rate at which subscribers cancel their subscriptions.
