@@ -225,7 +225,7 @@ ORDER BY customer_id,
   
   	- Include the `plan_name` and `price` alongside their respective `plan_id` using in the current period.
   	
-  	- Add a column `payment`, which assigns the sequential numbers of each customer's subscription payment.
+  	- Add a column `payment`, which assigns sequential numbers to each customer's subscription payment.
 ```tsql
 DROP TABLE IF EXISTS foodie_fi.dbo.payment_calculations;
 WITH expanded_trackers_cte AS
