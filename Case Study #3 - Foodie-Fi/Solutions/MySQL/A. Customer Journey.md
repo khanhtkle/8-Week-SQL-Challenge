@@ -14,9 +14,6 @@ SELECT su.*,
 FROM foodie_fi.subscriptions AS su
 JOIN foodie_fi.plans AS pl ON pl.plan_id = su.plan_id
 WHERE customer_id IN (1, 2, 11, 13, 15, 16, 18, 19)
-
-SELECT * 
-FROM pizza_runner.dbo.cleaned_runner_orders;
 ```
 | customer_id | plan_id | start_date | plan_name     | price  |
 |-------------|---------|------------|---------------|--------|
