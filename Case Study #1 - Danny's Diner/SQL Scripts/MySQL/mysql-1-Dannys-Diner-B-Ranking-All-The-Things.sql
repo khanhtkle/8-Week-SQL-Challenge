@@ -1,5 +1,5 @@
 -------------------------------------
--- B. Bonus Question --
+-- B. Ranking All The Things --
 -------------------------------------
 -- 	Danny also requires further information about the `ranking` of customer products, but he purposely does not need the `ranking` for non-member purchases so he expects `NULL` values for the records when customers are not yet part of the loyalty program.
 -- 	- Establish the core by including the `customer_id` and `order_date` from `sales` table.
