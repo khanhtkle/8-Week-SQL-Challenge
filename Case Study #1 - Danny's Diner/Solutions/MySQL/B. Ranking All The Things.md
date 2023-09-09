@@ -6,6 +6,8 @@
 </picture>
 
 ### Danny also requires further information about the `ranking` of customer products, but he purposely does not need the `ranking` for non-member purchases so he expects `NULL` values for the records when customers are not yet part of the loyalty program.
+
+To retrieve the dataset resembling the example outputs:
 - Establish the core by including the `customer_id` and `order_date` from `sales` table.
 - Include `product_name` and `price` from 'menu' alongside their respective 'customer_id' and 'order_date'.
 - Add a column `member`, which siginifies a customer's membership status as `'Y'` when the customer's `order_date` is later than their `join_date` from `member` table, and `'N'` when it's sooner.
