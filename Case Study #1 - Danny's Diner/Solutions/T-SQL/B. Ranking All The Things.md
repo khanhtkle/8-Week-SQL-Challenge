@@ -11,7 +11,6 @@
 - Include `product_name` and `price` from 'menu' alongside their respective 'customer_id' and 'order_date'.
 - Add a column `member`, which siginifies a customer's membership status as `'Y'` when the customer's `order_date` is later than their `join_date` from `member` table, and `'N'` when it's sooner.
 - Add a `ranking` column, which assigns sequential numbers to each customer's orders, with `NULL` values expected for non-member purchases.
-
 ```tsql
 SELECT sa.customer_id,
        order_date,
