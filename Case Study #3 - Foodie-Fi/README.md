@@ -130,7 +130,7 @@ View my solution in:
 
 ### C. Challenge Payment Question
 
-Note: Distinct from the original, a slight modification has been implemented in how the requirements are worded to enhance their clarity and comprehension.
+> Note: Distinct from the original, a slight modification has been implemented in how the requirements are worded to enhance their clarity and comprehension.
 
 The Foodie-Fi team wants to create a new payments table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
   * Monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan.
