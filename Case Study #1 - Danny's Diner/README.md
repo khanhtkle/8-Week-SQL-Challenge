@@ -122,7 +122,7 @@ View my solution in:
 
 ### B. Ranking All The Things
 
-Danny also requires further information about the `ranking` of customer products, but he purposely does not need the `ranking` for non-member purchases so he expects `null` values for the records when customers are not yet part of the loyalty program.
+Danny also requires further information about the `ranking` of customer products, but he purposely does not need the `ranking` for non-member purchases so he expects `NULL` values for the records when customers are not yet part of the loyalty program.
 
 Example outputs for the dataset might look like the following:
 
