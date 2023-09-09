@@ -25,6 +25,8 @@ FROM pizza_runner.dbo.pizza_names;
 | 2        | Vegetarian |
 | 3        | Supreme    |
 
+<br>
+
 -  This is how `pizza_recipes` table changes when adding Supreme pizza to the menu.
 ```tsql
 INSERT INTO pizza_runner.dbo.pizza_recipes
