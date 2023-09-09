@@ -1,6 +1,6 @@
 # :ramen: Case Study 1 - Danny's Diner 
 
-## A. Case Study Questions 
+## A. Dining Metrics
 
 <picture>
   <img src="https://img.shields.io/badge/mysql-005C84?style=for-the-badge&logo=mysql&logoColor=white">
