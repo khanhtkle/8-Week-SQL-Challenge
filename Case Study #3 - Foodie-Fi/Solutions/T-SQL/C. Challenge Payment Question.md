@@ -341,7 +341,5 @@ WHERE YEAR(payment_date) = 2020;
 
 > Note: The presented dataset comprises 24 out of 17,796 rows of the `payments` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
 
-<br>
-
 ---
 My solution for **[D. Outside The Box Questions](D.%20Outside%20The%20Box%20Questions.md)**.
