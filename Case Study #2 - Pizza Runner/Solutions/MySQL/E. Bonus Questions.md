@@ -25,6 +25,8 @@ FROM pizza_runner.pizza_names;
 | 2        | Vegetarian |
 | 3        | Supreme    |
 
+<br>
+
 -  This is how `pizza_recipes` table changes when adding Supreme pizza to the menu.
 ```mysql
 INSERT INTO pizza_runner.pizza_recipes
