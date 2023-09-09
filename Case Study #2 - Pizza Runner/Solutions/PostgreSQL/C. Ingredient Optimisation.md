@@ -45,6 +45,8 @@ FROM pizza_runner.cleaned_pizza_recipes;
 | 2        | 11         | Tomatoes     |
 | 2        | 12         | Tomato Sauce |
 
+<br>
+
 2. Add a `record_id` column with a `SERIAL` data type to generate unique identifiers.
 ```pgsql
 ALTER TABLE pizza_runner.cleaned_customer_orders
@@ -72,6 +74,8 @@ FROM pizza_runner.cleaned_customer_orders;
 | 9        | 103         | 1        | 4          | 1, 5   | 2021-01-10 11:22:59 | Customer Cancellation   | 12        |
 | 10       | 104         | 1        | NULL       | NULL   | 2021-01-11 18:34:49 | NULL                    | 13        |
 | 10       | 104         | 1        | 2, 6       | 1, 4   | 2021-01-11 18:34:49 | NULL                    | 14        |
+
+<br>
 
 3. Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
     -  Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
@@ -103,6 +107,8 @@ FROM pizza_runner.extras;
 | 12        | 5          | Chicken      | Customer Cancellation |
 | 14        | 1          | Bacon        | NULL                  |
 | 14        | 4          | Cheese       | NULL                  |
+
+<br>
 
 4. Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
     - Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
