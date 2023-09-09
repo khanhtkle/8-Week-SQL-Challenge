@@ -1,13 +1,20 @@
 ----------------------------------------
 -- C. Challenge Payment Question --
 ----------------------------------------
--- 		The Foodie-Fi team wants you to create a new payments table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
--- 			- Monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan.
--- 			- Upgrades from `basic monthly` to `pro monthly` or `pro anual` are reduced by the current paid amount in that month and start immediately.
--- 			- Upgrades from `pro monthly` to `pro annual` are paid at the end of the current billing period and also starts at the end of the month period.
--- 			- Once a customer churns they will no longer make payments.
+-- 	The Foodie-Fi team wants you to create a new payments table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
+-- 		- Monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan.
+-- 		- Upgrades from `basic monthly` to `pro monthly` or `pro anual` are reduced by the current paid amount in that month and start immediately.
+-- 		- Upgrades from `pro monthly` to `pro annual` are paid at the end of the current billing period and also starts at the end of the month period.
+-- 		- Once a customer churns they will no longer make payments.
 
--- 	1. Create a table `trackers` from `subscriptions` table :
+--	1. Create a table `trackers` from `subscriptions` table :
+--	- In this initial table, our goal is to define and clarify the starting and ending points of each customer's subscription periods. This will allow us to easily apply some techniques to expand our data afterwards.
+--		- Establish the core  by including the `customer_id`, `plan_id`, and `start_date`.
+--		- Rename the `start_date` column as `first_date` for better alignment with the context.
+--		- Add a column `d_date` to indicate:
+--			- the timestamp when the customers discontinue their subscriptions.
+--			- the timestamp when the customers make a transitions from an old subscription plan to a new one.
+--			- the current timestamp when the data is queried from the database for those customers who are still actively using the service.
 
 DROP TABLE IF EXISTS foodie_fi.trackers;
 CREATE TABLE foodie_fi.trackers AS
@@ -24,7 +31,11 @@ CREATE TABLE foodie_fi.trackers AS
 SELECT *
 FROM foodie_fi.trackers;
 
--- 	2. Create a table `monthly_plans` from `trackers` table:
+--	2. Create a table `monthly_plans` from `trackers` table:
+--	- In this second table, our goal is to specify the timestamp when the customers initiate their monthly subscriptions and when their subscription renewals take place. This will establish the foundation for us to precisely calculate the customer's payments later.
+--		- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
+--		- Include another `first_date` column, rename it as `start_date`, and apply recursive common table expression to generate the timestamps for monthly subscription renewals, with the constraint on `d_date`.
+--		- Add a column `estimated_new_start_date`, which also signifies the estimated timestamps for monthly subscription renewals, without being confined by `d_date`. The purpose behind this will be explained in a subsequent step.
 
 DROP TABLE IF EXISTS foodie_fi.monthly_plans;
 CREATE TABLE foodie_fi.monthly_plans AS
@@ -62,7 +73,11 @@ CREATE TABLE foodie_fi.monthly_plans AS
 SELECT *
 FROM foodie_fi.monthly_plans;
 
--- 	3. Create a table `annual_plans` from `trackers` table:
+--	3. Create a table `annual_plans` from `trackers` table:
+--	- In this third table, our goal is to specify the timestamp when the customers initiate their annual subscriptions and when their subscription renewals take place. This operation closely mirrors the one with `monthly_plans` table and it will continue to establish the foundation for us to precisely calculate the customer's payments later.
+--		- Establish the core by including the `customer_id`, `plan_id`, and `first_date`.
+--		- Include another `first_date` column, rename it as `start_date`, and apply recursive common table expression to generate the timestamps for annual subscription renewals, with the constraint on `d_date`.
+--		- Add a column `estimated_new_start_date`, which signifies the estimated timestamps for annually subscription renewals, without being confined by `d_date`. The purpose behind this will be explained in a subsequent step.
 
 DROP TABLE IF EXISTS foodie_fi.annual_plans;
 CREATE TABLE foodie_fi.annual_plans AS
@@ -102,7 +117,17 @@ CREATE TABLE foodie_fi.annual_plans AS
 SELECT *
 FROM foodie_fi.annual_plans;
 
--- 	4. Create a table `payment_calculations` from `monthly_plans`, `annual_plans`, and `plans` tables:
+--	4. Create a table `payment_calculations` from `monthly_plans`, `annual_plans`, and `plans` tables:
+--	- In this fourth table, our objective is to combine all the subscription initiate and renewal timestamps for customers across both types of subscription plans, monthly and annually. Additionally, we will create and calculate certain factors that will play as key metrics to calculate the customer's payments in the next step.
+--		- Apply the `UNION ALL` operation and establish the core by including the `customer_id`, `plan_id`, and `start_date`.
+-- 		- Rename the `start_date` column as `payment_date` for better alignment with the context.
+-- 		- Include the `plan_name` alongside their respective `customer_id`, `plan_id`, and `payment_date`.
+-- 		- Add a column `previous_plan_id`, which signifies the subscription `plan_id` of the preceding period..
+-- 		- Add a column `estimated_day_between_previous_plan`, which calculate the number of days between `start_date` of the previous subscription periods and theirs `estimated_renew_start_date`.	
+--		- Add a column `actual_day_between_previous_plan`, which calculate the number of days between `start_date` of the previous subscription periods and `start_date` of the current periods.
+--		- Add a column `previous_price`, which signifies the price of the subscription plan using in the preceding period.
+--		- Include the `plan_name` and `price` alongside their respective `plan_id` using in the current period.
+--		- Add a column `payment`, which assigns the sequential numbers of each customer's subscription payment.
 
 DROP TABLE IF EXISTS foodie_fi.payment_calculations;
 CREATE TABLE foodie_fi.payment_calculations AS
@@ -133,7 +158,10 @@ CREATE TABLE foodie_fi.payment_calculations AS
 SELECT *
 FROM foodie_fi.payment_calculations;
 
--- 	5. Create a table `payments` from `payment_calculations` table:
+--	5. Create a table `payments` from `payment_calculations` table:
+--	- In this concluding table, our goal is to take into account all the factors prepared in the previous stage to calculate the payment price for each customer, aggregate the data to generate the desired dataset that matches the example output.
+--		- Eshtablish the desired data by including `customer_id`, `plan_id`, `plan_name`, `payment_date`, and `payment`.
+--		- Add a column `price`, which not only signifies the cost of the subsciption plan being used in the current period but also accounts for any plan upgrades that occur within the same period, with the price of the new plan being reduced by the current paid amount.
 
 DROP TABLE IF EXISTS foodie_fi.payments;
 CREATE TABLE foodie_fi.payments AS
