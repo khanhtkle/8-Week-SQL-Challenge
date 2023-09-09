@@ -1,49 +1,17 @@
 # :ramen: Case Study 1 - Danny's Diner 
 
-## B. Bonus Questions 
+## B. Ranking All The Things
 
 <picture>
   <img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white">
 </picture>
 
-### Q1. Join All The Things - Create a table that has these columns: customer_id, order_date, product_name, price, member (Y/N).
-```tsql
-SELECT sa.customer_id,
-       order_date,
-       product_name,
-       price,
-       CASE
-           WHEN order_date < join_date
-                OR join_date IS NULL THEN 'N'
-           ELSE 'Y'
-       END AS member
-FROM dannys_diner.dbo.sales AS sa
-JOIN dannys_diner.dbo.menu AS mn ON mn.product_id = sa.product_id
-LEFT JOIN dannys_diner.dbo.members AS mb ON mb.customer_id = sa.customer_id
-ORDER BY sa.customer_id,
-         order_date,
-         product_name;
-```
-| customer_id | order_date | product_name | price | member |
-|-------------|------------|--------------|-------|--------|
-| A           | 2021-01-01 | curry        | 15    | N      |
-| A           | 2021-01-01 | sushi        | 10    | N      |
-| A           | 2021-01-07 | curry        | 15    | Y      |
-| A           | 2021-01-10 | ramen        | 12    | Y      |
-| A           | 2021-01-11 | ramen        | 12    | Y      |
-| A           | 2021-01-11 | ramen        | 12    | Y      |
-| B           | 2021-01-01 | curry        | 15    | N      |
-| B           | 2021-01-02 | curry        | 15    | N      |
-| B           | 2021-01-04 | sushi        | 10    | N      |
-| B           | 2021-01-11 | sushi        | 10    | Y      |
-| B           | 2021-01-16 | ramen        | 12    | Y      |
-| B           | 2021-02-01 | ramen        | 12    | Y      |
-| C           | 2021-01-01 | ramen        | 12    | N      |
-| C           | 2021-01-01 | ramen        | 12    | N      |
-| C           | 2021-01-07 | ramen        | 12    | N      |
+### Danny also requires further information about the `ranking` of customer products, but he purposely does not need the `ranking` for non-member purchases so he expects `NULL` values for the records when customers are not yet part of the loyalty program.
+- Establish the core by including the `customer_id`, `order_date' from `sales` table.
+- Include `product_name` and `price` from 'menu' along their respective 'customer_id' and 'order_date'.
+- Add a column `member`, which siginifies a customer's membership status as `'Y'` when the customer's `order_date` is later than their `join_date` from `member` table, and `'N'` when it's sooner.
+- Add a `ranking` column, which assigns sequential numbers to each customer's orders, with `NULL` values expected for non-member purchases.
 
----
-### Q2. Rank All The Things - Based on the table above, add one column: ranking.
 ```tsql
 SELECT sa.customer_id,
        order_date,
