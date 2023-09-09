@@ -1,6 +1,6 @@
 # :ramen: Case Study 1 - Danny's Diner 
 
-## A. Case Study Questions 
+## A. Dining Metrics
 
 <picture>
   <img src="https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white">
@@ -177,7 +177,7 @@ GROUP BY sa.customer_id;
 
 ---
 ### Q9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
-Note: Non-member customers also earn points when making purchases.
+> Note: Non-member customers also earn points when making purchases.
 ```pgsql
 SELECT sa.customer_id,
        SUM(CASE
@@ -215,4 +215,4 @@ GROUP BY 1;
 | C           | 360          |
 
 ---
-My solution for **[B. Bonus Questions](B.%20Bonus%20Questions.md)**.
+My solution for **[B. Ranking All The Things](B.%20Ranking%20All%20The%20Things.md)**.
