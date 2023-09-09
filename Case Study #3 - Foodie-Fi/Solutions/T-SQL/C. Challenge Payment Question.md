@@ -63,7 +63,7 @@ FROM foodie_fi.dbo.trackers;
 | 19          | 2       | 2020-06-29 | 2020-08-29 |
 | 19          | 3       | 2020-08-29 | 2023-05-14 |
 
-> The presented dataset comprises 20 out of 2,650 rows of the `trackers` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+> Note: The presented dataset comprises 20 out of 2,650 rows of the `trackers` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
 
 <br>
 
@@ -137,7 +137,7 @@ ORDER BY customer_id,
 | 19          | 2       | 2020-06-29 | 2020-06-29 | 2020-08-29 | 2020-07-29               |
 | 19          | 2       | 2020-06-29 | 2020-07-29 | 2020-08-29 | 2020-08-29               |
 
-> The presented dataset comprises 21 out of 17,010 rows of the `monthly_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `start_date` in the year 2020.
+> Note: The presented dataset comprises 21 out of 17,010 rows of the `monthly_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `start_date` in the year 2020.
 
 <br>
 
@@ -201,7 +201,7 @@ ORDER BY customer_id,
 | 19          | 3       | 2020-08-29 | 2021-08-29 | 2023-05-14 | 2022-08-29                 |
 | 19          | 3       | 2020-08-29 | 2022-08-29 | 2023-05-14 | 2023-08-29                 |
 
-> The presented dataset comprises 9 out of 786 rows of the `annual_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
+> Note: The presented dataset comprises 9 out of 786 rows of the `annual_plans` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19`.
 
 <br>
 
@@ -283,7 +283,7 @@ FROM foodie_fi.dbo.payment_calculations;
 | 19          | 2       | pro monthly   | 2020-07-29   | 2                | 30                                  | 30                               | 19.90          | 19.90  | 2       |
 | 19          | 3       | pro annual    | 2020-08-29   | 2                | 31                                  | 31                               | 19.90          | 199.00 | 3       |
 
-> The presented dataset comprises 24 out of 17,796 rows of the `payment_calculations` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+> Note: The presented dataset comprises 24 out of 17,796 rows of the `payment_calculations` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
 
 <br>
 
@@ -339,7 +339,7 @@ WHERE YEAR(payment_date) = 2020;
 | 19          | 2       | pro monthly   | 2020-07-29   | 19.90  | 2       |
 | 19          | 3       | pro annual    | 2020-08-29   | 199.00 | 3       |
 
-> The presented dataset comprises 24 out of 17,796 rows of the `payments` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
+> Note: The presented dataset comprises 24 out of 17,796 rows of the `payments` table, featuring only `customer_id` values `1`, `2`, `11`, `13`, `15`, `16`, `18`, `19` with their respective `payment_date` in the year 2020.
 
 <br>
 
