@@ -42,14 +42,14 @@ FROM pizza_runner.dbo.cleaned_runner_orders;
 | 19          | 3       | 2020-08-29 | pro annual    | 199.00 |
 
 - Drawing from the presented data:
-  - Customer 1: Started trial on August 1, 2020. Upgraded to `basic monthly` plan on August 8, 2020.
-  - Customer 2: Started trial on September 20, 2020. Upgraded to `pro annual` plan on September 27, 2020.
-  - Customer 11: Started trial on November 19, 2020. Churned out on November 26, 2020.
-  - Customer 13: Started trial on December 15, 2020. Upgraded to `basic monthly` plan on December 22, 2020. Further upgraded to `pro monthly` plan on March 29, 2021.
-  - Customer 15: Started trial on March 17, 2020. Upgraded to `pro monthly` plan on March 24, 2020. Churned out on April 29, 2020.
-  - Customer 16: Started trial on May 31, 2020. Upgraded to `basic monthly` plan on June 7, 2020. Further upgraded to `pro annual` plan on October 21, 2020.
-  - Customer 18: Started trial on July 6, 2020. Upgraded to `pro monthly` plan on July 13, 2020.
-  - Customer 19: Started trial on June 22, 2020. Upgraded to `pro monthly` plan on June 29, 2020. Further upgraded to `pro annual` plan on August 29, 2020.
+  - **Customer 1:** Started trial on August 1, 2020. Upgraded to `basic monthly` plan on August 8, 2020.
+  - **Customer 2:** Started trial on September 20, 2020. Upgraded to `pro annual` plan on September 27, 2020.
+  - **Customer 11:** Started trial on November 19, 2020. Churned out on November 26, 2020.
+  - **Customer 13:** Started trial on December 15, 2020. Upgraded to `basic monthly` plan on December 22, 2020. Further upgraded to `pro monthly` plan on March 29, 2021.
+  - **Customer 15:** Started trial on March 17, 2020. Upgraded to `pro monthly` plan on March 24, 2020. Churned out on April 29, 2020.
+  - **Customer 16:** Started trial on May 31, 2020. Upgraded to `basic monthly` plan on June 7, 2020. Further upgraded to `pro annual` plan on October 21, 2020.
+  - **Customer 18:** Started trial on July 6, 2020. Upgraded to `pro monthly` plan on July 13, 2020.
+  - **Customer 19:** Started trial on June 22, 2020. Upgraded to `pro monthly` plan on June 29, 2020. Further upgraded to `pro annual` plan on August 29, 2020.
 
 ---
 My solution for **[B. Data Analysis Questions](B.%20Data%20Analysis%20Questions.md)**.
