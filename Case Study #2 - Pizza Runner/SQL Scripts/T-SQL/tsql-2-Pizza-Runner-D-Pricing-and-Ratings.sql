@@ -20,7 +20,7 @@ SELECT SUM(CASE
 FROM pizza_runner.dbo.cleaned_customer_orders AS co
 WHERE cancellation IS NULL;
 
---	3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
+--	3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset? Generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
 -- 	Note: The values of `rating` have been assigned in an arbitrary manner, devoid of any specific calculation or metrics.
 
 DROP TABLE IF EXISTS pizza_runner.dbo.ratings;
