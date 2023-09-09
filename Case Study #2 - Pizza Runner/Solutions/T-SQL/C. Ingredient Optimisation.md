@@ -43,6 +43,8 @@ FROM pizza_runner.dbo.cleaned_pizza_recipes;
 | 2        | 11         | Tomatoes     |
 | 2        | 12         | Tomato Sauce |
 
+<br>
+
 2. Add a `record_id` column with an `IDENTITY` constraint to generate unique identifiers.
 ```tsql
 ALTER TABLE pizza_runner.dbo.cleaned_customer_orders
@@ -73,6 +75,8 @@ FROM pizza_runner.dbo.cleaned_customer_orders;
 | 10       | 104         | 1        | NULL       | NULL   | 2021-01-11 18:34:49 | NULL                    | 13        |
 | 10       | 104         | 1        | 2, 6       | 1, 4   | 2021-01-11 18:34:49 | NULL                    | 14        |
 
+<br>
+
 3. Create a table named `extras` from `cleaned_customer_orders` and `pizza_toppings` table:
     -  Include the `extras` alongside their respective `record_id`, `topping_name`, and `cancellation`.
     -  Convert the data type of the value extracted from the `STRING_SPLIT` function for 'extras' from `VARCHAR(4)` to `INTEGER`.
@@ -99,6 +103,8 @@ FROM pizza_runner.dbo.extras;
 | 12        | 5          | Chicken      | Customer Cancellation |
 | 14        | 1          | Bacon        | NULL                  |
 | 14        | 4          | Cheese       | NULL                  |
+
+<br>
 
 4. Create a table named `exclusions` from `cleaned_customer_orders` and `pizza_toppings` table:
     - Include the `exclusions` alongside their respective `record_id`, `topping_name`, and `cancellation`.
