@@ -308,7 +308,7 @@ CREATE TABLE foodie_fi.payments AS
    
 SELECT *
 FROM foodie_fi.payments
-WHERE YEAR(payment_date) = 2020;
+WHERE DATE_PART('year', payment_date) = 2020;
 ```
 | customer_id | plan_id | plan_name     | payment_date | price  | payment |
 |-------------|---------|---------------|--------------|--------|---------|
