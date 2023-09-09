@@ -20,12 +20,12 @@ To assess the overall performance of a business, key metrics serve as valuable i
 - **1. Subscriber Growth Rate:**
     - Metric: Monthly or annual increase in the number of subscribers.
     - Importance: Indicates the platform's ability to attract and retain customers.
-    - Calculation: (New Subscribers − Previous Subscribers) / Previous Subscribers * 100
+    - Calculation: (New Subscribers − Previous Subscribers) * 100 / Previous Subscribers 
 
 - **2. Churn Rate:**
   - Metric: The rate at which subscribers cancel their subscriptions.
   - Importance: High churn can lead to revenue loss.
-  - Calculation: Number of Churned Subscribers / Total Subscribers at the Start of the Period * 100
+  - Calculation: Number of Churned Subscribers * 100 / Total Subscribers at the Start of the Period
 
 - **3. Monthly Recurring Revenue (MRR):**
   - Metric: Total revenue generated from monthly subscription fees.
@@ -50,7 +50,7 @@ To assess the overall performance of a business, key metrics serve as valuable i
 - **7. Conversion Rate:**
   - Metric: Percentage of trial users who convert to paid subscribers.
   - Importance: Measures the effectiveness of trial offers.
-  - Calculation: Number of Paid Conversions / Total Number of Trials * 100
+  - Calculation: Number of Paid Conversions * 100 / Total Number of Trials 
 
 - **8. Plan-wise Revenue Breakdown:**
   - Metric: Revenue generated from each subscription plan (e.g., Basic, Pro, Annual Pro).
@@ -60,7 +60,7 @@ To assess the overall performance of a business, key metrics serve as valuable i
 - **9. Retention Rate:**
   - Metric: Percentage of subscribers who continue their subscription after the trial period.
   - Importance: Reflects customer satisfaction and loyalty.
-  - Calculation: Number of Retained Subscribers / Total Number of Trial Subscribers * 100
+  - Calculation: Number of Retained Subscribers  * 100 / Total Number of Trial Subscribers
 
 - **10. Customer Feedback Metrics:**
   - Metric: Customer satisfaction scores, Net Promoter Score (NPS), and qualitative feedback.
