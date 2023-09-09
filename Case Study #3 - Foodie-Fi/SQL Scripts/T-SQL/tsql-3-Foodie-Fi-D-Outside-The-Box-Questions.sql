@@ -3,16 +3,14 @@
 -------------------------------------
 --	1. How would you calculate the rate of growth for Foodie-Fi?
 
---	To calculate the rate of growth for Foodie-Fi, you can use a combination of business and technical metrics. Here's a step-by-step approach to calculating the rate of growth:
-
---	In the context of a subscription-based streaming service like Foodie-Fi, growth can be measured in several ways. Common metrics include:
+--	In the context of a subscription-based streaming service like Foodie-Fi, rate of growth can be measured in several ways. Common metrics include:
 --		- Subscriber Growth: This measures the increase in the number of subscribers over a specific period. It's a key indicator of the service's popularity.
 --		- Revenue Growth: Tracking revenue growth is essential, as it reflects the financial health of the business. You can calculate it by monitoring the increase in subscription revenue over time.
 --		- Plan-specific Growth: For Foodie-Fi, you may want to calculate growth rates for different subscription plans (e.g., Basic, Pro, Annual Pro) separately to understand which plans are driving the most growth.
 
 --	2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
 
---	To assess the performance of Foodie-Fi's overall business, several key metrics should be tracked over time. These metrics provide insights into various aspects of the business's health and can guide decision-making. Here are some key metrics to recommend for Foodie-Fi management to track:
+--	To evaluate the overall performance of a business, several essential metrics serve as valuable indicators, offering insights into various aspects of the business's health and facilitating decision-making. Here are some key metrics recommended for Foodie-Fi management to track:
 
 --		1. Subscriber Growth Rate:
 --			- Metric: Monthly or annual increase in the number of subscribers.
