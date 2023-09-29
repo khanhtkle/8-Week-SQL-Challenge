@@ -7,6 +7,7 @@
 
 DROP SCHEMA IF EXISTS foodie_fi;
 CREATE SCHEMA foodie_fi;
+USE foodie_di;
 
 
 DROP TABLE IF EXISTS foodie_fi.plans;
