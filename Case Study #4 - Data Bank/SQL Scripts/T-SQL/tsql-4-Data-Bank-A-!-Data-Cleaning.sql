@@ -8,10 +8,10 @@ WITH node_date_filtering_1_cte AS
           node_id,
           LAG(node_id) OVER (PARTITION BY customer_id
                              ORDER BY start_date) AS previous_node_id,
-		  LEAD(node_id) OVER (PARTITION BY customer_id
+	  LEAD(node_id) OVER (PARTITION BY customer_id
                               ORDER BY start_date) AS next_node_id,
-		  start_date,
-		  end_date
+	  start_date,
+	  end_date
    FROM data_bank.dbo.customer_nodes
    WHERE YEAR(end_date) != 9999),
      node_date_filtering_2_cte AS
@@ -24,8 +24,8 @@ WITH node_date_filtering_1_cte AS
                              ORDER BY start_date) AS previous_node_id_2,
           LEAD(node_id) OVER (PARTITION BY customer_id
                               ORDER BY start_date) AS next_node_id_2,
-		  LEAD(end_date) OVER (PARTITION BY customer_id
-                              ORDER BY start_date) AS next_end_date
+	  LEAD(end_date) OVER (PARTITION BY customer_id
+                               ORDER BY start_date) AS next_end_date
    FROM node_date_filtering_1_cte
    WHERE (previous_node_id IS NULL
           OR next_node_id IS NULL
@@ -51,4 +51,4 @@ WHERE CASE
 SELECT * 
 FROM data_bank.dbo.customer_nodes_aggregated
 ORDER BY customer_id,
-		 start_date;
+	 start_date;
