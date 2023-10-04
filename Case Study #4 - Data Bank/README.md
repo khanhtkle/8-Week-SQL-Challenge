@@ -1,4 +1,4 @@
-# :bank: Case Study #4 - Data Bank
+# :bank: Case Study 4 - Data Bank
 
 <div align="center">
   <picture>
