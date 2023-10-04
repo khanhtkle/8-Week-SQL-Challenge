@@ -12,13 +12,17 @@ ORDER BY txn_type;
 
 --	2. What is the average total historical deposit counts and amounts for all customers?
 
-SELECT customer_id,
-       COUNT(*) AS deposit_txn_count,
-       CAST(ROUND(AVG(1.0 * txn_amount), 1) AS REAL) AS avg_txn_amount
+SELECT SUM(1) AS deposit_txn_count,
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.dbo.customer_transactions) AS total_customer_count,
+       SUM(txn_amount) AS total_deposit_txn_amount,
+       FLOOR(SUM(1.0) / (SELECT COUNT(DISTINCT customer_id) 
+			 FROM data_bank.dbo.customer_transactions)) AS avg_deposit_txn_per_customer,
+       CAST(ROUND(SUM(1.0 * txn_amount) / (SELECT COUNT(DISTINCT customer_id) 
+					   FROM data_bank.dbo.customer_transactions), 1) AS REAL) AS avg_deposit_txn_per_customer,
+       CAST(ROUND(AVG(1.0 * txn_amount), 1) AS REAL) AS avg_txn_amount_per_deposit_txn
 FROM data_bank.dbo.customer_transactions
-WHERE txn_type = 'deposit'
-GROUP BY customer_id
-ORDER BY customer_id;
+WHERE txn_type = 'deposit';
 
 --	3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
 
@@ -37,7 +41,7 @@ WITH txn_count_cte AS
               END) AS withdrawal_txn_count
    FROM data_bank.dbo.customer_transactions
    GROUP BY FORMAT(txn_date, 'MMMM, yyyy'),
-		    MONTH(txn_date),
+	    MONTH(txn_date),
             customer_id)
 SELECT month,
        COUNT(customer_id) AS high_volume_customer_count
@@ -59,7 +63,7 @@ WHERE date = EOMONTH(date)
 GROUP BY customer_id,
          FORMAT(date, 'MMMM, yyyy'),
          MONTH(date),
-		 balance
+	 balance
 ORDER BY customer_id,
          MONTH(date);
 
@@ -80,9 +84,9 @@ SELECT fl.customer_id,
        bd2.balance AS last_balance_by_last_txn_date
 FROM first_and_last_txn_date_cte AS fl
 JOIN data_bank.dbo.balance_by_day AS bd1 ON bd1.customer_id = fl.customer_id
-										AND bd1.date = fl.first_txn_date
+					AND bd1.date = fl.first_txn_date
 JOIN data_bank.dbo.balance_by_day AS bd2 ON bd2.customer_id = fl.customer_id
-										AND bd2.date = fl.last_txn_date
+					AND bd2.date = fl.last_txn_date
 WHERE bd2.balance > bd1.balance
   AND 100.0 * (bd2.balance - bd1.balance) / bd1.balance > 5
 ORDER BY customer_id;
@@ -97,23 +101,23 @@ WITH first_and_last_txn_date_cte AS
    WHERE total_txn_amount_by_day IS NOT NULL
    GROUP BY customer_id)
 SELECT COUNT(fl.customer_id) AS increasing_balance_customer_count,
-	   (SELECT COUNT(DISTINCT customer_id) 
-	    FROM data_bank.dbo.balance_by_day) AS total_customer_count,
-	   CAST(100.0 * COUNT(fl.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
-											  FROM data_bank.dbo.balance_by_day) AS DECIMAL(5,1)) AS increasing_balance_customer_pct
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.dbo.balance_by_day) AS total_customer_count,
+       CAST(100.0 * COUNT(fl.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
+					     FROM data_bank.dbo.balance_by_day) AS DECIMAL(5,1)) AS increasing_balance_customer_pct
 FROM first_and_last_txn_date_cte AS fl
 JOIN data_bank.dbo.balance_by_day AS bd1 ON bd1.customer_id = fl.customer_id
-										AND bd1.date = fl.first_txn_date
+					AND bd1.date = fl.first_txn_date
 JOIN data_bank.dbo.balance_by_day AS bd2 ON bd2.customer_id = fl.customer_id
-										AND bd2.date = fl.last_txn_date
+					AND bd2.date = fl.last_txn_date
 WHERE bd2.balance > bd1.balance
   AND 100.0 * (bd2.balance - bd1.balance) / bd1.balance > 5;
 
 --	b!)
 
 SELECT customer_id,
-	   date AS end_of_month_date,
-	   balance
+       date AS end_of_month_date,
+       balance
 FROM data_bank.dbo.balance_by_day
 WHERE date = EOMONTH(date)
   AND balance = 0;
@@ -134,15 +138,15 @@ WHERE bd1.date = EOMONTH(bd1.date)
   AND bd2.balance > bd1.balance
   AND 100.0 * (bd2.balance - bd1.balance) / bd1.balance > 5
 ORDER BY customer_id, 
-		 start_of_month_date;
+	 start_of_month_date;
 
 --	b2)
 
 SELECT COUNT(bd1.customer_id) AS increasing_balance_customer_count,
-	   (SELECT COUNT(DISTINCT customer_id) 
-	    FROM data_bank.dbo.balance_by_day) AS total_customer_count,
-	   CAST(100.0 * COUNT(bd1.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
-											  FROM data_bank.dbo.balance_by_day) AS DECIMAL(5,1)) AS increasing_balance_customer_pct
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.dbo.balance_by_day) AS total_customer_count,
+       CAST(100.0 * COUNT(bd1.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
+					      FROM data_bank.dbo.balance_by_day) AS DECIMAL(5,1)) AS increasing_balance_customer_pct
 FROM data_bank.dbo.balance_by_day AS bd1 
 JOIN data_bank.dbo.balance_by_day AS bd2 ON bd1.customer_id = bd2.customer_id
 WHERE bd1.date = EOMONTH(bd1.date)
@@ -158,7 +162,7 @@ WITH balance_within_month_order_cte AS
   (SELECT *,
           ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
                              ORDER BY date) AS balance_within_month_order_ASC,
-		  ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
+	  ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
                              ORDER BY date DESC) AS balance_within_month_order_DESC
    FROM data_bank.dbo.balance_by_day)
 SELECT bm1.customer_id,
@@ -182,8 +186,8 @@ WITH balance_within_month_order_cte AS
   (SELECT *,
           ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
                              ORDER BY date) AS balance_within_month_order_ASC,
-		  ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
-							 ORDER BY date DESC) AS balance_within_month_order_DESC
+	  ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
+			     ORDER BY date DESC) AS balance_within_month_order_DESC
    FROM data_bank.dbo.balance_by_day),
      balance_within_month_cte AS
   (SELECT bm1.customer_id,
