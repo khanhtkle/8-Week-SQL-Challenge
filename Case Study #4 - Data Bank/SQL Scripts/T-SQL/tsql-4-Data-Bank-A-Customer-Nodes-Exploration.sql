@@ -42,7 +42,7 @@ WITH day_count_until_the_next_allocation_cte AS
 SELECT DISTINCT dc.region_id,
        region_name,
        CEILING(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY day_count_until_the_next_allocation) OVER (PARTITION BY dc.region_id)) AS median,
-	   CEILING(PERCENTILE_CONT(0.8) WITHIN GROUP (ORDER BY day_count_until_the_next_allocation) OVER (PARTITION BY dc.region_id)) AS eightieth_percentile,
+       CEILING(PERCENTILE_CONT(0.8) WITHIN GROUP (ORDER BY day_count_until_the_next_allocation) OVER (PARTITION BY dc.region_id)) AS eightieth_percentile,
        CEILING(PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY day_count_until_the_next_allocation) OVER (PARTITION BY dc.region_id)) AS ninetyfifth_percentile
 FROM day_count_until_the_next_allocation_cte AS dc
 JOIN data_bank.dbo.regions re ON re.region_id = dc.region_id
