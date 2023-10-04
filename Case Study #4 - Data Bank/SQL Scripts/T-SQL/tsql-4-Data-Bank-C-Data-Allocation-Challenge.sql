@@ -15,11 +15,11 @@
 
 DROP TABLE IF EXISTS data_bank.dbo.balance_by_txn;
 SELECT customer_id,
-	   date,
-	   txn_type,
-	   txn_amount,
-	   balance,
-	   customer_transactions_row_number
+       date,
+       txn_type,
+       txn_amount,
+       balance,
+       customer_transactions_row_number
 INTO data_bank.dbo.balance_by_txn
 FROM data_bank.dbo.customer_transactions_extended
 WHERE txn_type IS NOT NULL;
@@ -28,7 +28,7 @@ SELECT *
 FROM data_bank.dbo.balance_by_txn
 ORDER BY customer_id,
          date,
-		 customer_transactions_row_number;
+	 customer_transactions_row_number;
 
 --	o3)
 
@@ -64,23 +64,23 @@ FROM balance_by_previous_month_cte;
 SELECT * 
 FROM data_bank.dbo.balance_by_end_of_previous_month
 ORDER BY customer_id, 
-	     month_index;
+	 month_index;
 
 --	o1)
 
 SELECT month, 
-	   SUM(balance_by_end_of_previous_month) AS data_required
+       SUM(balance_by_end_of_previous_month) AS data_required
 FROM data_bank.dbo.balance_by_end_of_previous_month
 GROUP BY month,
-		 month_index
+	 month_index
 ORDER BY month_index;
 
 -- e3a)
 
 DROP TABLE IF EXISTS data_bank.dbo.monthly_avg_balance;
 SELECT customer_id,
-	   FORMAT(date, 'yyyy, MMMM') AS month,
-	   MONTH(date) AS month_index,
+       FORMAT(date, 'yyyy, MMMM') AS month,
+       MONTH(date) AS month_index,
        MIN(balance) AS min_balance,
        CAST(ROUND(AVG(1.0 * balance), 1) AS REAL) AS avg_balance,
        MAX(balance) AS max_balance
@@ -88,7 +88,7 @@ INTO data_bank.dbo.monthly_avg_balance
 FROM data_bank.dbo.balance_by_day
 WHERE MONTH(date) < 5
 GROUP BY customer_id,
-		 FORMAT(date, 'yyyy, MMMM'),
+	 FORMAT(date, 'yyyy, MMMM'),
          MONTH(date);
 
 SELECT * 
@@ -100,10 +100,10 @@ ORDER BY customer_id,
 
 DROP TABLE IF EXISTS data_bank.dbo.p_monthly_avg_balance;
 SELECT customer_id,
-	   FORMAT(p_start, 'yyyy, MMMM') AS p_month,
-	   MONTH(p_start) AS p_month_index,
+       FORMAT(p_start, 'yyyy, MMMM') AS p_month,
+       MONTH(p_start) AS p_month_index,
        MIN(balance) AS p_min_balance,
-       ROUND(AVG(1.0 * balance), 1) AS p_avg_balance,
+       CAST(ROUND(AVG(1.0 * balance), 1) AS REAL) AS p_avg_balance,
        MAX(balance) AS p_max_balance
 INTO data_bank.dbo.p_monthly_avg_balance
 FROM data_bank.dbo.balance_by_day
@@ -127,8 +127,8 @@ ORDER BY month_index;
 -- o2b)
 
 SELECT p_month, 
-	   CEILING(SUM(p_avg_balance)) AS data_required
+       CEILING(SUM(p_avg_balance)) AS data_required
 FROM data_bank.dbo.p_monthly_avg_balance
 GROUP BY p_month,
-		 p_month_index
+	 p_month_index
 ORDER BY p_month_index;
