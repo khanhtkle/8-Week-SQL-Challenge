@@ -1,6 +1,6 @@
-# :pizza: Case Study 4 - Data Bank
+# :bank: Case Study 4 - Data Bank
 
-## A. Pizza Metrics
+## A. Customer Nodes Exploration
 
 <picture>
   <img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white">
