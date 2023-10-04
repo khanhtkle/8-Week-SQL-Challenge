@@ -10,8 +10,8 @@
 
 DROP TABLE IF EXISTS data_bank.dbo.balance_with_daily_n_c_i_reward;
 SELECT customer_id,
-	   date, 
-	   CAST(balance * (1 + CAST(0.06 AS DECIMAL(9,4))/366) AS DECIMAL(9,4)) AS balance_with_daily_n_c_i_reward
+       date, 
+       CAST(balance * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4)) AS balance_with_daily_n_c_i_reward
 INTO data_bank.dbo.balance_with_daily_n_c_i_reward
 FROM data_bank.dbo.balance_by_day
 WHERE MONTH(date) < 5;
@@ -19,10 +19,10 @@ WHERE MONTH(date) < 5;
 SELECT *
 FROM data_bank.dbo.balance_with_daily_n_c_i_reward
 ORDER BY customer_id, 
-		 date;
+	 date;
 
 SELECT FORMAT(date, 'yyyy, MMMM') AS month,
-	   MONTH(date) AS month_index,
+       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_n_c_i_reward) AS DECIMAL(10,0)) AS data_required
 FROM data_bank.dbo.balance_with_daily_n_c_i_reward
 GROUP BY FORMAT(date, 'yyyy, MMMM'),
@@ -44,7 +44,7 @@ WITH first_and_last_balance_by_day_cte AS
           first_date AS date,
           last_date,
           total_txn_amount_by_day,
-          CAST(balance * (1 + CAST(0.06 AS DECIMAL(9,4))/366) AS DECIMAL(9, 4)) AS balance_with_daily_c_i_reward
+          CAST(balance * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4)) AS balance_with_daily_c_i_reward
    FROM first_and_last_balance_by_day_cte AS fl
    JOIN data_bank.dbo.balance_by_day AS bd ON bd.customer_id = fl.customer_id
     AND bd.date = fl.first_date
@@ -54,8 +54,8 @@ WITH first_and_last_balance_by_day_cte AS
           last_date,
           bd.total_txn_amount_by_day,
           CASE
-			  WHEN bd.total_txn_amount_by_day IS NULL THEN CAST(balance_with_daily_c_i_reward * (1 + CAST(0.06 AS DECIMAL(9,4))/366) AS DECIMAL(9, 4))
-			  ELSE CAST((balance_with_daily_c_i_reward + bd.total_txn_amount_by_day) * (1 + CAST(0.06 AS DECIMAL(9,4))/366) AS DECIMAL(9, 4))
+	      WHEN bd.total_txn_amount_by_day IS NULL THEN CAST(balance_with_daily_c_i_reward * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4))
+	      ELSE CAST((balance_with_daily_c_i_reward + bd.total_txn_amount_by_day) * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4))
           END
    FROM recursive_cte AS re
    JOIN data_bank.dbo.balance_by_day AS bd ON bd.customer_id = re.customer_id
@@ -74,10 +74,10 @@ OPTION (MAXRECURSION 1000);
 SELECT *
 FROM data_bank.dbo.balance_with_daily_c_i_reward
 ORDER BY customer_id, 
-		 date;
+	 date;
 
 SELECT FORMAT(date, 'yyyy, MMMM') AS month,
-	   MONTH(date) AS month_index,
+       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_c_i_reward) AS DECIMAL(10,0)) AS data_required
 FROM data_bank.dbo.balance_with_daily_c_i_reward
 GROUP BY FORMAT(date, 'yyyy, MMMM'),
