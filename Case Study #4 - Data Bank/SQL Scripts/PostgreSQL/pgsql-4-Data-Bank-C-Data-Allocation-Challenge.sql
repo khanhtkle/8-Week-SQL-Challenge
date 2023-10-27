@@ -41,9 +41,9 @@ DROP TABLE IF EXISTS data_bank.balance_by_end_of_previous_month;
 CREATE TABLE data_bank.balance_by_end_of_previous_month AS
   (WITH balance_by_previous_month_cte AS
      (SELECT DISTINCT customer_id,
-                      DATE_TRUNC('month', (MIN(date) OVER (PARTITION BY customer_id
-                                                           ORDER BY date)))::DATE AS date,
-                      0 AS balance
+             DATE_TRUNC('month', (MIN(date) OVER (PARTITION BY customer_id
+                                                  ORDER BY date)))::DATE AS date,
+             0 AS balance
       FROM data_bank.balance_by_day
       UNION 
       SELECT customer_id,
