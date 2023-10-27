@@ -395,7 +395,7 @@ WHERE bd1.date = EOMONTH(bd1.date)
 </br>
 
 ```tsql
-  WITH balance_within_month_order_cte AS
+WITH balance_within_month_order_cte AS
   (SELECT *,
           ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date)
                              ORDER BY date) AS balance_within_month_order_ASC,
