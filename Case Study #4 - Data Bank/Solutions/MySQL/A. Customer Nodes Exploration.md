@@ -17,10 +17,10 @@ CREATE TABLE data_bank.customer_nodes_aggregated AS
              node_id,
              LAG(node_id) OVER (PARTITION BY customer_id
                                 ORDER BY start_date) AS previous_node_id,
-			 LEAD(node_id) OVER (PARTITION BY customer_id
-								 ORDER BY start_date) AS next_node_id,
-			 start_date,
-			 end_date
+	     LEAD(node_id) OVER (PARTITION BY customer_id
+				 ORDER BY start_date) AS next_node_id,
+	     start_date,
+	     end_date
       FROM data_bank.customer_nodes
       WHERE YEAR(end_date) != 9999),
         node_date_filtering_2_cte AS
@@ -31,31 +31,32 @@ CREATE TABLE data_bank.customer_nodes_aggregated AS
              end_date,
              LAG(node_id) OVER (PARTITION BY customer_id
                                 ORDER BY start_date) AS previous_node_id_2,
-			 LEAD(node_id) OVER (PARTITION BY customer_id
-								 ORDER BY start_date) AS next_node_id_2,
-			 LEAD(end_date) OVER (PARTITION BY customer_id
-								  ORDER BY start_date) AS next_end_date
+	     LEAD(node_id) OVER (PARTITION BY customer_id
+				 ORDER BY start_date) AS next_node_id_2,
+	     LEAD(end_date) OVER (PARTITION BY customer_id
+				  ORDER BY start_date) AS next_end_date
       FROM node_date_filtering_1_cte
       WHERE (previous_node_id IS NULL
              OR next_node_id IS NULL
              OR node_id != previous_node_id
              OR node_id != next_node_id)) 
    SELECT customer_id,
-		  region_id,
+	  region_id,
           node_id,
           start_date,
           CASE
-			  WHEN node_id = next_node_id_2 THEN next_end_date
-			  WHEN node_id = previous_node_id_2 THEN NULL
-			  ELSE end_date
-		  END AS end_date
+	      WHEN node_id = next_node_id_2 THEN next_end_date
+	      WHEN node_id = previous_node_id_2 THEN NULL
+	      ELSE end_date
+	  END AS end_date
    FROM node_date_filtering_2_cte
    WHERE CASE
              WHEN node_id = next_node_id_2 THEN next_end_date
              WHEN node_id = previous_node_id_2 THEN NULL
              ELSE end_date
-         END IS NOT NULL)
-ORDER BY 1, 4;
+         END IS NOT NULL
+   ORDER BY 1, 4);
+
 
 SELECT *
 FROM data_bank.customer_nodes_aggregated;
@@ -166,27 +167,27 @@ WITH day_count_until_the_next_allocation_cte AS
    JOIN total_value_count_cte AS tv ON tv.region_id = dc.region_id) ,
      median_percentile AS
   (SELECT DISTINCT pt.region_id,
-		  FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
-															     ORDER BY day_count_until_the_next_allocation DESC) AS median
+          FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
+								 ORDER BY day_count_until_the_next_allocation DESC) AS median
    FROM percentile_test_value_cte AS pt
    JOIN percentile_condition_cte AS pc ON pc.region_id = pt.region_id
-    AND pt.median_test_value = pc.median_condition),
+				      AND pt.median_test_value = pc.median_condition),
      eightieth_percentile_cte AS
   (SELECT DISTINCT pt.region_id,
-		  FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
-																 ORDER BY day_count_until_the_next_allocation DESC) AS eightieth_percentile
+	  FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
+								 ORDER BY day_count_until_the_next_allocation DESC) AS eightieth_percentile
    FROM percentile_test_value_cte AS pt
    JOIN percentile_condition_cte AS pc ON pc.region_id = pt.region_id
-    AND pt.eightieth_percentile_test_value = pc.eightieth_percentile_condition)
+ 				      AND pt.eightieth_percentile_test_value = pc.eightieth_percentile_condition)
 SELECT DISTINCT pt.region_id,
-	   region_name,
-	   median,
-	   eightieth_percentile,
-	   FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
-															  ORDER BY day_count_until_the_next_allocation DESC) AS ninetyfifth_percentile
+       region_name,
+       median,
+       eightieth_percentile,
+       FIRST_VALUE(day_count_until_the_next_allocation) OVER (PARTITION BY pt.region_id 
+							      ORDER BY day_count_until_the_next_allocation DESC) AS ninetyfifth_percentile
 FROM percentile_test_value_cte AS pt
 JOIN percentile_condition_cte AS pc ON pc.region_id = pt.region_id
-								   AND pt.ninetyfifth_percentile_test_value = pc.ninetyfifth_percentile_condition
+				   AND pt.ninetyfifth_percentile_test_value = pc.ninetyfifth_percentile_condition
 JOIN median_percentile AS mp ON mp.region_id = pt.region_id
 JOIN eightieth_percentile_cte AS ep ON ep.region_id = pt.region_id
 JOIN data_bank.regions re ON re.region_id = pt.region_id;	
