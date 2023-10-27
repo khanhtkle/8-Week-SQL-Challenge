@@ -73,9 +73,9 @@ SELECT fl.customer_id,
        bd2.balance AS last_balance_by_last_txn_date
 FROM first_and_last_txn_date_cte AS fl
 JOIN data_bank.balance_by_day AS bd1 ON bd1.customer_id = fl.customer_id
-									AND bd1.date = fl.first_txn_date
+				    AND bd1.date = fl.first_txn_date
 JOIN data_bank.balance_by_day AS bd2 ON bd2.customer_id = fl.customer_id
-									AND bd2.date = fl.last_txn_date
+				    AND bd2.date = fl.last_txn_date
 WHERE bd2.balance > bd1.balance
   AND 100.0 * (bd2.balance - bd1.balance) / bd1.balance > 5
 ORDER BY 1;
@@ -90,23 +90,23 @@ WITH first_and_last_txn_date_cte AS
    WHERE total_txn_amount_by_day IS NOT NULL
    GROUP BY 1)
 SELECT COUNT(fl.customer_id) AS increasing_balance_customer_count,
-	   (SELECT COUNT(DISTINCT customer_id) 
-	    FROM data_bank.balance_by_day) AS total_customer_count,
-	   (100.0 * COUNT(fl.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
-									     FROM data_bank.balance_by_day))::DECIMAL(5,1) AS increasing_balance_customer_pct
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.balance_by_day) AS total_customer_count,
+       (100.0 * COUNT(fl.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
+					 FROM data_bank.balance_by_day))::DECIMAL(5,1) AS increasing_balance_customer_pct
 FROM first_and_last_txn_date_cte AS fl
 JOIN data_bank.balance_by_day AS bd1 ON bd1.customer_id = fl.customer_id
-									AND bd1.date = fl.first_txn_date
+				    AND bd1.date = fl.first_txn_date
 JOIN data_bank.balance_by_day AS bd2 ON bd2.customer_id = fl.customer_id
-									AND bd2.date = fl.last_txn_date
+				    AND bd2.date = fl.last_txn_date
 WHERE bd2.balance > bd1.balance
   AND 100.0 * (bd2.balance - bd1.balance) / bd1.balance > 5;
 
 -- 	b!)
 
 SELECT customer_id,
-	   date AS end_of_month_date,
-	   balance
+       date AS end_of_month_date,
+       balance
 FROM data_bank.balance_by_day
 WHERE date = DATE_TRUNC('month', date) + INTERVAL '1 month - 1 day'
   AND balance = 0;
@@ -131,10 +131,10 @@ ORDER BY 1, 2;
 -- 	b2)
 
 SELECT COUNT(bd1.customer_id) AS increasing_balance_customer_count,
-	   (SELECT COUNT(DISTINCT customer_id) 
-	    FROM data_bank.balance_by_day) AS total_customer_count,
-	   (100.0 * COUNT(bd1.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
-											  FROM data_bank.balance_by_day))::DECIMAL(5,1) AS increasing_balance_customer_pct
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.balance_by_day) AS total_customer_count,
+       (100.0 * COUNT(bd1.customer_id) / (SELECT COUNT(DISTINCT customer_id) 
+					  FROM data_bank.balance_by_day))::DECIMAL(5,1) AS increasing_balance_customer_pct
 FROM data_bank.balance_by_day AS bd1 
 JOIN data_bank.balance_by_day AS bd2 ON bd1.customer_id = bd2.customer_id
 WHERE bd1.date = DATE_TRUNC('month', bd1.date) + INTERVAL '1 month - 1 day'
@@ -148,10 +148,10 @@ WHERE bd1.date = DATE_TRUNC('month', bd1.date) + INTERVAL '1 month - 1 day'
 
 WITH balance_within_month_order_cte AS
   (SELECT *,
-          ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
-                             ORDER BY date) AS balance_within_month_order_ASC,
-		  ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
-                             ORDER BY date DESC) AS balance_within_month_order_DESC
+   ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
+                      ORDER BY date) AS balance_within_month_order_ASC,
+   ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
+                      ORDER BY date DESC) AS balance_within_month_order_DESC
    FROM data_bank.balance_by_day)
 SELECT bm1.customer_id,
        bm1.date AS start_of_month_date,
@@ -173,8 +173,8 @@ WITH balance_within_month_order_cte AS
   (SELECT *,
           ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
                              ORDER BY date) AS balance_within_month_order_ASC,
-		  ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
-							 ORDER BY date DESC) AS balance_within_month_order_DESC
+	  ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
+			     ORDER BY date DESC) AS balance_within_month_order_DESC
    FROM data_bank.balance_by_day),
      balance_within_month_cte AS
   (SELECT bm1.customer_id,
