@@ -11,8 +11,8 @@
 DROP TABLE IF EXISTS data_bank.balance_with_daily_n_c_i_reward;
 CREATE TABLE data_bank.balance_with_daily_n_c_i_reward AS
   (SELECT customer_id, 
-   		  date, 
-   		  (balance * (1 + (0.06::DECIMAL(9, 4)) / 366))::DECIMAL(9, 4) AS balance_with_daily_n_c_i_reward
+   	  date, 
+   	  (balance * (1 + (0.06::DECIMAL(9, 4)) / 366))::DECIMAL(9, 4) AS balance_with_daily_n_c_i_reward
    FROM data_bank.balance_by_day
    WHERE DATE_PART('month', date) < 5
    ORDER BY 1, 2);
@@ -53,10 +53,10 @@ CREATE TABLE data_bank.balance_with_daily_c_i_reward AS
              (balance * (1 + (0.06::DECIMAL(9, 4)) / 366))::DECIMAL(9, 4) AS balance_with_daily_c_i_reward
       FROM data_bank.first_and_last_balance_by_day AS fl
       JOIN data_bank.balance_by_day AS bd ON bd.customer_id = fl.customer_id
-      									 AND bd.date = fl.first_date
+      				   	 AND bd.date = fl.first_date
       UNION ALL 
       SELECT re.customer_id,
-			 (re.date + INTERVAL '1 day')::DATE,
+	     (re.date + INTERVAL '1 day')::DATE,
              last_date,
              bd.total_txn_amount_by_day,
              CASE
