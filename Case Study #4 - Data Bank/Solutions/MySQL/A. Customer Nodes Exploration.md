@@ -57,7 +57,6 @@ CREATE TABLE data_bank.customer_nodes_aggregated AS
          END IS NOT NULL
    ORDER BY 1, 4);
 
-
 SELECT *
 FROM data_bank.customer_nodes_aggregated;
 ```
