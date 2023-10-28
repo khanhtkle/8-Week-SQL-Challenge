@@ -12,13 +12,17 @@ ORDER BY 1;
 
 -- 	2. What is the average total historical deposit counts and amounts for all customers?
 
-SELECT customer_id,
-       COUNT(*) AS deposit_txn_count,
-       ROUND(AVG(txn_amount), 1)::REAL AS avg_txn_amount
+SELECT SUM(1) AS deposit_txn_count,
+       (SELECT COUNT(DISTINCT customer_id) 
+	FROM data_bank.customer_transactions) AS total_customer_count,
+       SUM(txn_amount) AS total_deposit_txn_amount,
+       FLOOR(SUM(1.0) / (SELECT COUNT(DISTINCT customer_id) 
+			 FROM data_bank.customer_transactions)) AS avg_deposit_txn_per_customer,
+       CAST(ROUND(SUM(1.0 * txn_amount) / (SELECT COUNT(DISTINCT customer_id) 
+					   FROM data_bank.customer_transactions), 1) AS REAL) AS avg_deposit_txn_per_customer,
+       CAST(ROUND(AVG(1.0 * txn_amount), 1) AS REAL) AS avg_txn_amount_per_deposit_txn
 FROM data_bank.customer_transactions
-WHERE txn_type = 'deposit'
-GROUP BY 1
-ORDER BY 1;
+WHERE txn_type = 'deposit';
 
 -- 	3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
 
@@ -148,10 +152,10 @@ WHERE bd1.date = DATE_TRUNC('month', bd1.date) + INTERVAL '1 month - 1 day'
 
 WITH balance_within_month_order_cte AS
   (SELECT *,
-   ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
-                      ORDER BY date) AS balance_within_month_order_ASC,
-   ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
-                      ORDER BY date DESC) AS balance_within_month_order_DESC
+          ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
+                             ORDER BY date) AS balance_within_month_order_ASC,
+          ROW_NUMBER() OVER (PARTITION BY customer_id, DATE_PART('month', date)
+                             ORDER BY date DESC) AS balance_within_month_order_DESC
    FROM data_bank.balance_by_day)
 SELECT bm1.customer_id,
        bm1.date AS start_of_month_date,
