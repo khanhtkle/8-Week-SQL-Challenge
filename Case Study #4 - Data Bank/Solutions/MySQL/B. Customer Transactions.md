@@ -11,8 +11,8 @@
 DROP TABLE IF EXISTS data_bank.opening_account_date;
 CREATE TABLE data_bank.opening_account_date AS
   (SELECT DISTINCT customer_id,
-                   MIN(txn_date) OVER (PARTITION BY customer_id
-                                       ORDER BY txn_date) AS opening_account_date
+          MIN(txn_date) OVER (PARTITION BY customer_id
+                              ORDER BY txn_date) AS opening_account_date
    FROM data_bank.customer_transactions
    ORDER BY 1);
 
