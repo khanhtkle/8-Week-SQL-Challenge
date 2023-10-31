@@ -36,8 +36,13 @@ FROM pizza_runner.cleaned_pizza_recipes;
 ALTER TABLE pizza_runner.cleaned_customer_orders
 DROP COLUMN record_id;
 
-ALTER TABLE pizza_runner.cleaned_customer_orders 
-ADD record_id INTEGER AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE pizza_runner.cleaned_customer_orders
+ADD COLUMN record_id INTEGER;
+
+SET SQL_SAFE_UPDATES = 0;
+SET @x = 0;
+UPDATE pizza_runner.cleaned_customer_orders
+SET record_id = (@x:=@x+1);
 
 SELECT *
 FROM pizza_runner.cleaned_customer_orders;
