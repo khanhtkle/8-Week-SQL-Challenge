@@ -16,10 +16,11 @@
 DROP TABLE IF EXISTS data_bank.balance_by_txn;
 CREATE TABLE data_bank.balance_by_txn AS
   (SELECT customer_id, 
-	  date, txn_type,
+	  date, 
+	  txn_type,
 	  txn_amount,
 	  balance,
-	  customer_transactions_row_number
+	  record_id
    FROM data_bank.customer_transactions_extended
    WHERE txn_type IS NOT NULL
    ORDER BY 1, 2, 6);
@@ -32,7 +33,8 @@ FROM data_bank.balance_by_txn;
 SELECT DATE_FORMAT(date, '%M, %Y') AS month,
        SUM(balance) AS data_required
 FROM data_bank.balance_by_txn
-GROUP BY 1;
+GROUP BY 1, MONTH(date)
+ORDER BY MONTH(date);
 
 -- e2)
 
@@ -65,7 +67,8 @@ FROM data_bank.balance_by_end_of_previous_month;
 SELECT month, 
        SUM(balance_by_end_of_previous_month) AS data_required
 FROM data_bank.balance_by_end_of_previous_month
-GROUP BY 1;
+GROUP BY 1, month_index
+ORDER BY month_index;
 
 -- e3a)
 
