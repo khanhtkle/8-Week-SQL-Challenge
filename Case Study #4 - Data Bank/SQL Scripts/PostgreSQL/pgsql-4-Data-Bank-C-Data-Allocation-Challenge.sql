@@ -14,16 +14,16 @@
 -- 	e1)
 
 DROP TABLE IF EXISTS data_bank.balance_by_txn;
-CREATE TABLE data_bank.balance_by_txn AS (
-SELECT customer_id,
-       date,
-       txn_type,
-       txn_amount,
-       balance,
-       customer_transactions_row_number
-FROM data_bank.customer_transactions_extended
-WHERE txn_type IS NOT NULL
-ORDER BY 1, 2, 6);
+CREATE TABLE data_bank.balance_by_txn AS
+  (SELECT customer_id, 
+	  date,
+	  txn_type,
+	  txn_amount,
+	  balance,
+	  record_id
+   FROM data_bank.customer_transactions_extended
+   WHERE txn_type IS NOT NULL
+   ORDER BY 1, 2, 6);
 
 SELECT *
 FROM data_bank.balance_by_txn;
