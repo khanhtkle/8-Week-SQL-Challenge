@@ -45,18 +45,17 @@ FROM data_bank.balance_with_daily_n_c_i_reward;
 
 ```mysql
 SELECT TO_CHAR(date, 'FMMonth, yyyy') AS month,
-       DATE_PART('month', date) AS month_index,
        SUM(balance_with_daily_n_c_i_reward)::DECIMAL(10, 0) AS data_required
 FROM data_bank.balance_with_daily_n_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, DATE_PART('month', date)
+ORDER BY DATE_PART('month', date);
 ```
-| month          | month_index | data_required |
-|:---------------|-------------|---------------|
-| 2020, January  | 1           | 2911994       |
-| 2020, February | 2           | 1897891       |
-| 2020, March    | 3           | -2852900      |
-| 2020, April    | 4           | -6896923      |
+| month          | data_required |
+|:---------------|---------------|
+| 2020, January  | 2911994       |
+| 2020, February | 1897891       |
+| 2020, March    | -2852900      |
+| 2020, April    | -6896923      |
 
 </br>
 
@@ -145,15 +144,14 @@ FROM data_bank.balance_with_daily_c_i_reward;
 
 ```mysql
 SELECT TO_CHAR(date, 'FMMonth, yyyy') AS month,
-       DATE_PART('month', date) AS month_index,
        SUM(balance_with_daily_c_i_reward)::DECIMAL(10, 0) AS data_required
 FROM data_bank.balance_with_daily_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, DATE_PART('month', date)
+ORDER BY DATE_PART('month', date);
 ```
-| month          | month_index | data_required |
-|:---------------|:------------|---------------|
-| 2020, January  | 1           | 2917352       |
-| 2020, February | 2           | 1918000       |
-| 2020, March    | 3           | -2833228      |
-| 2020, April    | 4           | -6902959      |
+| month          | data_required |
+|:---------------|---------------|
+| 2020, January  | 2917352       |
+| 2020, February | 1918000       |
+| 2020, March    | -2833228      |
+| 2020, April    | -6902959      |
