@@ -136,10 +136,6 @@ FROM data_bank.customer_transactions;
 | 376         | 2020-01-03 | deposit  | 706        | 8         |
 | 188         | 2020-01-13 | deposit  | 601        | 9         |
 | 138         | 2020-01-11 | deposit  | 520        | 10        |
-| 373         | 2020-01-18 | deposit  | 596        | 11        |
-| 361         | 2020-01-12 | deposit  | 797        | 12        |
-| 169         | 2020-01-10 | deposit  | 628        | 13        |
-| 402         | 2020-01-05 | deposit  | 435        | 14        |
 
 > Note: The presented dataset comprises 10 out of 5,868 rows of the `customer_transactions` table.
 
