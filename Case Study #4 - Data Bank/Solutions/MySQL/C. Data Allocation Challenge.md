@@ -22,7 +22,7 @@
 DROP TABLE IF EXISTS data_bank.balance_by_txn;
 CREATE TABLE data_bank.balance_by_txn AS
   (SELECT customer_id, 
-	  date,
+	  date, 
 	  txn_type,
 	  txn_amount,
 	  balance,
@@ -55,7 +55,8 @@ FROM data_bank.balance_by_txn;
 SELECT DATE_FORMAT(date, '%M, %Y') AS month,
        SUM(balance) AS data_required
 FROM data_bank.balance_by_txn
-GROUP BY 1;
+GROUP BY 1, MONTH(date)
+ORDER BY MONTH(date);
 ```
 | month          | data_required |
 |:---------------|---------------|
@@ -83,8 +84,8 @@ CREATE TABLE data_bank.balance_by_end_of_previous_month AS
       WHERE date = LAST_DAY(date)) 
    SELECT customer_id,
           DATE_FORMAT(date, '%M, %Y') AS month,
-          MONTH(date) AS month_index,
-          balance AS balance_by_end_of_previous_month
+	  MONTH(date) AS month_index,
+	  balance AS balance_by_end_of_previous_month
    FROM balance_by_previous_month_cte
    ORDER BY 1, 3);
 
@@ -112,7 +113,8 @@ FROM data_bank.balance_by_end_of_previous_month;
 SELECT month, 
        SUM(balance_by_end_of_previous_month) AS data_required
 FROM data_bank.balance_by_end_of_previous_month
-GROUP BY 1;
+GROUP BY 1, month_index
+ORDER BY month_index;
 ```
 | month          | data_required |
 |:---------------|---------------|
@@ -165,7 +167,7 @@ SELECT customer_id,
        DATE_FORMAT(p_start, '%M, %Y') AS p_month,
        MONTH(p_start) AS p_month_index,
        MIN(balance) AS p_min_balance,
-       ROUND(AVG(balance), 0) AS p_avg_balance,
+       CAST(ROUND(AVG(balance), 1) AS REAL) AS p_avg_balance,
        MAX(balance) AS p_max_balance
 FROM data_bank.balance_by_day
 GROUP BY 1, p_start
