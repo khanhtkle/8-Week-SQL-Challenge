@@ -47,8 +47,6 @@ FROM data_bank.balance_by_txn;
 | 3           | 2020-03-05 | withdrawal | 213        | -1034   | 3055      |
 | 3           | 2020-03-19 | withdrawal | 188        | -1222   | 3056      |
 
-
-
 > Note: The presented dataset comprises 10 out of 5,868 rows of the `balance_by_txn` table.
 
 </br>
