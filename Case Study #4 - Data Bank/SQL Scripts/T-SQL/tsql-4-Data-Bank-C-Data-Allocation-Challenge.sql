@@ -19,7 +19,7 @@ SELECT customer_id,
        txn_type,
        txn_amount,
        balance,
-       customer_transactions_row_number
+       record_id
 INTO data_bank.dbo.balance_by_txn
 FROM data_bank.dbo.customer_transactions_extended
 WHERE txn_type IS NOT NULL;
@@ -28,7 +28,7 @@ SELECT *
 FROM data_bank.dbo.balance_by_txn
 ORDER BY customer_id,
          date,
-	 customer_transactions_row_number;
+	 record_id;
 
 --	o3)
 
