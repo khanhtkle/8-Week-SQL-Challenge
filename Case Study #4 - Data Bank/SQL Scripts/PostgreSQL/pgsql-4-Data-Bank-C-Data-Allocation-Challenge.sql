@@ -96,7 +96,7 @@ SELECT customer_id,
        TO_CHAR(p_start, 'FMMonth, yyyy') AS p_month,
        DATE_PART('month', p_start) AS p_month_index,
        MIN(balance) AS p_min_balance,
-       ROUND(AVG(balance), 0) AS p_avg_balance,
+       ROUND(AVG(balance), 1)::REAL AS p_avg_balance,
        MAX(balance) AS p_max_balance
 FROM data_bank.balance_by_day
 GROUP BY 1, p_start
