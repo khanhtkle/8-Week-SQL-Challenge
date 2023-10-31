@@ -73,7 +73,7 @@ CREATE TABLE data_bank.balance_with_daily_c_i_reward AS
           balance_with_daily_c_i_reward
    FROM recursive_cte AS re
    JOIN data_bank.balance_by_day AS bd ON bd.customer_id = re.customer_id
-   AND bd.date = re.date
+   				      AND bd.date = re.date
    ORDER BY 1, 2);
 
 SELECT *
