@@ -21,11 +21,10 @@ SELECT *
 FROM data_bank.balance_with_daily_n_c_i_reward;
 
 SELECT TO_CHAR(date, 'FMMonth, yyyy') AS month,
-       DATE_PART('month', date) AS month_index,
        SUM(balance_with_daily_n_c_i_reward)::DECIMAL(10, 0) AS data_required
 FROM data_bank.balance_with_daily_n_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, DATE_PART('month', date)
+ORDER BY DATE_PART('month', date);
 
 -- nci)
 
@@ -80,8 +79,7 @@ SELECT *
 FROM data_bank.balance_with_daily_c_i_reward;
 
 SELECT TO_CHAR(date, 'FMMonth, yyyy') AS month,
-       DATE_PART('month', date) AS month_index,
        SUM(balance_with_daily_c_i_reward)::DECIMAL(10, 0) AS data_required
 FROM data_bank.balance_with_daily_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, DATE_PART('month', date)
+ORDER BY DATE_PART('month', date);
