@@ -27,7 +27,7 @@ SELECT *
 FROM data_bank.balance_with_daily_n_c_i_reward;
 ```
 | customer_id | date       | balance_with_daily_n_c_i_reward |
-|-------------|------------|---------------------------------|
+|-------------|:-----------|---------------------------------|
 | 1           | 2020-01-02 | 312.0511                        |
 | 1           | 2020-01-03 | 312.0511                        |
 | 1           | 2020-01-04 | 312.0511                        |
@@ -38,12 +38,8 @@ FROM data_bank.balance_with_daily_n_c_i_reward;
 | 1           | 2020-01-09 | 312.0511                        |
 | 1           | 2020-01-10 | 312.0511                        |
 | 1           | 2020-01-11 | 312.0511                        |
-| 1           | 2020-01-12 | 312.0511                        |
-| 1           | 2020-01-13 | 312.0511                        |
-| 1           | 2020-01-14 | 312.0511                        |
-| 1           | 2020-01-15 | 312.0511                        |
 
-> Note: The presented dataset comprises 14 out of 53,441 rows of the `balance_with_daily_n_c_i_reward` table.
+> Note: The presented dataset comprises 10 out of 53,441 rows of the `balance_with_daily_n_c_i_reward` table.
 
 </br>
 
@@ -56,7 +52,7 @@ GROUP BY 1, 2
 ORDER BY 2;
 ```
 | month          | month_index | data_required |
-|----------------|-------------|---------------|
+|:---------------|-------------|---------------|
 | 2020, January  | 1           | 2911994       |
 | 2020, February | 2           | 1897891       |
 | 2020, March    | 3           | -2852900      |
@@ -79,7 +75,7 @@ SELECT *
 FROM data_bank.first_and_last_balance_by_day;
 ```
 | customer_id | first_date | last_date  |
-|-------------|------------|------------|
+|-------------|:-----------|:-----------|
 | 1           | 2020-01-02 | 2020-04-30 |
 | 2           | 2020-01-03 | 2020-04-30 |
 | 3           | 2020-01-27 | 2020-04-30 |
@@ -90,12 +86,8 @@ FROM data_bank.first_and_last_balance_by_day;
 | 8           | 2020-01-15 | 2020-04-30 |
 | 9           | 2020-01-21 | 2020-04-30 |
 | 10          | 2020-01-13 | 2020-04-30 |
-| 11          | 2020-01-19 | 2020-04-30 |
-| 12          | 2020-01-13 | 2020-04-30 |
-| 13          | 2020-01-02 | 2020-04-30 |
-| 14          | 2020-01-25 | 2020-04-30 |
 
-> Note: The presented dataset comprises 14 out of 500 rows of the `first_and_last_balance_by_day` table.
+> Note: The presented dataset comprises 10 out of 500 rows of the `first_and_last_balance_by_day` table.
 
 </br>
 
@@ -130,14 +122,14 @@ CREATE TABLE data_bank.balance_with_daily_c_i_reward AS
           balance_with_daily_c_i_reward
    FROM recursive_cte AS re
    JOIN data_bank.balance_by_day AS bd ON bd.customer_id = re.customer_id
-   AND bd.date = re.date
+				      AND bd.date = re.date
    ORDER BY 1, 2);
 
 SELECT *
 FROM data_bank.balance_with_daily_c_i_reward;
 ```
 | customer_id | date       | total_txn_amount_by_day | balance_with_daily_c_i_reward |
-|-------------|------------|-------------------------|-------------------------------|
+|-------------|:-----------|-------------------------|-------------------------------|
 | 1           | 2020-01-02 | 312                     | 312.0511                      |
 | 1           | 2020-01-03 | NULL                    | 312.1023                      |
 | 1           | 2020-01-04 | NULL                    | 312.1535                      |
@@ -148,12 +140,8 @@ FROM data_bank.balance_with_daily_c_i_reward;
 | 1           | 2020-01-09 | NULL                    | 312.4095                      |
 | 1           | 2020-01-10 | NULL                    | 312.4607                      |
 | 1           | 2020-01-11 | NULL                    | 312.5119                      |
-| 1           | 2020-01-12 | NULL                    | 312.5631                      |
-| 1           | 2020-01-13 | NULL                    | 312.6143                      |
-| 1           | 2020-01-14 | NULL                    | 312.6655                      |
-| 1           | 2020-01-15 | NULL                    | 312.7168                      |
 
-> Note: The presented dataset comprises 14 out of 53,441 rows of the `balance_with_daily_c_i_reward` table.
+> Note: The presented dataset comprises 10 out of 53,441 rows of the `balance_with_daily_c_i_reward` table.
 
 ```mysql
 SELECT DATE_FORMAT(date, '%M, %Y') AS month,
@@ -164,7 +152,7 @@ GROUP BY 1, 2
 ORDER BY 2;
 ```
 | month          | month_index | data_required |
-|----------------|-------------|---------------|
+|:---------------|-------------|---------------|
 | 2020, January  | 1           | 2917352       |
 | 2020, February | 2           | 1918000       |
 | 2020, March    | 3           | -2833228      |
