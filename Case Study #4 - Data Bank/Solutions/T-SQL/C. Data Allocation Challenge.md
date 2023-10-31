@@ -25,7 +25,7 @@ SELECT customer_id,
        txn_type,
        txn_amount,
        balance,
-       customer_transactions_row_number
+       record_id
 INTO data_bank.dbo.balance_by_txn
 FROM data_bank.dbo.customer_transactions_extended
 WHERE txn_type IS NOT NULL;
@@ -34,26 +34,22 @@ SELECT *
 FROM data_bank.dbo.balance_by_txn
 ORDER BY customer_id,
          date,
-	 customer_transactions_row_number;
+	 record_id;
 ```
-| customer_id | date       | txn_type   | txn_amount | balance | customer_transactions_row_number |
-|-------------|------------|------------|------------|---------|----------------------------------|
-| 1           | 2020-01-02 | deposit    | 312        | 312     | 1                                |
-| 1           | 2020-03-05 | purchase   | 612        | -300    | 2                                |
-| 1           | 2020-03-17 | deposit    | 324        | 24      | 3                                |
-| 1           | 2020-03-19 | purchase   | 664        | -640    | 4                                |
-| 2           | 2020-01-03 | deposit    | 549        | 549     | 1                                |
-| 2           | 2020-03-24 | deposit    | 61         | 610     | 2                                |
-| 3           | 2020-01-27 | deposit    | 144        | 144     | 1                                |
-| 3           | 2020-02-22 | purchase   | 965        | -821    | 2                                |
-| 3           | 2020-03-05 | withdrawal | 213        | -1034   | 3                                |
-| 3           | 2020-03-19 | withdrawal | 188        | -1222   | 4                                |
-| 3           | 2020-04-12 | deposit    | 493        | -729    | 5                                |
-| 4           | 2020-01-07 | deposit    | 458        | 458     | 1                                |
-| 4           | 2020-01-21 | deposit    | 390        | 848     | 2                                |
-| 4           | 2020-03-25 | purchase   | 193        | 655     | 3                                |
+| customer_id | date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | txn_type   | txn_amount | balance | record_id |
+|-------------|------------|:-----------|------------|---------|-----------|
+| 1           | 2020-01-02 | deposit    | 312        | 312     | 62        |
+| 1           | 2020-03-05 | purchase   | 612        | -300    | 1174      |
+| 1           | 2020-03-17 | deposit    | 324        | 24      | 1175      |
+| 1           | 2020-03-19 | purchase   | 664        | -640    | 1176      |
+| 2           | 2020-01-03 | deposit    | 549        | 549     | 287       |
+| 2           | 2020-03-24 | deposit    | 61         | 610     | 3600      |
+| 3           | 2020-01-27 | deposit    | 144        | 144     | 234       |
+| 3           | 2020-02-22 | purchase   | 965        | -821    | 3053      |
+| 3           | 2020-03-05 | withdrawal | 213        | -1034   | 3055      |
+| 3           | 2020-03-19 | withdrawal | 188        | -1222   | 3056      |
 
-> Note: The presented dataset comprises 14 out of 5,868 rows of the `balance_by_txn` table.
+> Note: The presented dataset comprises 10 out of 5,868 rows of the `balance_by_txn` table.
 
 </br>
 
@@ -66,11 +62,11 @@ GROUP BY FORMAT(date, 'MMMM, yyyy'),
 ORDER BY MONTH(date);
 ```
 | month          | data_required |
-|----------------|---------------|
-| January, 2020  | 400187        |
-| February, 2020 | 35500         |
-| March, 2020    | -895477       |
-| April, 2020    | -493177       |
+|:---------------|---------------|
+| January, 2020  | 413460        |
+| February, 2020 | 36267         |
+| March, 2020    | -880321       |
+| April, 2020    | -486481       |
 
 </br>
 
@@ -101,7 +97,7 @@ ORDER BY customer_id,
 	 month_index;
 ```
 | customer_id | month          | month_index | balance_by_end_of_previous_month |
-|-------------|----------------|-------------|----------------------------------|
+|-------------|:---------------|-------------|----------------------------------|
 | 1           | 2020, January  | 1           | 0                                |
 | 1           | 2020, February | 2           | 312                              |
 | 1           | 2020, March    | 3           | 312                              |
@@ -112,12 +108,8 @@ ORDER BY customer_id,
 | 2           | 2020, March    | 3           | 549                              |
 | 2           | 2020, April    | 4           | 610                              |
 | 2           | 2020, May      | 5           | 610                              |
-| 3           | 2020, January  | 1           | 0                                |
-| 3           | 2020, February | 2           | 144                              |
-| 3           | 2020, March    | 3           | -821                             |
-| 3           | 2020, April    | 4           | -1222                            |
 
-> Note: The presented dataset comprises 14 out of 2,500 rows of the `balance_by_end_of_previous_month` table.
+> Note: The presented dataset comprises 10 out of 2,500 rows of the `balance_by_end_of_previous_month` table.
 
 </br>
 
@@ -130,7 +122,7 @@ GROUP BY month,
 ORDER BY month_index;
 ```
 | month          | data_required |
-|----------------|---------------|
+|:---------------|---------------|
 | 2020, January  | 0             |
 | 2020, February | 126091        |
 | 2020, March    | -13708        |
@@ -159,7 +151,7 @@ FROM data_bank.dbo.monthly_avg_balance
 ORDER BY customer_id,
          month_index;
 ```
-| customer_id | month          | month_index | min_balance | avg_balance | max_balance |
+| customer_id | month&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | month_index | min_balance | avg_balance | max_balance |
 |-------------|----------------|-------------|-------------|-------------|-------------|
 | 1           | 2020, January  | 1           | 312         | 312         | 312         |
 | 1           | 2020, February | 2           | 312         | 312         | 312         |
@@ -171,12 +163,8 @@ ORDER BY customer_id,
 | 2           | 2020, April    | 4           | 610         | 610         | 610         |
 | 3           | 2020, January  | 1           | 144         | 144         | 144         |
 | 3           | 2020, February | 2           | -821        | -122.2      | 144         |
-| 3           | 2020, March    | 3           | -1222       | -1085.4     | -821        |
-| 3           | 2020, April    | 4           | -1222       | -909.8      | -729        |
-| 4           | 2020, January  | 1           | 458         | 629.6       | 848         |
-| 4           | 2020, February | 2           | 848         | 848         | 848         |
 
-> Note: The presented dataset comprises 14 out of 2,000 rows of the `monthly_avg_balance` table.
+> Note: The presented dataset comprises 10 out of 2,000 rows of the `monthly_avg_balance` table.
 
 </br>
 
@@ -198,7 +186,7 @@ FROM data_bank.dbo.p_monthly_avg_balance
 ORDER BY customer_id,
          p_month_index;
 ```
-| customer_id | p_month        | p_month_index | p_min_balance | p_avg_balance | p_max_balance |
+| customer_id | p_month&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | p_month_index | p_min_balance | p_avg_balance | p_max_balance |
 |-------------|----------------|---------------|---------------|---------------|---------------|
 | 1           | 2020, January  | 1             | 312           | 312           | 312           |
 | 1           | 2020, February | 2             | 312           | 312           | 312           |
@@ -210,12 +198,8 @@ ORDER BY customer_id,
 | 2           | 2020, April    | 4             | 610           | 610           | 610           |
 | 3           | 2020, January  | 1             | -821          | -11.6         | 144           |
 | 3           | 2020, February | 2             | -1222         | -1034.4       | -821          |
-| 3           | 2020, March    | 3             | -1222         | -983.5        | -729          |
-| 3           | 2020, April    | 4             | -729          | -729          | -729          |
-| 4           | 2020, January  | 1             | 458           | 671.9         | 848           |
-| 4           | 2020, February | 2             | 848           | 848           | 848           |
 
-> Note: The presented dataset comprises 14 out of 2,000 rows of the `p_monthly_avg_balance` table.
+> Note: The presented dataset comprises 10 out of 2,000 rows of the `p_monthly_avg_balance` table.
 
 </br>
 
@@ -228,7 +212,7 @@ GROUP BY month,
 ORDER BY month_index;
 ```
 | month          | data_required |
-|----------------|---------------|
+|:---------------|---------------|
 | 2020, January  | 188651        |
 | 2020, February | 65434         |
 | 2020, March    | -92013        |
@@ -245,7 +229,7 @@ GROUP BY p_month,
 ORDER BY p_month_index;
 ```
 | p_month        | data_required |
-|----------------|---------------|
+|:---------------|---------------|
 | 2020, January  | 150641        |
 | 2020, February | -5533         |
 | 2020, March    | -165013       |
@@ -253,4 +237,3 @@ ORDER BY p_month_index;
 
 ---
 My solution for **[D. Extra Challenge](D.%20Extra%20Challenge.md)**.
-
