@@ -165,7 +165,7 @@ SELECT customer_id,
        DATE_FORMAT(p_start, '%M, %Y') AS p_month,
        MONTH(p_start) AS p_month_index,
        MIN(balance) AS p_min_balance,
-       ROUND(AVG(balance), 0) AS p_avg_balance,
+       CAST(ROUND(AVG(balance), 1) AS REAL) AS p_avg_balance,
        MAX(balance) AS p_max_balance
 FROM data_bank.balance_by_day
 GROUP BY 1, p_start
