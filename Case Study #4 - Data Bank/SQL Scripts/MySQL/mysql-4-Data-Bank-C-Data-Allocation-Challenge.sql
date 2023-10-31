@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS data_bank.monthly_avg_balance;
 CREATE TABLE data_bank.monthly_avg_balance AS (
 SELECT customer_id,
        DATE_FORMAT(date, '%M, %Y') AS month,
-	   MONTH(date) AS month_index,
+       MONTH(date) AS month_index,
        MIN(balance) AS min_balance,
        CAST(ROUND(AVG(balance), 1) AS REAL) AS avg_balance,
        MAX(balance) AS max_balance
