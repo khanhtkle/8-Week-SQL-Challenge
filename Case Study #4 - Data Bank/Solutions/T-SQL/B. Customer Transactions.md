@@ -9,99 +9,199 @@
 ### Data Cleaning
 
 ```tsql
-DROP TABLE IF EXISTS data_bank.dbo.customer_transactions_extended;
-WITH opening_account_date_cte AS
-  (SELECT DISTINCT customer_id,
-          MIN(txn_date) OVER (PARTITION BY customer_id
-                              ORDER BY txn_date) AS opening_account_date
-   FROM data_bank.dbo.customer_transactions),
-     recursive_p_start_cte AS
+DROP TABLE IF EXISTS data_bank.dbo.opening_account_date;
+SELECT DISTINCT customer_id,
+       MIN(txn_date) OVER (PARTITION BY customer_id
+                           ORDER BY txn_date) AS opening_account_date 
+INTO data_bank.dbo.opening_account_date
+FROM data_bank.dbo.customer_transactions;
+
+SELECT *
+FROM data_bank.dbo.opening_account_date
+ORDER BY customer_id;
+```
+| customer_id | opening_account_date |
+|-------------|----------------------|
+| 1           | 2020-01-02           |
+| 2           | 2020-01-03           |
+| 3           | 2020-01-27           |
+| 4           | 2020-01-07           |
+| 5           | 2020-01-15           |
+| 6           | 2020-01-11           |
+| 7           | 2020-01-20           |
+| 8           | 2020-01-15           |
+| 9           | 2020-01-21           |
+| 10          | 2020-01-13           |
+
+> Note: The presented dataset comprises 10 out of 500 rows of the `opening_account_date` table.
+
+</br>
+
+```tsql
+DROP TABLE IF EXISTS data_bank.dbo.recursive_p_start;
+WITH recursive_p_start_cte AS
   (SELECT customer_id,
           opening_account_date,
           opening_account_date AS p_start
-   FROM opening_account_date_cte
+   FROM data_bank.dbo.opening_account_date
    UNION ALL 
    SELECT customer_id,
-	  opening_account_date,
-	  DATEADD(mm, 1, p_start)
+          opening_account_date,
+          DATEADD(mm, 1, p_start)
    FROM recursive_p_start_cte
-   WHERE MONTH(DATEADD(mm, 1, p_start)) < 5),
-     recursive_date_cte AS
+   WHERE MONTH(DATEADD(mm, 1, p_start)) < 5)
+SELECT * 
+INTO data_bank.dbo.recursive_p_start
+FROM recursive_p_start_cte;
+
+SELECT *
+FROM data_bank.dbo.recursive_p_start
+ORDER BY customer_id,
+         p_start;
+```
+| customer_id | opening_account_date | p_start    |
+|-------------|----------------------|:-----------|
+| 1           | 2020-01-02           | 2020-01-02 |
+| 1           | 2020-01-02           | 2020-02-02 |
+| 1           | 2020-01-02           | 2020-03-02 |
+| 1           | 2020-01-02           | 2020-04-02 |
+| 2           | 2020-01-03           | 2020-01-03 |
+| 2           | 2020-01-03           | 2020-02-03 |
+| 2           | 2020-01-03           | 2020-03-03 |
+| 2           | 2020-01-03           | 2020-04-03 |
+| 3           | 2020-01-27           | 2020-01-27 |
+| 3           | 2020-01-27           | 2020-02-27 |
+
+> Note: The presented dataset comprises 10 out of 2,000 rows of the `recursive_p_start` table.
+
+</br>
+
+```tsql
+DROP TABLE IF EXISTS data_bank.dbo.recursive_date;
+WITH recursive_date_cte AS
   (SELECT customer_id,
           p_start,
           p_start AS date,
           DATEADD(dd, -1, DATEADD(mm, 1, p_start)) AS p_end
-   FROM recursive_p_start_cte
+   FROM data_bank.dbo.recursive_p_start
    UNION ALL 
    SELECT customer_id,
-	  p_start,
+          p_start,
 	  DATEADD(dd, 1, date),
 	  p_end
    FROM recursive_date_cte
-   WHERE DATEADD(dd, 1, date) <= p_end),
-     customer_transactions_row_number_cte AS
-  (SELECT *,
-	  ROW_NUMBER() OVER (PARTITION BY customer_id 
-			     ORDER BY txn_date) AS customer_transactions_row_number
-   FROM data_bank.dbo.customer_transactions),
-     balance_calculating_cte AS
+   WHERE DATEADD(dd, 1, date) <= p_end)
+SELECT *
+INTO data_bank.dbo.recursive_date
+FROM recursive_date_cte;
+
+SELECT *
+FROM data_bank.dbo.recursive_date
+ORDER BY customer_id, 
+	 date;
+```
+| customer_id | p_start    | date       | p_end      |
+|-------------|:-----------|:-----------|:-----------|
+| 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-05 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-06 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-07 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-08 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 |
+| 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 |
+
+> Note: The presented dataset comprises 10 out of 60,490 rows of the `recursive_date` table.
+
+</br>
+
+```tsql
+ALTER TABLE data_bank.dbo.customer_transactions
+DROP COLUMN IF EXISTS record_id;
+GO
+	
+ALTER TABLE data_bank.dbo.customer_transactions 
+ADD record_id INTEGER IDENTITY(1, 1);
+GO
+
+SELECT * 
+FROM data_bank.dbo.customer_transactions;	
+```
+| customer_id | txn_date   | txn_type | txn_amount | record_id |
+|-------------|:-----------|----------|------------|-----------|
+| 429         | 2020-01-21 | deposit  | 82         | 1         |
+| 155         | 2020-01-10 | deposit  | 712        | 2         |
+| 398         | 2020-01-01 | deposit  | 196        | 3         |
+| 255         | 2020-01-14 | deposit  | 563        | 4         |
+| 185         | 2020-01-29 | deposit  | 626        | 5         |
+| 309         | 2020-01-13 | deposit  | 995        | 6         |
+| 312         | 2020-01-20 | deposit  | 485        | 7         |
+| 376         | 2020-01-03 | deposit  | 706        | 8         |
+| 188         | 2020-01-13 | deposit  | 601        | 9         |
+| 138         | 2020-01-11 | deposit  | 520        | 10        |
+
+> Note: The presented dataset comprises 10 out of 5,868 rows of the `customer_transactions` table.
+
+ </br>
+
+```tqsql
+DROP TABLE IF EXISTS data_bank.dbo.customer_transactions_extended;
+WITH balance_calculating_cte AS
   (SELECT rd.customer_id,
-	  p_start, 
+          p_start, 
 	  date, 
 	  p_end,
           txn_type,
           txn_amount,
-          SUM(CASE
-		  WHEN txn_type = 'deposit' THEN txn_amount
+     	  SUM(CASE
+                  WHEN txn_type = 'deposit' THEN txn_amount
                   ELSE -txn_amount
               END) OVER (PARTITION BY rd.customer_id, p_start, date
-                         ORDER BY date, customer_transactions_row_number) AS d_txn_amount,
+                         ORDER BY date, record_id) AS d_txn_amount,
           SUM(CASE
-		  WHEN txn_type = 'deposit' THEN txn_amount
+                  WHEN txn_type = 'deposit' THEN txn_amount
                   ELSE -txn_amount
               END) OVER (PARTITION BY rd.customer_id
-			 ORDER BY date, customer_transactions_row_number 
+                         ORDER BY date, record_id 
 			 ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS balance,
-          customer_transactions_row_number
-   FROM recursive_date_cte AS rd
-   LEFT JOIN customer_transactions_row_number_cte AS ct ON ct.customer_id = rd.customer_id
-						       AND ct.txn_date = rd.date)
+          record_id
+   FROM data_bank.dbo.recursive_date AS rd
+   LEFT JOIN data_bank.dbo.customer_transactions AS ct ON ct.customer_id = rd.customer_id
+   						      AND ct.txn_date = rd.date)
 SELECT *,
        LEAD(date) OVER (PARTITION BY customer_id
-                        ORDER BY date, customer_transactions_row_number) AS next_date,
+                        ORDER BY date, record_id) AS next_date,
        ROW_NUMBER() OVER (PARTITION BY customer_id, p_start, p_end, balance
                           ORDER BY date) AS balance_unchanged_p_day_count,
        DATEDIFF(dd, p_start, p_end) + 1 AS p_month_day_count,
        ROW_NUMBER() OVER (PARTITION BY customer_id, MONTH(date), balance
-			  ORDER BY date) AS balance_unchanged_day_count,
+                          ORDER BY date) AS balance_unchanged_day_count,
        DATEDIFF(dd, CAST(FORMAT(date, 'yyyy-MM-01') AS DATE), EOMONTH(date)) + 1 AS month_day_count 
 INTO data_bank.dbo.customer_transactions_extended
 FROM balance_calculating_cte;
 
-SELECT * 
+SELECT *
 FROM data_bank.dbo.customer_transactions_extended
 ORDER BY customer_id, 
 	 date, 
-	 customer_transactions_row_number;
+	 record_id;
 ```
-| customer_id | p_start    | date       | p_end      | txn_type | txn_amount | d_txn_amount | balance | customer_transactions_row_number | next_date  | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
-|-------------|------------|------------|------------|----------|------------|--------------|---------|----------------------------------|------------|-------------------------------|-------------------|-----------------------------|-----------------|
-| 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | deposit  | 312        | 312          | 312     | 1                                | 2020-01-03 | 1                             | 31                | 1                           | 31              |
-| 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-04 | 2                             | 31                | 2                           | 31              |
-| 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-05 | 3                             | 31                | 3                           | 31              |
-| 1           | 2020-01-02 | 2020-01-05 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-06 | 4                             | 31                | 4                           | 31              |
-| 1           | 2020-01-02 | 2020-01-06 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-07 | 5                             | 31                | 5                           | 31              |
-| 1           | 2020-01-02 | 2020-01-07 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-08 | 6                             | 31                | 6                           | 31              |
-| 1           | 2020-01-02 | 2020-01-08 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-09 | 7                             | 31                | 7                           | 31              |
-| 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-10 | 8                             | 31                | 8                           | 31              |
-| 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-11 | 9                             | 31                | 9                           | 31              |
-| 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-12 | 10                            | 31                | 10                          | 31              |
-| 1           | 2020-01-02 | 2020-01-12 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-13 | 11                            | 31                | 11                          | 31              |
-| 1           | 2020-01-02 | 2020-01-13 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-14 | 12                            | 31                | 12                          | 31              |
-| 1           | 2020-01-02 | 2020-01-14 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-15 | 13                            | 31                | 13                          | 31              |
-| 1           | 2020-01-02 | 2020-01-15 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-16 | 14                            | 31                | 14                          | 31              |
+| customer_id | p_start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | p_end&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | txn_type | txn_amount | d_txn_amount | balance | record_id | next_date&nbsp;&nbsp;&nbsp; | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
+|-------------|------------|------------|------------|----------|------------|--------------|---------|-----------|------------|-------------------------------|-------------------|-----------------------------|-----------------|
+| 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | deposit  | 312        | 312          | 312     | 62        | 2020-01-03 | 1                             | 31                | 1                           | 31              |
+| 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-04 | 2                             | 31                | 2                           | 31              |
+| 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-05 | 3                             | 31                | 3                           | 31              |
+| 1           | 2020-01-02 | 2020-01-05 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-06 | 4                             | 31                | 4                           | 31              |
+| 1           | 2020-01-02 | 2020-01-06 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-07 | 5                             | 31                | 5                           | 31              |
+| 1           | 2020-01-02 | 2020-01-07 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-08 | 6                             | 31                | 6                           | 31              |
+| 1           | 2020-01-02 | 2020-01-08 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-09 | 7                             | 31                | 7                           | 31              |
+| 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-10 | 8                             | 31                | 8                           | 31              |
+| 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-11 | 9                             | 31                | 9                           | 31              |
+| 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-12 | 10                            | 31                | 10                          | 31              |
 
-> Note: The presented dataset comprises 14 out of 60,901 rows of the `customer_transactions_extended` table.
+> Note: The presented dataset comprises 10 out of 60,901 rows of the `customer_transactions_extended` table.
 
 </br>
 
@@ -124,7 +224,7 @@ ORDER BY customer_id,
 	 date;
 ```
 | customer_id | p_start    | date       | p_end      | total_txn_amount_by_day | balance |
-|-------------|------------|------------|------------|-------------------------|---------|
+|-------------|:-----------|:-----------|:-----------|-------------------------|---------|
 | 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | 312                     | 312     |
 | 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL                    | 312     |
 | 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL                    | 312     |
@@ -135,12 +235,8 @@ ORDER BY customer_id,
 | 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 | NULL                    | 312     |
 | 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 | NULL                    | 312     |
 | 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 | NULL                    | 312     |
-| 1           | 2020-01-02 | 2020-01-12 | 2020-02-01 | NULL                    | 312     |
-| 1           | 2020-01-02 | 2020-01-13 | 2020-02-01 | NULL                    | 312     |
-| 1           | 2020-01-02 | 2020-01-14 | 2020-02-01 | NULL                    | 312     |
-| 1           | 2020-01-02 | 2020-01-15 | 2020-02-01 | NULL                    | 312     |
 
-> Note: The presented dataset comprises 14 out of 60,490 rows of the `balance_by_day` table.
+> Note: The presented dataset comprises 10 out of 60,490 rows of the `balance_by_day` table.
 
 --- 
 ### Q1. What is the unique count and total amount for each transaction type?
@@ -153,7 +249,7 @@ GROUP BY txn_type
 ORDER BY txn_type;
 ```
 | txn_type   | unique_txn_count | total_txn_amount |
-|------------|------------------|------------------|
+|:-----------|------------------|------------------|
 | deposit    | 2671             | 1359168          |
 | purchase   | 1617             | 806537           |
 | withdrawal | 1580             | 793003           |
@@ -208,7 +304,7 @@ GROUP BY month,
 ORDER BY month_index;
 ```
 | month          | high_volume_customer_count |
-|----------------|----------------------------|
+|:---------------|----------------------------|
 | January, 2020  | 168                        |
 | February, 2020 | 181                        |
 | March, 2020    | 192                        |
@@ -230,7 +326,7 @@ ORDER BY customer_id,
          MONTH(date);
 ```
 | customer_id | month          | balance |
-|-------------|----------------|---------|
+|-------------|:---------------|---------|
 | 1           | January, 2020  | 312     |
 | 1           | February, 2020 | 312     |
 | 1           | March, 2020    | -640    |
@@ -241,12 +337,8 @@ ORDER BY customer_id,
 | 2           | April, 2020    | 610     |
 | 3           | January, 2020  | 144     |
 | 3           | February, 2020 | -821    |
-| 3           | March, 2020    | -1222   |
-| 3           | April, 2020    | -729    |
-| 4           | January, 2020  | 848     |
-| 4           | February, 2020 | 848     |
 
-> Note: The presented dataset comprises 14 out of 2,000 rows of of the resulting table.
+> Note: The presented dataset comprises 10 out of 2,000 rows of of the resulting table.
 
 ---
 ### Q5. What is the percentage of customers who increase their closing balance by more than 5%?
@@ -284,12 +376,8 @@ ORDER BY customer_id;
 | 15          | 2020-01-25     | 379                       | 2020-04-02    | 1102                          |
 | 30          | 2020-01-26     | 33                        | 2020-04-24    | 508                           |
 | 33          | 2020-01-24     | 473                       | 2020-04-22    | 989                           |
-| 36          | 2020-01-30     | 149                       | 2020-04-28    | 427                           |
-| 39          | 2020-01-22     | 1429                      | 2020-04-17    | 2516                          |
-| 41          | 2020-01-30     | 790                       | 2020-04-25    | 2525                          |
-| 43          | 2020-01-28     | 318                       | 2020-04-24    | 545                           |
 
-> Note: The presented dataset comprises 14 out of 161 rows of of the resulting table.
+> Note: The presented dataset comprises 10 out of 161 rows of of the resulting table.
 
 </br>
 
@@ -364,12 +452,8 @@ ORDER BY customer_id,
 | 30          | 2020-01-31          | 33      | 2020-04-30        | 508     |
 | 33          | 2020-01-31          | 473     | 2020-04-30        | 989     |
 | 36          | 2020-01-31          | 149     | 2020-04-30        | 427     |
-| 39          | 2020-01-31          | 1429    | 2020-04-30        | 2516    |
-| 51          | 2020-01-31          | 301     | 2020-04-30        | 1364    |
-| 52          | 2020-01-31          | 1140    | 2020-04-30        | 2612    |
-| 53          | 2020-01-31          | 22      | 2020-04-30        | 227     |
 
-> Note: The presented dataset comprises 14 out of 117 rows of of the resulting table.
+> Note: The presented dataset comprises 10 out of 117 rows of of the resulting table.
 
 </br>
 
@@ -429,12 +513,8 @@ ORDER BY customer_id,
 | 2           | 2020-04-01          | 610                    | 2020-04-30        | 610                  |
 | 3           | 2020-01-27          | 144                    | 2020-01-31        | 144                  |
 | 3           | 2020-02-01          | 144                    | 2020-02-29        | -821                 |
-| 3           | 2020-03-01          | -821                   | 2020-03-31        | -1222                |
-| 3           | 2020-04-01          | -1222                  | 2020-04-30        | -729                 |
-| 4           | 2020-01-07          | 458                    | 2020-01-31        | 848                  |
-| 4           | 2020-02-01          | 848                    | 2020-02-29        | 848                  |
 
-> Note: The presented dataset comprises 14 out of 2,000 rows of of the resulting table.
+> Note: The presented dataset comprises 10 out of 2,000 rows of of the resulting table.
 
 </br>
 
@@ -480,7 +560,7 @@ FROM balance_change_calculating_cte
 ORDER BY month_index;
 ```
 | month          | increasing_balance_customer_count | total_customer_count | increasing_balance_customer_pct |
-|----------------|-----------------------------------|----------------------|---------------------------------|
+|:---------------|-----------------------------------|----------------------|---------------------------------|
 | January, 2020  | 104                               | 500                  | 20.8                            |
 | February, 2020 | 120                               | 500                  | 24.0                            |
 | March, 2020    | 85                                | 500                  | 17.0                            |
