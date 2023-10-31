@@ -85,7 +85,7 @@ CREATE TABLE data_bank.customer_transactions_extended AS
 		     WHEN txn_type = 'deposit' THEN txn_amount
                      ELSE -txn_amount
 		 END) OVER (PARTITION BY rd.customer_id
-			    ORDER BY date, customer_transactions_row_number 
+			    ORDER BY date, record_id 
              		    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS balance, 
 	     record_id
       FROM data_bank.recursive_date AS rd
