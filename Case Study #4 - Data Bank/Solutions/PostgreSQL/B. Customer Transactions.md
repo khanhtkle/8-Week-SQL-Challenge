@@ -58,7 +58,7 @@ SELECT *
 FROM data_bank.recursive_p_start;
 ```
 | customer_id | opening_account_date | p_start    |
-|-------------|----------------------|------------|
+|-------------|----------------------|:-----------|
 | 1           | 2020-01-02           | 2020-01-02 |
 | 1           | 2020-01-02           | 2020-02-02 |
 | 1           | 2020-01-02           | 2020-03-02 |
@@ -98,7 +98,7 @@ SELECT *
 FROM data_bank.recursive_date;
 ```
 | customer_id | p_start    | date       | p_end      |
-|-------------|------------|------------|------------|
+|-------------|:-----------|:-----------|:-----------|
 | 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 |
 | 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 |
 | 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 |
@@ -125,7 +125,7 @@ SELECT *
 FROM data_bank.customer_transactions;
 ```
 | customer_id | txn_date   | txn_type | txn_amount | record_id |
-|-------------|------------|----------|------------|-----------|
+|-------------|:-----------|----------|------------|-----------|
 | 429         | 2020-01-21 | deposit  | 82         | 1         |
 | 155         | 2020-01-10 | deposit  | 712        | 2         |
 | 398         | 2020-01-01 | deposit  | 196        | 3         |
@@ -183,7 +183,7 @@ CREATE TABLE data_bank.customer_transactions_extended AS
 SELECT *
 FROM data_bank.customer_transactions_extended;
 ```
-| customer_id | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_end&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | txn_type | txn_amount | d_txn_amount | balance | record_id | &nbsp;&nbsp;&nbsp;next_date&nbsp;&nbsp;&nbsp; | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
+| customer_id | p_start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | p_end&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | txn_type | txn_amount | d_txn_amount | balance | record_id | next_date&nbsp;&nbsp;&nbsp; | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
 |-------------|------------|------------|------------|----------|------------|--------------|---------|-----------|------------|-------------------------------|-------------------|-----------------------------|-----------------|
 | 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | deposit  | 312        | 312          | 312     | 62        | 2020-01-03 | 1                             | 31                | 1                           | 31              |
 | 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-04 | 2                             | 31                | 2                           | 31              |
@@ -218,7 +218,7 @@ SELECT *
 FROM data_bank.balance_by_day;
 ```
 | customer_id | p_start    | date       | p_end      | total_txn_amount_by_day | balance |
-|-------------|------------|------------|------------|-------------------------|---------|
+|-------------|:-----------|:-----------|:-----------|-------------------------|---------|
 | 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | 312                     | 312     |
 | 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL                    | 312     |
 | 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL                    | 312     |
@@ -243,7 +243,7 @@ GROUP BY 1
 ORDER BY 1;
 ```
 | txn_type   | unique_txn_count | total_txn_amount |
-|------------|------------------|------------------|
+|:-----------|------------------|------------------|
 | deposit    | 2671             | 1359168          |
 | purchase   | 1617             | 806537           |
 | withdrawal | 1580             | 793003           |
@@ -295,7 +295,7 @@ GROUP BY 1, month_index
 ORDER BY month_index;
 ```
 | month          | high_volume_customer_count |
-|----------------|----------------------------|
+|:---------------|----------------------------|
 | January, 2020  | 168                        |
 | February, 2020 | 181                        |
 | March, 2020    | 192                        |
@@ -313,7 +313,7 @@ GROUP BY 1, 2, DATE_PART('month', date), 3
 ORDER BY 1, DATE_PART('month', date);
 ```
 | customer_id | month          | balance |
-|-------------|----------------|---------|
+|-------------|:---------------|---------|
 | 1           | January, 2020  | 312     |
 | 1           | February, 2020 | 312     |
 | 1           | March, 2020    | -640    |
@@ -544,7 +544,7 @@ FROM balance_change_calculating_cte
 ORDER BY month_index;
 ```
 | month          | increasing_balance_customer_count | total_customer_count | increasing_balance_customer_pct |
-|----------------|-----------------------------------|----------------------|---------------------------------|
+|:---------------|-----------------------------------|----------------------|---------------------------------|
 | January, 2020  | 104                               | 500                  | 20.8                            |
 | February, 2020 | 120                               | 500                  | 24.0                            |
 | March, 2020    | 85                                | 500                  | 17.0                            |
