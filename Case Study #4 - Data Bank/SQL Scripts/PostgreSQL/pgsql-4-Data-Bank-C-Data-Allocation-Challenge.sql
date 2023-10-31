@@ -33,7 +33,8 @@ FROM data_bank.balance_by_txn;
 SELECT TO_CHAR(date, 'FMMonth, yyyy') AS month,
        SUM(balance) AS data_required
 FROM data_bank.balance_by_txn
-GROUP BY 1;
+GROUP BY 1, DATE_PART('month', date)
+ORDER BY DATE_PART('month', date);
 
 -- e2)
 
@@ -66,7 +67,8 @@ FROM data_bank.balance_by_end_of_previous_month;
 SELECT month, 
        SUM(balance_by_end_of_previous_month) AS data_required
 FROM data_bank.balance_by_end_of_previous_month
-GROUP BY 1;
+GROUP BY 1, month_index
+ORDER BY month_index;
 
 -- e3a)
 
