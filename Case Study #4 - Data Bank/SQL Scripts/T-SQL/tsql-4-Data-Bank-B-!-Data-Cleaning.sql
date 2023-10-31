@@ -66,6 +66,10 @@ GO
 ALTER TABLE data_bank.dbo.customer_transactions 
 ADD record_id INTEGER IDENTITY(1, 1);
 GO
+
+SELECT * 
+FROM data_bank.dbo.customer_transactions;	
+
 	
 DROP TABLE IF EXISTS data_bank.dbo.customer_transactions_extended;
 WITH balance_calculating_cte AS
