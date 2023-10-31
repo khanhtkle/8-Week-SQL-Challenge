@@ -22,7 +22,6 @@ ORDER BY customer_id,
 	 date;
 
 SELECT FORMAT(date, 'yyyy, MMMM') AS month,
-       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_n_c_i_reward) AS DECIMAL(10,0)) AS data_required
 FROM data_bank.dbo.balance_with_daily_n_c_i_reward
 GROUP BY FORMAT(date, 'yyyy, MMMM'),
@@ -82,7 +81,6 @@ ORDER BY customer_id,
          date;
 
 SELECT FORMAT(date, 'yyyy, MMMM') AS month,
-       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_c_i_reward) AS DECIMAL(10,0)) AS data_required
 FROM data_bank.dbo.balance_with_daily_c_i_reward
 GROUP BY FORMAT(date, 'yyyy, MMMM'),
