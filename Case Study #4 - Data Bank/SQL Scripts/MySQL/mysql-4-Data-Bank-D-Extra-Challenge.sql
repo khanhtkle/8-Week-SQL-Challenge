@@ -21,11 +21,10 @@ SELECT *
 FROM data_bank.balance_with_daily_n_c_i_reward;
 
 SELECT DATE_FORMAT(date, '%M, %Y') AS month,
-       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_n_c_i_reward) AS DECIMAL(10, 0)) AS data_required
 FROM data_bank.balance_with_daily_n_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, MONTH(date)
+ORDER BY MONTH(date);
 
 -- nci)
 
@@ -80,8 +79,7 @@ SELECT *
 FROM data_bank.balance_with_daily_c_i_reward;
 
 SELECT DATE_FORMAT(date, '%M, %Y') AS month,
-       MONTH(date) AS month_index,
        CAST(SUM(balance_with_daily_c_i_reward) AS DECIMAL(10, 0)) AS data_required
 FROM data_bank.balance_with_daily_c_i_reward
-GROUP BY 1, 2
-ORDER BY 2;
+GROUP BY 1, MONTH(date)
+ORDER BY MONTH(date);
