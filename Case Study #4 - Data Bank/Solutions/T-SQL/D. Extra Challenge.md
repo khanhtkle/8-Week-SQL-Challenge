@@ -26,7 +26,7 @@ ORDER BY customer_id,
 	 date;
 ```
 | customer_id | date       | balance_with_daily_n_c_i_reward |
-|-------------|------------|---------------------------------|
+|-------------|:-----------|---------------------------------|
 | 1           | 2020-01-02 | 312.0511                        |
 | 1           | 2020-01-03 | 312.0511                        |
 | 1           | 2020-01-04 | 312.0511                        |
@@ -37,12 +37,8 @@ ORDER BY customer_id,
 | 1           | 2020-01-09 | 312.0511                        |
 | 1           | 2020-01-10 | 312.0511                        |
 | 1           | 2020-01-11 | 312.0511                        |
-| 1           | 2020-01-12 | 312.0511                        |
-| 1           | 2020-01-13 | 312.0511                        |
-| 1           | 2020-01-14 | 312.0511                        |
-| 1           | 2020-01-15 | 312.0511                        |
 
-> Note: The presented dataset comprises 14 out of 53,441 rows of the `balance_with_daily_n_c_i_reward` table.
+> Note: The presented dataset comprises 10 out of 53,441 rows of the `balance_with_daily_n_c_i_reward` table.
 
 </br>
 
@@ -56,7 +52,7 @@ GROUP BY FORMAT(date, 'yyyy, MMMM'),
 ORDER BY MONTH(date);
 ```
 | month          | month_index | data_required |
-|----------------|-------------|---------------|
+|:---------------|-------------|---------------|
 | 2020, January  | 1           | 2911994       |
 | 2020, February | 2           | 1897891       |
 | 2020, March    | 3           | -2852900      |
@@ -64,54 +60,76 @@ ORDER BY MONTH(date);
 
 </br>
 
-```tsql        
+```tsql
+DROP TABLE IF EXISTS data_bank.dbo.first_and_last_balance_by_day;
+SELECT customer_id,
+       MIN(date) AS first_date,
+       MAX(date) AS last_date
+INTO data_bank.dbo.first_and_last_balance_by_day
+FROM data_bank.dbo.balance_by_day
+WHERE MONTH(date) < 5
+GROUP BY customer_id;
+
+SELECT *
+FROM data_bank.dbo.first_and_last_balance_by_day
+ORDER BY customer_id;
+```
+| customer_id | first_date | last_date  |
+|-------------|:-----------|:-----------|
+| 1           | 2020-01-02 | 2020-04-30 |
+| 2           | 2020-01-03 | 2020-04-30 |
+| 3           | 2020-01-27 | 2020-04-30 |
+| 4           | 2020-01-07 | 2020-04-30 |
+| 5           | 2020-01-15 | 2020-04-30 |
+| 6           | 2020-01-11 | 2020-04-30 |
+| 7           | 2020-01-20 | 2020-04-30 |
+| 8           | 2020-01-15 | 2020-04-30 |
+| 9           | 2020-01-21 | 2020-04-30 |
+| 10          | 2020-01-13 | 2020-04-30 |
+
+> Note: The presented dataset comprises 10 out of 500 rows of the `first_and_last_balance_by_day` table.
+
+</br>
+
+```tsql
 DROP TABLE IF EXISTS data_bank.dbo.balance_with_daily_c_i_reward;
-WITH first_and_last_balance_by_day_cte AS
-  (SELECT customer_id,
-          MIN(date) AS first_date,
-          MAX(date) AS last_date
-   FROM data_bank.dbo.balance_by_day
-   WHERE MONTH(date) < 5
-   GROUP BY customer_id),
-     recursive_cte AS
+WITH recursive_cte AS
   (SELECT fl.customer_id,
           first_date AS date,
           last_date,
           total_txn_amount_by_day,
-          CAST(balance * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4)) AS balance_with_daily_c_i_reward
-   FROM first_and_last_balance_by_day_cte AS fl
+          CAST(balance * (1 + CAST(0.06 AS DECIMAL(9, 4)) / 366) AS DECIMAL(9, 4)) AS balance_with_daily_c_i_reward
+   FROM data_bank.dbo.first_and_last_balance_by_day AS fl
    JOIN data_bank.dbo.balance_by_day AS bd ON bd.customer_id = fl.customer_id
-    AND bd.date = fl.first_date
-   UNION ALL 
+   					  AND bd.date = fl.first_date
+   UNION ALL
    SELECT re.customer_id,
           DATEADD(dd, 1, re.date),
           last_date,
           bd.total_txn_amount_by_day,
           CASE
-	      WHEN bd.total_txn_amount_by_day IS NULL THEN CAST(balance_with_daily_c_i_reward * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4))
-	      ELSE CAST((balance_with_daily_c_i_reward + bd.total_txn_amount_by_day) * (1 + CAST(0.06 AS DECIMAL(9,4)) / 366) AS DECIMAL(9,4))
+              WHEN bd.total_txn_amount_by_day IS NULL THEN CAST(balance_with_daily_c_i_reward * (1 + CAST(0.06 AS DECIMAL(9, 4)) / 366) AS DECIMAL(9, 4))
+              ELSE CAST((balance_with_daily_c_i_reward + bd.total_txn_amount_by_day) * (1 + CAST(0.06 AS DECIMAL(9, 4)) / 366) AS DECIMAL(9, 4))
           END
    FROM recursive_cte AS re
    JOIN data_bank.dbo.balance_by_day AS bd ON bd.customer_id = re.customer_id
-    AND bd.date = DATEADD(dd, 1, re.date)
+                                          AND bd.date = DATEADD(dd, 1, re.date)
    WHERE DATEADD(dd, 1, re.date) <= last_date)
 SELECT re.customer_id,
        re.date,
        re.total_txn_amount_by_day,
-       balance_with_daily_c_i_reward 
-INTO data_bank.dbo.balance_with_daily_c_i_reward
+       balance_with_daily_c_i_reward INTO data_bank.dbo.balance_with_daily_c_i_reward
 FROM recursive_cte AS re
 JOIN data_bank.dbo.balance_by_day AS bd ON bd.customer_id = re.customer_id
- AND bd.date = re.date 
-OPTION (MAXRECURSION 1000);
+                                       AND bd.date = re.date OPTION (MAXRECURSION 1000);
 
 SELECT *
 FROM data_bank.dbo.balance_with_daily_c_i_reward
-ORDER BY customer_id, 
+ORDER BY customer_id,
          date;
 ```
 | customer_id | date       | total_txn_amount_by_day | balance_with_daily_c_i_reward |
-|-------------|------------|-------------------------|-------------------------------|
+|-------------|:-----------|-------------------------|-------------------------------|
 | 1           | 2020-01-02 | 312                     | 312.0511                      |
 | 1           | 2020-01-03 | NULL                    | 312.1023                      |
 | 1           | 2020-01-04 | NULL                    | 312.1535                      |
@@ -122,12 +140,8 @@ ORDER BY customer_id,
 | 1           | 2020-01-09 | NULL                    | 312.4095                      |
 | 1           | 2020-01-10 | NULL                    | 312.4607                      |
 | 1           | 2020-01-11 | NULL                    | 312.5119                      |
-| 1           | 2020-01-12 | NULL                    | 312.5631                      |
-| 1           | 2020-01-13 | NULL                    | 312.6143                      |
-| 1           | 2020-01-14 | NULL                    | 312.6655                      |
-| 1           | 2020-01-15 | NULL                    | 312.7168                      |
 
-> Note: The presented dataset comprises 14 out of 53,441 rows of the `balance_with_daily_c_i_reward` table.
+> Note: The presented dataset comprises 10 out of 53,441 rows of the `balance_with_daily_c_i_reward` table.
 
 ```tsql
 SELECT FORMAT(date, 'yyyy, MMMM') AS month,
@@ -139,7 +153,7 @@ GROUP BY FORMAT(date, 'yyyy, MMMM'),
 ORDER BY MONTH(date);
 ```
 | month          | month_index | data_required |
-|----------------|-------------|---------------|
+|:---------------|:------------|---------------|
 | 2020, January  | 1           | 2917352       |
 | 2020, February | 2           | 1918000       |
 | 2020, March    | 3           | -2833228      |
