@@ -157,20 +157,20 @@ CREATE TABLE data_bank.customer_transactions_extended AS
 		     WHEN txn_type = 'deposit' THEN txn_amount
                      ELSE -txn_amount
 		 END) OVER (PARTITION BY rd.customer_id, p_start, date
-			    ORDER BY date, customer_transactions_row_number) AS d_txn_amount,
+			    ORDER BY date, record_id) AS d_txn_amount,
 	     SUM(CASE
 		     WHEN txn_type = 'deposit' THEN txn_amount
                      ELSE -txn_amount
 		 END) OVER (PARTITION BY rd.customer_id
-			    ORDER BY date, customer_transactions_row_number 
+			    ORDER BY date, record_id 
              		    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS balance, 
 	     customer_transactions_row_number
       FROM data_bank.recursive_date AS rd
-      LEFT JOIN customer_transactions_row_number_cte AS ct ON ct.customer_id = rd.customer_id
-							  AND ct.txn_date = rd.date) 
+      LEFT JOIN data_bank.customer_transactions AS ct ON ct.customer_id = rd.customer_id
+						     AND ct.txn_date = rd.date) 
    SELECT *,
 	  LEAD(date) OVER (PARTITION BY customer_id
-			   ORDER BY date, customer_transactions_row_number) AS next_date,
+			   ORDER BY date, record_id) AS next_date,
 	  ROW_NUMBER() OVER (PARTITION BY customer_id, p_start, p_end, balance
 			     ORDER BY date) AS balance_unchanged_p_day_count,
 	  p_end - p_start + 1 AS p_month_day_count,
