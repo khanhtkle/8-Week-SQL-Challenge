@@ -146,7 +146,7 @@ FROM data_bank.dbo.customer_transactions;
 
  </br>
 
-```tqsql
+```tsql
 DROP TABLE IF EXISTS data_bank.dbo.customer_transactions_extended;
 WITH balance_calculating_cte AS
   (SELECT rd.customer_id,
