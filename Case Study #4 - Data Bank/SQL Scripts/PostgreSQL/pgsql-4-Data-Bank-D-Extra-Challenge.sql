@@ -62,18 +62,18 @@ CREATE TABLE data_bank.balance_with_daily_c_i_reward AS
              CASE
                  WHEN bd.total_txn_amount_by_day IS NULL THEN balance_with_daily_c_i_reward * (1 + (0.06::DECIMAL(9, 4)) / 366)
                  ELSE (balance_with_daily_c_i_reward + bd.total_txn_amount_by_day) * (1 + (0.06::DECIMAL(9, 4)) / 366)
-		     END::DECIMAL(9, 4)
+	     END::DECIMAL(9, 4)
       FROM recursive_cte AS re
       JOIN data_bank.balance_by_day AS bd ON bd.customer_id = re.customer_id
-      									 AND bd.date = re.date + INTERVAL '1 day'
+      					 AND bd.date = re.date + INTERVAL '1 day'
       WHERE re.date + INTERVAL '1 day' <= last_date) 
    SELECT re.customer_id,
-		  re.date,
+	  re.date,
           re.total_txn_amount_by_day,
           balance_with_daily_c_i_reward
    FROM recursive_cte AS re
    JOIN data_bank.balance_by_day AS bd ON bd.customer_id = re.customer_id
-   AND bd.date = re.date
+   				      AND bd.date = re.date
    ORDER BY 1, 2);
 
 SELECT *
