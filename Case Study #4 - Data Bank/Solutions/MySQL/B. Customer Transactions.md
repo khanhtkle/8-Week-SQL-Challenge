@@ -125,14 +125,43 @@ FROM data_bank.recursive_date;
 </br>
 
 ```mysql
+ALTER TABLE data_bank.customer_transactions
+DROP COLUMN record_id;
+
+ALTER TABLE data_bank.customer_transactions
+ADD COLUMN record_id INTEGER;
+
+SET SQL_SAFE_UPDATES = 0;
+SET @x = 0;
+UPDATE data_bank.customer_transactions 
+SET record_id = (@x:=@x+1);
+
+SELECT *
+FROM data_bank.customer_transactions;
+```
+| customer_id | txn_date   | txn_type | txn_amount | record_id |
+|-------------|------------|----------|------------|-----------|
+| 429         | 2020-01-21 | deposit  | 82         | 1         |
+| 155         | 2020-01-10 | deposit  | 712        | 2         |
+| 398         | 2020-01-01 | deposit  | 196        | 3         |
+| 255         | 2020-01-14 | deposit  | 563        | 4         |
+| 185         | 2020-01-29 | deposit  | 626        | 5         |
+| 309         | 2020-01-13 | deposit  | 995        | 6         |
+| 312         | 2020-01-20 | deposit  | 485        | 7         |
+| 376         | 2020-01-03 | deposit  | 706        | 8         |
+| 188         | 2020-01-13 | deposit  | 601        | 9         |
+| 138         | 2020-01-11 | deposit  | 520        | 10        |
+| 373         | 2020-01-18 | deposit  | 596        | 11        |
+| 361         | 2020-01-12 | deposit  | 797        | 12        |
+| 169         | 2020-01-10 | deposit  | 628        | 13        |
+| 402         | 2020-01-05 | deposit  | 435        | 14        |
+
+</br>
+
+```mysql
 DROP TABLE IF EXISTS data_bank.customer_transactions_extended;
 CREATE TABLE data_bank.customer_transactions_extended AS
-  (WITH customer_transactions_row_number_cte AS
-     (SELECT *,
-             ROW_NUMBER() OVER (PARTITION BY customer_id
-                                ORDER BY txn_date) AS customer_transactions_row_number
-      FROM data_bank.customer_transactions),
-        balance_calculating_cte AS
+  (WITH balance_calculating_cte AS
      (SELECT rd.customer_id,
              p_start, 
              date, 
@@ -143,20 +172,20 @@ CREATE TABLE data_bank.customer_transactions_extended AS
 		     WHEN txn_type = 'deposit' THEN txn_amount
                      ELSE -txn_amount
 	 	 END) OVER (PARTITION BY rd.customer_id, p_start, date
-			    ORDER BY date, customer_transactions_row_number) AS d_txn_amount,
+			    ORDER BY date, record_id) AS d_txn_amount,
 	     SUM(CASE
 		     WHEN txn_type = 'deposit' THEN txn_amount
                      ELSE -txn_amount
 		 END) OVER (PARTITION BY rd.customer_id
-			    ORDER BY date, customer_transactions_row_number 
+			    ORDER BY date, record_id 
                             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS balance, 
-	     customer_transactions_row_number
+	     record_id
       FROM data_bank.recursive_date AS rd
-      LEFT JOIN customer_transactions_row_number_cte AS ct ON ct.customer_id = rd.customer_id
-							  AND ct.txn_date = rd.date) 
+      LEFT JOIN data_bank.customer_transactions AS ct ON ct.customer_id = rd.customer_id
+						     AND ct.txn_date = rd.date) 
    SELECT *,
 	  LEAD(date) OVER (PARTITION BY customer_id
-			   ORDER BY date, customer_transactions_row_number) AS next_date,
+			   ORDER BY date, record_id) AS next_date,
 	  ROW_NUMBER() OVER (PARTITION BY customer_id, p_start, p_end, balance
 			     ORDER BY date) AS balance_unchanged_p_day_count,
 	  DATEDIFF(p_end, p_start) + 1 AS p_month_day_count,
@@ -169,22 +198,22 @@ CREATE TABLE data_bank.customer_transactions_extended AS
 SELECT *
 FROM data_bank.customer_transactions_extended;
 ```
-| customer_id | p_start    | date       | p_end      | txn_type | txn_amount | d_txn_amount | balance | customer_transactions_row_number | next_date  | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
-|-------------|------------|------------|------------|----------|------------|--------------|---------|----------------------------------|------------|-------------------------------|-------------------|-----------------------------|-----------------|
-| 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | deposit  | 312        | 312          | 312     | 1                                | 2020-01-03 | 1                             | 31                | 1                           | 31              |
-| 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-04 | 2                             | 31                | 2                           | 31              |
-| 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-05 | 3                             | 31                | 3                           | 31              |
-| 1           | 2020-01-02 | 2020-01-05 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-06 | 4                             | 31                | 4                           | 31              |
-| 1           | 2020-01-02 | 2020-01-06 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-07 | 5                             | 31                | 5                           | 31              |
-| 1           | 2020-01-02 | 2020-01-07 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-08 | 6                             | 31                | 6                           | 31              |
-| 1           | 2020-01-02 | 2020-01-08 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-09 | 7                             | 31                | 7                           | 31              |
-| 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-10 | 8                             | 31                | 8                           | 31              |
-| 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-11 | 9                             | 31                | 9                           | 31              |
-| 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-12 | 10                            | 31                | 10                          | 31              |
-| 1           | 2020-01-02 | 2020-01-12 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-13 | 11                            | 31                | 11                          | 31              |
-| 1           | 2020-01-02 | 2020-01-13 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-14 | 12                            | 31                | 12                          | 31              |
-| 1           | 2020-01-02 | 2020-01-14 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-15 | 13                            | 31                | 13                          | 31              |
-| 1           | 2020-01-02 | 2020-01-15 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL                             | 2020-01-16 | 14                            | 31                | 14                          | 31              |
+| customer_id | p_start    | date       | p_end      | txn_type | txn_amount | d_txn_amount | balance | record_id | next_date  | balance_unchanged_p_day_count | p_month_day_count | balance_unchanged_day_count | month_day_count |
+|-------------|------------|------------|------------|----------|------------|--------------|---------|-----------|------------|-------------------------------|-------------------|-----------------------------|-----------------|
+| 1           | 2020-01-02 | 2020-01-02 | 2020-02-01 | deposit  | 312        | 312          | 312     | 62        | 2020-01-03 | 1                             | 31                | 1                           | 31              |
+| 1           | 2020-01-02 | 2020-01-03 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-04 | 2                             | 31                | 2                           | 31              |
+| 1           | 2020-01-02 | 2020-01-04 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-05 | 3                             | 31                | 3                           | 31              |
+| 1           | 2020-01-02 | 2020-01-05 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-06 | 4                             | 31                | 4                           | 31              |
+| 1           | 2020-01-02 | 2020-01-06 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-07 | 5                             | 31                | 5                           | 31              |
+| 1           | 2020-01-02 | 2020-01-07 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-08 | 6                             | 31                | 6                           | 31              |
+| 1           | 2020-01-02 | 2020-01-08 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-09 | 7                             | 31                | 7                           | 31              |
+| 1           | 2020-01-02 | 2020-01-09 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-10 | 8                             | 31                | 8                           | 31              |
+| 1           | 2020-01-02 | 2020-01-10 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-11 | 9                             | 31                | 9                           | 31              |
+| 1           | 2020-01-02 | 2020-01-11 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-12 | 10                            | 31                | 10                          | 31              |
+| 1           | 2020-01-02 | 2020-01-12 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-13 | 11                            | 31                | 11                          | 31              |
+| 1           | 2020-01-02 | 2020-01-13 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-14 | 12                            | 31                | 12                          | 31              |
+| 1           | 2020-01-02 | 2020-01-14 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-15 | 13                            | 31                | 13                          | 31              |
+| 1           | 2020-01-02 | 2020-01-15 | 2020-02-01 | NULL     | NULL       | NULL         | 312     | NULL      | 2020-01-16 | 14                            | 31                | 14                          | 31              |
 
 > Note: The presented dataset comprises 14 out of 60,901 rows of the `customer_transactions_extended` table.
 
