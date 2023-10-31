@@ -62,7 +62,7 @@ ORDER BY customer_id,
          start_date;
 ```
 | customer_id | region_id | node_id | start_date | end_date   |
-|-------------|-----------|---------|------------|------------|
+|-------------|-----------|---------|:-----------|:-----------|
 | 1           | 3         | 4       | 2020-01-02 | 2020-01-14 |
 | 1           | 3         | 2       | 2020-01-15 | 2020-01-16 |
 | 1           | 3         | 5       | 2020-01-17 | 2020-01-28 |
@@ -73,12 +73,8 @@ ORDER BY customer_id,
 | 2           | 3         | 5       | 2020-02-22 | 2020-03-07 |
 | 2           | 3         | 2       | 2020-03-08 | 2020-03-12 |
 | 2           | 3         | 4       | 2020-03-13 | 2020-03-13 |
-| 3           | 5         | 4       | 2020-01-27 | 2020-02-18 |
-| 3           | 5         | 5       | 2020-02-19 | 2020-03-06 |
-| 3           | 5         | 3       | 2020-03-07 | 2020-03-24 |
-| 3           | 5         | 4       | 2020-03-25 | 2020-04-08 |
 
-> Note: The presented dataset comprises 14 out of 2,491 rows of the `customer_nodes_aggregated` table.
+> Note: The presented dataset comprises 10 out of 2,491 rows of the `customer_nodes_aggregated` table.
 
 --- 
 ### Q1. How many unique nodes are there on the Data Bank system?
