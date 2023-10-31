@@ -49,7 +49,7 @@ WITH recursive_date_cte AS
 	  p_end
    FROM recursive_date_cte
    WHERE DATEADD(dd, 1, date) <= p_end)
-SELECT * I
+SELECT *
 INTO data_bank.dbo.recursive_date
 FROM recursive_date_cte;
 
@@ -108,7 +108,9 @@ FROM balance_calculating_cte;
 
 SELECT *
 FROM data_bank.dbo.customer_transactions_extended
-ORDER BY customer_id, date, record_id;
+ORDER BY customer_id, 
+	 date, 
+	 record_id;
 
 DROP TABLE IF EXISTS data_bank.dbo.balance_by_day;
 SELECT customer_id,
