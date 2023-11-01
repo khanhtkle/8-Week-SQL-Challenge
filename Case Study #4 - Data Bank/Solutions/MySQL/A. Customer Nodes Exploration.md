@@ -8,7 +8,7 @@
 
 ### Data Cleaning
 
-1. Create a table `customer_nodes_aggregated`:
+Create a table `customer_nodes_aggregated`:
 - In this procedure, our goal is to remove invalid data (data with year of `end_date` in 9999) and refine `start_date` and `end_date` for data instances where their `node_id` remains unchanged after data allocation (e.g. data with `customer_id` set to 24, 26, 27,...). This will allow us to easily calculate metrics relevant to customer nodes and data allocation in the future.
 
 	- Set up the 1<sup>st</sup> a common expression table `table node_date_filtering_1_cte` from `customer_nodes` table:
