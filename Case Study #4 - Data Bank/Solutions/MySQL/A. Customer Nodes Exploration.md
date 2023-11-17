@@ -11,13 +11,13 @@
 Create a table `customer_nodes_aggregated`:
 - In this procedure, our goal is to remove invalid data (data with year of `end_date` in 9999) and refine `start_date` and `end_date` for data instances where their `node_id` remains unchanged after data allocation (e.g. data with `customer_id` set to 24, 26, 27,...). This will allow us to easily calculate metrics relevant to customer nodes and data allocation in the future.
 
-	- Set up the 1<sup>st</sup> a common expression table `table node_date_filtering_1_cte` from `customer_nodes` table:
+	- Set up the 1<sup>st</sup> common expression table `node_date_filtering_1_cte` from `customer_nodes` table:
   		- Establish the core data by including the `customer_id`, `region_id`, `node_id`, `start_date` and `end_date`.
   		- Create a column `previous_node_id` to indicate the `node_id` in the previous data allocation of each customer.
  		- Create a column `next_node_id` to indicate the `node_id` in the next data allocation of each customer.
  		- Filter and exclude data where the value `end_date` is in 9999.
   	
-   - Set up the 2<sup>nd</sup> common expression table `table node_date_filtering_2_cte` from `node_date_filtering_1_cte` table:
+   - Set up the 2<sup>nd</sup> common expression table `node_date_filtering_2_cte` from `node_date_filtering_1_cte` table:
 	  	- Establish the core data by including the `customer_id`, `region_id`, `node_id`, `start_date` and `end_date`.
 	  	- Create a column `previous_node_id_2` to indicate the `node_id` of the row currently standing above.
 	  	- Create a column `next_node_id_2` to indicate the `node_id` of the row currently standing below.
@@ -26,9 +26,9 @@ Create a table `customer_nodes_aggregated`:
    	
     - Select and filter the desired data from `node_date_filtering_2_cte` table:
    		- Establish the core data by including the `customer_id`, `region_id`, `node_id`, `start_date`.
-   	 	- Create a column 'end_date' to indicate:
-   	 		- if `node_id` is similar with `next_node_id`, its value will equal to 'next_end_date`.
-   	   		- if `node_id` is similar with `next_node_id`, its value will equal to 'next_end_date`.
+   	 	- Create a column `end_date` to indicate:
+   	 		- if `node_id` is similar with `next_node_id_2`, its value will equal to `next_end_date`.
+   	   		- if `node_id` is similar with `previous_node_id`, its value will be `NULL`.
    	   		- otherwise, keep its value similar with value of `end_date` from `node_date_filtering_2_cte`.
    	  	- Filter and exclude data where their newly created `end_date` is `NULL`.
 ```mysql
