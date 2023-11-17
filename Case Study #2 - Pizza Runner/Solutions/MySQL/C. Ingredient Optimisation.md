@@ -20,8 +20,8 @@ CREATE TABLE pizza_runner.cleaned_pizza_recipes AS
       SELECT n + 1
       FROM numbers_cte
       WHERE n < (SELECT COUNT(*)
-			FROM pizza_runner.pizza_toppings)),
-			topping_id_cte AS
+		 FROM pizza_runner.pizza_toppings)),
+	topping_id_cte AS
      (SELECT pizza_id,
              CAST(TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(toppings, ',', n), ',', -1)) AS UNSIGNED) AS topping_id
       FROM pizza_runner.pizza_recipes
@@ -105,8 +105,8 @@ CREATE TABLE pizza_runner.extras AS
       SELECT n + 1
       FROM numbers_cte
       WHERE n < (SELECT COUNT(*)
-			FROM pizza_runner.pizza_toppings)),
-			topping_id_cte AS
+		 FROM pizza_runner.pizza_toppings)),
+	topping_id_cte AS
      (SELECT record_id,
              CAST(TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(extras, ',', n), ',', -1)) AS UNSIGNED) AS topping_id,
              cancellation
@@ -147,8 +147,8 @@ CREATE TABLE pizza_runner.exclusions AS
       SELECT n + 1
       FROM numbers_cte
       WHERE n < (SELECT COUNT(*)
-			FROM pizza_runner.pizza_toppings)),
-			topping_id_cte AS
+		 FROM pizza_runner.pizza_toppings)),
+	topping_id_cte AS
      (SELECT record_id,
              CAST(TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(exclusions, ',', n), ',', -1)) AS UNSIGNED) AS topping_id,
 	     cancellation
