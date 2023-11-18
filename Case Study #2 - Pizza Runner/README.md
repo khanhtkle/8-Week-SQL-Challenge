@@ -39,7 +39,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 ## :bookmark_tabs: Example Datasets
 
-Note: Originally, all `order_id` entries had their `order_time` dated in `2021`, yet some of their corresponding `pickup_time` was inexplicably harking back to `2020`. To rectify this incoherency, all entries in the `pickup_time` have been adjusted to the year `2021`.
+Note: Originally, all `order_id` entries had their `order_time` dated in 2021, yet some of their corresponding `pickup_time` was inexplicably harking back to 2020. To rectify this incoherency, all entries in the `pickup_time` have been adjusted to the year 2021.
 
 <div align="center">
 
@@ -204,12 +204,12 @@ View my solution in:
 2. What was the most commonly added extra?
 3. What was the most common exclusion?
 4. Generate an order item for each record in the `customers_orders` table in the format of one of the following:
-    * ```Meat Lovers```
-    * ```Meat Lovers - Exclude Beef```
-    * ```Meat Lovers - Extra Bacon```
-    * ```Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers```
+   * `Meat Lovers`
+   * `Meat Lovers - Exclude Beef`
+   * `Meat Lovers - Extra Bacon`
+   * `Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers`
 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a `2x` in front of any relevant ingredients
-    * For example: ```"Meat Lovers: 2xBacon, Beef, ... , Salami"```
+    * For example: `"Meat Lovers: 2xBacon, Beef, ... , Salami"`
 6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
 
 View my solution in:
@@ -225,19 +225,19 @@ View my solution in:
 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?
 2. What if there was an additional $1 charge for any pizza extras?
     * Add cheese is $1 extra
-3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset? Generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
-4. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
-    * ```customer_id```
-    * ```order_id```
-    * ```runner_id```
-    * ```rating```
-    * ```order_time```
-    * ```pickup_time```
+4. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset? Generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
+5. Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
+    * `customer_id`
+    * `order_id`
+    * `runner_id`
+    * `rating`
+    * `order_time`
+    * `pickup_time`
     * Time between order and pickup
     * Delivery duration
     * Average speed
     * Total number of pizzas
-5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
+5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled. How much money does Pizza Runner have left over after these deliveries?
  
 View my solution in:
 
@@ -249,7 +249,7 @@ View my solution in:
 
 ### E. Bonus Questions
 
-If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an ```INSERT``` statement to demonstrate what would happen if a new ```Supreme``` pizza with all the toppings was added to the Pizza Runner menu?
+If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an `INSERT` statement to demonstrate what would happen if a new `Supreme` pizza with all the toppings was added to the Pizza Runner menu?
 
 View my solution in:
 
