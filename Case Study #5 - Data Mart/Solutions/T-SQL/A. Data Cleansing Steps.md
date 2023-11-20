@@ -23,4 +23,4 @@
 ```
 
 ---
-My solution for **[B. Data Exploration](B.%20Data/%20Exploration.md)**.
+My solution for **[B. Data Exploration](B.%20Data%20Exploration.md)**.
