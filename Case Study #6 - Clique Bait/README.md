@@ -1,4 +1,4 @@
-# :bank: Case Study 6 - Clique Bait
+# :fish: Case Study 6 - Clique Bait
 
 <div align="center">
   <picture>
