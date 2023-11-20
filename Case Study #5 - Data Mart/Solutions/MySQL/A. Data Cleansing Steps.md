@@ -17,6 +17,7 @@
 - ### Generate a new `avg_transaction` column as the sales value divided by `transactions` rounded to 2 decimal places for each record.
 
 </br>
+
 ```mysql
 
 ```
