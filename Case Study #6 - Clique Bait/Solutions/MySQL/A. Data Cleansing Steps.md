@@ -7,55 +7,55 @@
 </picture>
 
 ### Q1. How many users are there?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q2. How many cookies does each user have on average?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q3. What is the unique number of visits by all users per month?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q4. What is the number of events for each event type?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q5. What is the percentage of visits which have a purchase event?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q6. What is the percentage of visits which view the checkout page but do not have a purchase event?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q7. What are the top 3 pages by number of views?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q8. What is the number of views and cart adds for each product category?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q9. What are the top 3 products by purchases?
-```tsql
+```mysql
 
 ```
 
