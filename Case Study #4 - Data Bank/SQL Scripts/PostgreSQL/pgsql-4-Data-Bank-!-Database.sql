@@ -3,7 +3,7 @@
 -------------------------------------
 -- Author: Khanh Le
 -- Date: 21/05/2023
--- Tool used: MySQL Workbench
+-- Tool used: pgAdmin 4
 
 DROP SCHEMA IF EXISTS data_bank CASCADE;
 CREATE SCHEMA data_bank;
