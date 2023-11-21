@@ -39,7 +39,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
 
-**Table 1: Users**
+**Table 1: users**
 
 | user_id | cookie_id | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_date |
 | :------ | :-------- | :------------------ |
@@ -60,7 +60,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
 
-**Table 2: Events**
+**Table 2: events**
 
 | visit_id | cookie_id | page_id | event_type | sequence_number | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event_time |
 | :------- | :-------- | :------ | :--------- | :-------------- | :------------------------- |
@@ -81,7 +81,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
 
-**Table 3: Event_identifier**
+**Table 3: event_identifier**
 
 | event_type | event_name    |
 | :--------- | :------------ |
@@ -97,7 +97,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
 
-**Table 4: Campaign_identifier**
+**Table 4: campaign_identifier**
 
 | campaign_id | products |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;campaign_name | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_date | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end_date |
 | :---------- | :------- | :-------------------------------- | :------------------ | :------------------ |
@@ -111,7 +111,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
 
-**Table 5: Page_hierarchy**
+**Table 5: page_hierarchy**
 
 | page_id | page_name      | product_category | product_id |
 | :------ | :------------- | :--------------- | :--------- |
