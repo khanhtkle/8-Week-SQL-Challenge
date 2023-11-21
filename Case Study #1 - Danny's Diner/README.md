@@ -29,7 +29,7 @@ View the complete business case [HERE](https://8weeksqlchallenge.com/case-study-
 
 <div align="center">
   <picture>
-    <img width="60%" src="../IMG/e1.png")>
+    <img width="50%" src="../IMG/e1.png")>
   </picture>	
 </div>
 
