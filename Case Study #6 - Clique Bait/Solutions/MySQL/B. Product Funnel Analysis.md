@@ -16,25 +16,25 @@
 </br>
 
 ### Q1. Which product had the most views, cart adds and purchases?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q2. Which product was most likely to be abandoned?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q3. Which product had the highest view to purchase percentage?
-```tsql
+```mysql
 
 ```
 
 ---
 ### Q4. What is the average conversion rate from view to cart add?
-```tsql
+```mysql
 
 ```
 
