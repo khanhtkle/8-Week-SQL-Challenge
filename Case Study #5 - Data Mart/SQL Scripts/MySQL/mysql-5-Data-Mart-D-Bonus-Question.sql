@@ -18,10 +18,10 @@ WITH cumulative_sales_cte AS
           demographic,
           customer_type,
           SUM(CASE
-                  WHEN week_number BETWEEN WEEKOFYEAR( '2020-06-15') - 4 AND WEEKOFYEAR('2020-06-15') - 1 THEN sales
+                  WHEN week_number BETWEEN WEEKOFYEAR('2020-06-15') - 4 AND WEEKOFYEAR('2020-06-15') - 1 THEN sales
               END) AS cml_sales_4wk_pre,
           SUM(CASE
-                  WHEN week_number BETWEEN WEEKOFYEAR( '2020-06-15') AND WEEKOFYEAR( '2020-06-15') + 3 THEN sales
+                  WHEN week_number BETWEEN WEEKOFYEAR('2020-06-15') AND WEEKOFYEAR('2020-06-15') + 3 THEN sales
               END) AS cml_sales_4wk_post
    FROM data_mart.clean_weekly_sales
    WHERE calendar_year = 2020
