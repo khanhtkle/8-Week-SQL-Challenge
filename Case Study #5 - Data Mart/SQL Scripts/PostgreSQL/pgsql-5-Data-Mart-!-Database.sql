@@ -8,6 +8,7 @@
 DROP SCHEMA IF EXISTS MART CASCADE;
 CREATE SCHEMA data_mart;
 
+
 DROP TABLE IF EXISTS data_mart.weekly_sales;
 CREATE TABLE data_mart.weekly_sales (
   week_date VARCHAR(7),
