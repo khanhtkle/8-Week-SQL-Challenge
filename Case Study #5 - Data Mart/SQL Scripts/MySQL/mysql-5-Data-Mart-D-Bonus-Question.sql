@@ -32,7 +32,7 @@ SELECT *,
        DENSE_RANK() OVER (PARTITION BY region, platform
                           ORDER BY cml_sales_4wk_post - cml_sales_4wk_pre) AS variance_ranking,
        DENSE_RANK() OVER (PARTITION BY region, platform
-						  ORDER BY 100.0 * (cml_sales_4wk_post - cml_sales_4wk_pre) / cml_sales_4wk_pre) AS variance_pct_ranking
+						  ORDER BY CAST(100.0 * (cml_sales_4wk_post - cml_sales_4wk_pre) / cml_sales_4wk_pre AS DECIMAL(5, 2))) AS variance_pct_ranking
 FROM cumulative_sales_cte);
 
 SELECT *
