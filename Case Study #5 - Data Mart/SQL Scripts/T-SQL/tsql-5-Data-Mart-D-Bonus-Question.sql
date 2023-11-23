@@ -2,12 +2,12 @@
 -- D. Bonus Question --
 -------------------------------------
 --	Which areas of the business have the highest negative impact in sales metrics performance in 2020 for the 12 week before and after period?
---	- region
---	- platform
---	- age_band
---	- demographic
---	- customer_type
---	Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
+--		- region
+--		- platform
+--		- age_band
+--		- demographic
+--		- customer_type
+--	Do you have any further recommendations for Dannyâ€™s team at Data Mart or any interesting insights based off this analysis?
 
 DROP TABLE IF EXISTS data_mart.dbo.sales_variance;
 WITH cumulative_sales_cte AS
@@ -35,7 +35,8 @@ SELECT *,
        DENSE_RANK() OVER (PARTITION BY region, platform
                           ORDER BY cml_sales_4wk_post - cml_sales_4wk_pre) AS variance_ranking,
        DENSE_RANK() OVER (PARTITION BY region, platform
-						  ORDER BY CAST(100.0 * (cml_sales_4wk_post - cml_sales_4wk_pre) / cml_sales_4wk_pre AS DECIMAL(5, 2))) AS variance_pct_ranking INTO data_mart.dbo.sales_variance
+						  ORDER BY 100.0 * (cml_sales_4wk_post - cml_sales_4wk_pre) / cml_sales_4wk_pre) AS variance_pct_ranking 
+INTO data_mart.dbo.sales_variance
 FROM cumulative_sales_cte;
 
 SELECT *
