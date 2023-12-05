@@ -155,10 +155,10 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'Received impression'
 GROUP BY 1, 2
-ORDER BY CASE
-             WHEN campaign_name IS NULL THEN '1' 
-             ELSE campaign_name 
-         END;
+ORDER BY CASE 
+		     WHEN campaign_name IS NULL THEN '1' 
+		 ELSE campaign_name 
+		 END;
 
 WITH impression_stat_cte AS
   (SELECT *,
@@ -178,7 +178,7 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'No impression'
 GROUP BY 1, 2
-ORDER BY CASE
-             WHEN campaign_name IS NULL THEN '1' 
-             ELSE campaign_name 
-         END;
+ORDER BY CASE 
+		     WHEN campaign_name IS NULL THEN '1' 
+		 ELSE campaign_name 
+		 END;
