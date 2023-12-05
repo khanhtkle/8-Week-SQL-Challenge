@@ -74,9 +74,9 @@ WITH next_page_id_cte AS
    FROM clique_bait.events)
 SELECT abandoned_visit_count,
        checkout_visit_count,
-       CAST(100.0 * abandoned_visit_count / checkout_visit_count AS DECIMAL(5,2)) AS abandoned_over_check_out_pct,
+       CAST(100 * abandoned_visit_count / checkout_visit_count AS DECIMAL(5,2)) AS abandoned_over_check_out_pct,
        total_visits,
-       CAST(100.0 * abandoned_visit_count / total_visits AS DECIMAL(5,2)) AS abandoned_over_total_visits_pct
+       CAST(100 * abandoned_visit_count / total_visits AS DECIMAL(5,2)) AS abandoned_over_total_visits_pct
 FROM abandoned_visit_cte,
      checkout_visit_cte,
      total_visits_cte;
@@ -90,7 +90,7 @@ FROM clique_bait.events AS ev
 JOIN clique_bait.event_identifier AS ei ON ei.event_type = ev.event_type
 JOIN clique_bait.page_hierarchy AS ph ON ph.page_id = ev.page_id
 WHERE ev.event_type = 1
-GROUP BY 1 , 2
+GROUP BY 1, 2
 ORDER BY 3 DESC
 LIMIT 3;
 
