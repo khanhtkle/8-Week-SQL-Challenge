@@ -105,7 +105,6 @@ CREATE TABLE clique_bait.category_funnel_analysis AS
    GROUP BY 1
    ORDER BY 1);
 
-
 SELECT *
 FROM clique_bait.category_funnel_analysis;
 ```
