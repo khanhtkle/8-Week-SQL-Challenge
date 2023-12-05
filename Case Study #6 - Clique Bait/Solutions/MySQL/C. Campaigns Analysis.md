@@ -190,7 +190,7 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'Received impression'
 GROUP BY 1, 2
-ORDER BY 1, 2 DESC;
+ORDER BY 1;
 ```
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;campaign_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;impression_stat&nbsp;&nbsp;&nbsp;&nbsp; | total_visits | avg_page_view_per_visit | avg_cart_add_per_visit | avg_visit_to_purchase_conversion_rate |
 |-----------------------------------|---------------------|--------------|-------------------------|------------------------|---------------------------------------|
@@ -220,7 +220,7 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'No impression'
 GROUP BY 1, 2
-ORDER BY 1, 2 DESC;
+ORDER BY 1;
 ```
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;campaign_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;impression_stat&nbsp;&nbsp;&nbsp;&nbsp; | total_visits | avg_page_view_per_visit | avg_cart_add_per_visit | avg_visit_to_purchase_conversion_rate |
 |-----------------------------------|-----------------|--------------|-------------------------|------------------------|---------------------------------------|
