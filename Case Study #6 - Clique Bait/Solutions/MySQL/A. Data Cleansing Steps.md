@@ -36,13 +36,13 @@ FROM clique_bait.events
 GROUP BY 1, 2, 3
 ORDER BY 1;
 ```
-| year | month_index | month    | visits_per_month |
-|------|-------------|----------|------------------|
-| 2020 | 1           | January  | 876              |
-| 2020 | 2           | February | 1488             |
-| 2020 | 3           | March    | 916              |
-| 2020 | 4           | April    | 248              |
-| 2020 | 5           | May      | 36               |
+| year | month_index | month    | unique_visits_per_month |
+|------|-------------|----------|-------------------------|
+| 2020 | 1           | January  | 876                     |
+| 2020 | 2           | February | 1488                    |
+| 2020 | 3           | March    | 916                     |
+| 2020 | 4           | April    | 248                     |
+| 2020 | 5           | May      | 36                      |
 
 ---
 ### Q4. What is the number of events for each event type?
