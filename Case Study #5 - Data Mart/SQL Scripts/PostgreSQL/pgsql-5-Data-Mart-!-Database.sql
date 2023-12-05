@@ -2,10 +2,10 @@
 -- CASE STUDY #5: DATA MART --
 -------------------------------------
 -- Author: Khanh Le
--- Date: 21/05/2023
+-- Date: 28/05/2023
 -- Tool used: pgAdmin 4
 
-DROP SCHEMA IF EXISTS MART CASCADE;
+DROP SCHEMA IF EXISTS data_mart CASCADE;
 CREATE SCHEMA data_mart;
 
 
