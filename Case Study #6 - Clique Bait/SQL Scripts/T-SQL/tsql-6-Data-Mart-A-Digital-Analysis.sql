@@ -16,7 +16,7 @@ FROM clique_bait.dbo.users;
 SELECT YEAR(event_time) AS year,
        MONTH(event_time) AS month_index,
        FORMAT(event_time, 'MMMM') AS month,
-       COUNT(DISTINCT visit_id) AS visits_per_month_count
+       COUNT(DISTINCT visit_id) AS visits_per_month
 FROM clique_bait.dbo.events
 GROUP BY YEAR(event_time),
          MONTH(event_time),
@@ -27,7 +27,7 @@ ORDER BY MONTH(event_time);
 
 SELECT ev.event_type,
        event_name,
-       COUNT(ev.event_type) AS events_count
+       COUNT(ev.event_type) AS events
 FROM clique_bait.dbo.events AS ev
 JOIN clique_bait.dbo.event_identifier AS ei ON ei.event_type = ev.event_type
 GROUP BY ev.event_type,
