@@ -24,7 +24,7 @@ WITH product_carts_cte AS
    GROUP BY visit_id)
 SELECT user_id,
        ev.visit_id,
-       FORMAT(MIN(event_time), 'yyyy-MM-dd HH:mm:ss') AS visit_start_time,
+       CONCAT(CAST(MIN(event_time) AS DATE), ' ', CONVERT(time(0), MIN(event_time))) AS visit_start_time,
        SUM(CASE
                WHEN event_type = 1 THEN 1
                ELSE 0
