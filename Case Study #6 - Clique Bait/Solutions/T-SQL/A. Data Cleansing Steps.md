@@ -31,40 +31,40 @@ FROM clique_bait.dbo.users;
 SELECT YEAR(event_time) AS year,
        MONTH(event_time) AS month_index,
        FORMAT(event_time, 'MMMM') AS month,
-       COUNT(DISTINCT visit_id) AS visits_per_month_count
+       COUNT(DISTINCT visit_id) AS visits_per_month
 FROM clique_bait.dbo.events
 GROUP BY YEAR(event_time),
          MONTH(event_time),
          FORMAT(event_time, 'MMMM')
 ORDER BY MONTH(event_time);
 ```
-| year | month_index | month    | visits_per_month_count |
-|------|-------------|----------|------------------------|
-| 2020 | 1           | January  | 876                    |
-| 2020 | 2           | February | 1488                   |
-| 2020 | 3           | March    | 916                    |
-| 2020 | 4           | April    | 248                    |
-| 2020 | 5           | May      | 36                     |
+| year | month_index | month    | visits_per_month |
+|------|-------------|----------|------------------|
+| 2020 | 1           | January  | 876              |
+| 2020 | 2           | February | 1488             |
+| 2020 | 3           | March    | 916              |
+| 2020 | 4           | April    | 248              |
+| 2020 | 5           | May      | 36               |
 
 ---
 ### Q4. What is the number of events for each event type?
 ```tsql
 SELECT ev.event_type,
        event_name,
-       COUNT(ev.event_type) AS events_count
+       COUNT(ev.event_type) AS events
 FROM clique_bait.dbo.events AS ev
 JOIN clique_bait.dbo.event_identifier AS ei ON ei.event_type = ev.event_type
 GROUP BY ev.event_type,
          event_name
 ORDER BY event_type;
 ```
-| event_type | event_name    | events_count |
-|------------|---------------|--------------|
-| 1          | Page View     | 20928        |
-| 2          | Add to Cart   | 8451         |
-| 3          | Purchase      | 1777         |
-| 4          | Ad Impression | 876          |
-| 5          | Ad Click      | 702          |
+| event_type | event_name    | events |
+|------------|---------------|--------|
+| 1          | Page View     | 20928  |
+| 2          | Add to Cart   | 8451   |
+| 3          | Purchase      | 1777   |
+| 4          | Ad Impression | 876    |
+| 5          | Ad Click      | 702    |
 
 ---
 ### Q5. What is the percentage of visits which have a purchase event?
