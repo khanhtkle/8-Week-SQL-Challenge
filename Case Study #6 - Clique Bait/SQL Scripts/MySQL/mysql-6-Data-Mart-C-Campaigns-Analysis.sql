@@ -155,7 +155,7 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'Received impression'
 GROUP BY 1, 2
-ORDER BY 1, 2 DESC;
+ORDER BY 1;
 
 WITH impression_stat_cte AS
   (SELECT *,
@@ -175,4 +175,4 @@ SELECT campaign_name,
 FROM impression_stat_cte
 WHERE impression_stat = 'No impression'
 GROUP BY 1, 2
-ORDER BY 1, 2 DESC;
+ORDER BY 1;
