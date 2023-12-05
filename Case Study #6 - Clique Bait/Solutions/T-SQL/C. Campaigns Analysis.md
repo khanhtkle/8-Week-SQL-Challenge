@@ -29,7 +29,7 @@ WITH product_carts_cte AS
    GROUP BY visit_id)
 SELECT user_id,
        ev.visit_id,
-       FORMAT(MIN(event_time), 'yyyy-MM-dd HH:mm:ss') AS visit_start_time,
+       CONCAT(CAST(MIN(event_time) AS DATE), ' ', CONVERT(time(0), MIN(event_time))) AS visit_start_time,
        SUM(CASE
                WHEN event_type = 1 THEN 1
                ELSE 0
@@ -68,16 +68,17 @@ ORDER BY user_id,
 ```
 | user_id | visit_id | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visit_start_time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | page_views | cart_adds | purchase | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;campaign_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | impression | click | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;product_carts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---------|----------|---------------------|------------|-----------|----------|-----------------------------------|------------|-------|-----------------------------------------------------------------------------|
-| 1       | 0fc437   | 2020-02-04 17:49:49 | 10         | 6         | 1        | Half Off - Treat Your Shellf(ish) | 1          | 1     | Tuna, Russian Caviar, Black Truffle, Abalone, Crab, Oyster                  |
+| 1       | 0fc437   | 2020-02-04 17:49:50 | 10         | 6         | 1        | Half Off - Treat Your Shellf(ish) | 1          | 1     | Tuna, Russian Caviar, Black Truffle, Abalone, Crab, Oyster                  |
 | 1       | ccf365   | 2020-02-04 19:16:09 | 7          | 3         | 1        | Half Off - Treat Your Shellf(ish) | 0          | 0     | Lobster, Crab, Oyster                                                       |
-| 1       | 0826dc   | 2020-02-26 05:58:37 | 1          | 0         | 0        | Half Off - Treat Your Shellf(ish) | 0          | 0     | NULL                                                                        |
+| 1       | 0826dc   | 2020-02-26 05:58:38 | 1          | 0         | 0        | Half Off - Treat Your Shellf(ish) | 0          | 0     | NULL                                                                        |
 | 1       | 02a5d5   | 2020-02-26 16:57:26 | 4          | 0         | 0        | Half Off - Treat Your Shellf(ish) | 0          | 0     | NULL                                                                        |
 | 1       | f7c798   | 2020-03-15 02:23:26 | 9          | 3         | 1        | Half Off - Treat Your Shellf(ish) | 0          | 0     | Russian Caviar, Crab, Oyster                                                |
 | 1       | 30b94d   | 2020-03-15 13:12:54 | 9          | 7         | 1        | Half Off - Treat Your Shellf(ish) | 1          | 1     | Salmon, Kingfish, Tuna, Russian Caviar, Abalone, Lobster, Crab              |
-| 1       | 41355d   | 2020-03-25 00:11:17 | 6          | 1         | 0        | Half Off - Treat Your Shellf(ish) | 0          | 0     | Lobster                                                                     |
+| 1       | 41355d   | 2020-03-25 00:11:18 | 6          | 1         | 0        | Half Off - Treat Your Shellf(ish) | 0          | 0     | Lobster                                                                     |
 | 1       | eaffde   | 2020-03-25 20:06:32 | 10         | 8         | 1        | Half Off - Treat Your Shellf(ish) | 1          | 1     | Salmon, Tuna, Russian Caviar, Black Truffle, Abalone, Lobster, Crab, Oyster |
 | 2       | 3b5871   | 2020-01-18 10:16:32 | 9          | 6         | 1        | 25% Off - Living The Lux Life     | 1          | 1     | Salmon, Kingfish, Russian Caviar, Black Truffle, Lobster, Oyster            |
-| 2       | c5c0ee   | 2020-01-18 10:35:22 | 1          | 0         | 0        | 25% Off - Living The Lux Life     | 0          | 0     | NULL                                                                        |
+| 2       | c5c0ee   | 2020-01-18 10:35:23 | 1          | 0         | 0        | 25% Off - Living The Lux Life     | 0          | 0     | NULL                                                                        |
+
 
 ### Some ideas to investigate further include:
 - ### Identifying users who have received impressions during each campaign period and comparing each metric with other users who did not have an impression event.
