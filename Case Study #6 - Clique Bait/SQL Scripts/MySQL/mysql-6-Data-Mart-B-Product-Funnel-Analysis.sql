@@ -2,6 +2,7 @@
 -- B. Product Funnel Analysis --
 -------------------------------------
 -- 	1. Which product had the most views, cart adds and purchases?
+
 SELECT pfa1.product_name,
        CASE
            WHEN pfa1.views = (SELECT MAX(views)
