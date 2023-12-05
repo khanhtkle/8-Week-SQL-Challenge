@@ -31,20 +31,20 @@ FROM clique_bait.dbo.users;
 SELECT YEAR(event_time) AS year,
        MONTH(event_time) AS month_index,
        FORMAT(event_time, 'MMMM') AS month,
-       COUNT(DISTINCT visit_id) AS visits_per_month
+       COUNT(DISTINCT visit_id) AS unique_visits_per_month
 FROM clique_bait.dbo.events
 GROUP BY YEAR(event_time),
          MONTH(event_time),
          FORMAT(event_time, 'MMMM')
 ORDER BY MONTH(event_time);
 ```
-| year | month_index | month    | visits_per_month |
-|------|-------------|----------|------------------|
-| 2020 | 1           | January  | 876              |
-| 2020 | 2           | February | 1488             |
-| 2020 | 3           | March    | 916              |
-| 2020 | 4           | April    | 248              |
-| 2020 | 5           | May      | 36               |
+| year | month_index | month    | unique_visits_per_month |
+|------|-------------|----------|-------------------------|
+| 2020 | 1           | January  | 876                     |
+| 2020 | 2           | February | 1488                    |
+| 2020 | 3           | March    | 916                     |
+| 2020 | 4           | April    | 248                     |
+| 2020 | 5           | May      | 36                      |
 
 ---
 ### Q4. What is the number of events for each event type?
