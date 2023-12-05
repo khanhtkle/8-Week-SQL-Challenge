@@ -16,7 +16,7 @@ FROM clique_bait.users;
 SELECT DATE_PART('year', event_time) AS year,
        DATE_PART('month', event_time) AS month_index,
 	   TO_CHAR(event_time, 'Month') AS month,
-	   COUNT(DISTINCT visit_id) AS visits_per_month
+	   COUNT(DISTINCT visit_id) AS unique_visits_per_month
 FROM clique_bait.events
 GROUP BY 1, 2, 3
 ORDER BY 1; 
@@ -25,7 +25,7 @@ ORDER BY 1;
 
 SELECT ev.event_type,
 	   event_name,
-	   COUNT(ev.event_type) AS event_count
+	   COUNT(ev.event_type) AS events
 FROM clique_bait.events AS ev
 JOIN clique_bait.event_identifier AS ei ON ei.event_type = ev.event_type
 GROUP BY 1 , 2
