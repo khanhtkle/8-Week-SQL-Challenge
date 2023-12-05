@@ -52,7 +52,7 @@ SELECT ev.event_type,
        COUNT(ev.event_type) AS events
 FROM clique_bait.events AS ev
 JOIN clique_bait.event_identifier AS ei ON ei.event_type = ev.event_type
-GROUP BY 1 , 2
+GROUP BY 1, 2
 ORDER BY 1;
 ```
 | event_type | event_name    | events |
