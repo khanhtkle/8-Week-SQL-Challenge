@@ -16,7 +16,7 @@ FROM clique_bait.dbo.users;
 SELECT YEAR(event_time) AS year,
        MONTH(event_time) AS month_index,
        FORMAT(event_time, 'MMMM') AS month,
-       COUNT(DISTINCT visit_id) AS visits_per_month
+       COUNT(DISTINCT visit_id) AS unique_visits_per_month
 FROM clique_bait.dbo.events
 GROUP BY YEAR(event_time),
          MONTH(event_time),
