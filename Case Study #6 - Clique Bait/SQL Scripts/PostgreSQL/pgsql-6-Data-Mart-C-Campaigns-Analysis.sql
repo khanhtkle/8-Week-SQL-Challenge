@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS clique_bait.campaign_analysis;
 CREATE TABLE clique_bait.campaign_analysis AS
   (SELECT user_id,
           ev.visit_id,
-          MIN(event_time) AS visit_start_time,
+          MIN(event_time)::TIMESTAMP(0) AS visit_start_time,
           SUM(CASE
                   WHEN ev.event_type = 1 THEN 1
                   ELSE 0
@@ -48,7 +48,7 @@ CREATE TABLE clique_bait.campaign_analysis AS
    LEFT JOIN clique_bait.page_hierarchy AS ph ON ph.page_id = ev.page_id
    LEFT JOIN clique_bait.campaign_identifier AS ci ON ev.event_time BETWEEN ci.start_date AND ci.end_date
    GROUP BY 1, 2, 7
-   ORDER BY 1, 2, 3);
+   ORDER BY 1, 3);
 
 SELECT *
 FROM clique_bait.campaign_analysis;
@@ -66,9 +66,9 @@ WITH impression_stat_cte AS
    FROM clique_bait.campaign_analysis)
 SELECT impression_stat,
        COUNT(*) AS total_visits,
-       AVG(page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
-       AVG(cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visits,
-       AVG(purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
+       AVG(1.0 * page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
+       AVG(1.0 * cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visits,
+       AVG(1.0 * purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
 FROM impression_stat_cte
 GROUP BY 1;
 
@@ -94,9 +94,9 @@ WITH impression_stat_cte AS
    FROM clique_bait.campaign_analysis)
 SELECT impression_stat,
        COUNT(*) AS total_visits,
-       AVG(page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
-       AVG(cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
-       AVG(purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
+       AVG(1.0 * page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
+       AVG(1.0 * cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
+       AVG(1.0 * purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
 FROM impression_stat_cte
 GROUP BY 1
 ORDER BY 1;
@@ -123,7 +123,7 @@ WITH impression_stat_cte AS
    FROM clique_bait.campaign_analysis),
      purchase_rate_cte AS
   (SELECT impression_stat,
-          AVG(purchase)::DECIMAL(5,2) AS avg_purchase_rate
+          AVG(1.0 * purchase)::DECIMAL(5,2) AS avg_purchase_rate
    FROM impression_stat_cte
    GROUP BY impression_stat)
 SELECT pr1.impression_stat,
@@ -149,9 +149,9 @@ WITH impression_stat_cte AS
 SELECT campaign_name,
        impression_stat,
        COUNT(*) AS total_visits,
-       AVG(page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
-       AVG(cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
-       AVG(purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
+       AVG(1.0 * page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
+       AVG(1.0 * cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
+       AVG(1.0 * purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
 FROM impression_stat_cte
 WHERE impression_stat = 'Received impression'
 GROUP BY 1, 2
@@ -169,9 +169,9 @@ WITH impression_stat_cte AS
 SELECT campaign_name,
        impression_stat,
        COUNT(*) AS total_visits,
-       AVG(page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
-       AVG(cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
-       AVG(purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
+       AVG(1.0 * page_views)::DECIMAL(5,2) AS avg_page_view_per_visit,
+       AVG(1.0 * cart_adds)::DECIMAL(5,2) AS avg_cart_add_per_visit,
+       AVG(1.0 * purchase)::DECIMAL(5,2) AS avg_visit_to_purchase_conversion_rate
 FROM impression_stat_cte
 WHERE impression_stat = 'No impression'
 GROUP BY 1, 2
