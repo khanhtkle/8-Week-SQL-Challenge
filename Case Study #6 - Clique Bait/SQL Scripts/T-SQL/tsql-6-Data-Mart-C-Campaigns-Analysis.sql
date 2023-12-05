@@ -24,7 +24,7 @@ WITH product_carts_cte AS
    GROUP BY visit_id)
 SELECT user_id,
        ev.visit_id,
-       MIN(event_time) AS visit_start_time,
+       FORMAT(MIN(event_time), 'yyyy-MM-dd HH:mm:ss') AS visit_start_time,
        SUM(CASE
                WHEN event_type = 1 THEN 1
                ELSE 0
@@ -60,7 +60,6 @@ GROUP BY user_id,
 SELECT * 
 FROM clique_bait.dbo.campaign_analysis
 ORDER BY user_id,
-		 visit_id,
 		 visit_start_time;
 
 -- 	Some ideas to investigate further include:
